@@ -576,6 +576,7 @@ BEGIN_EVENT_TABLE(MainFrm, wxFrame)
     EVT_MENU(menu_COLOUR_BY_LENGTH, MainFrm::OnColourByLength)
     EVT_MENU(menu_COLOUR_BY_SURVEY, MainFrm::OnColourBySurvey)
     EVT_MENU(menu_COLOUR_BY_STYLE, MainFrm::OnColourByStyle)
+    EVT_MENU(menu_COLOUR_BY_DATE_THRESHOLD, MainFrm::OnColourByDateThreshold)
     EVT_MENU(menu_VIEW_SHOW_SURFACE, MainFrm::OnShowSurface)
     EVT_MENU(menu_VIEW_GRID, MainFrm::OnViewGrid)
     EVT_MENU(menu_VIEW_BOUNDING_BOX, MainFrm::OnViewBoundingBox)
@@ -643,6 +644,7 @@ BEGIN_EVENT_TABLE(MainFrm, wxFrame)
     EVT_UPDATE_UI(menu_COLOUR_BY_LENGTH, MainFrm::OnColourByLengthUpdate)
     EVT_UPDATE_UI(menu_COLOUR_BY_SURVEY, MainFrm::OnColourBySurveyUpdate)
     EVT_UPDATE_UI(menu_COLOUR_BY_STYLE, MainFrm::OnColourByStyleUpdate)
+    EVT_UPDATE_UI(menu_COLOUR_BY_DATE_THRESHOLD, MainFrm::OnColourByDateThresholdUpdate)
     EVT_UPDATE_UI(menu_VIEW_GRID, MainFrm::OnViewGridUpdate)
     EVT_UPDATE_UI(menu_VIEW_BOUNDING_BOX, MainFrm::OnViewBoundingBoxUpdate)
     EVT_UPDATE_UI(menu_VIEW_PERSPECTIVE, MainFrm::OnViewPerspectiveUpdate)
@@ -870,6 +872,10 @@ void MainFrm::CreateMenuBar()
     colourbymenu->AppendCheckItem(menu_COLOUR_BY_LENGTH, wmsg(/*Colour by &Length*/82));
     colourbymenu->AppendCheckItem(menu_COLOUR_BY_SURVEY, wmsg(/*Colour by &Survey*/448));
     colourbymenu->AppendCheckItem(menu_COLOUR_BY_STYLE, wmsg(/*Colour by St&yle*/482));
+    /* TRANSLATORS: Menu item to colour surveys based on a date threshold.
+     * Surveys from the threshold date onwards are shown in one colour,
+     * older surveys in another. */
+    colourbymenu->AppendCheckItem(menu_COLOUR_BY_DATE_THRESHOLD, wxT("Colour by Date (&Threshold)"));
 
     viewmenu->Append(menu_VIEW_COLOUR_BY, wmsg(/*Co&lour by*/450), colourbymenu);
 

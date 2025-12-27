@@ -646,6 +646,24 @@ void GUIControl::OnColourByStyleUpdate(wxUpdateUIEvent& cmd)
     cmd.Check(m_View->ColouringBy() == COLOUR_BY_STYLE);
 }
 
+void GUIControl::OnColourByDateThreshold()
+{
+    if (m_View->ColouringBy() == COLOUR_BY_DATE_THRESHOLD) {
+	m_View->SetColourBy(COLOUR_BY_NONE);
+    } else {
+	// Show configuration dialog if this is the first time or settings need changing
+	if (m_View->ShowDateThresholdConfigDialog()) {
+	    m_View->SetColourBy(COLOUR_BY_DATE_THRESHOLD);
+	}
+    }
+}
+
+void GUIControl::OnColourByDateThresholdUpdate(wxUpdateUIEvent& cmd)
+{
+    cmd.Enable(m_View->HasData());
+    cmd.Check(m_View->ColouringBy() == COLOUR_BY_DATE_THRESHOLD);
+}
+
 void GUIControl::OnShowCrosses()
 {
     m_View->ToggleCrosses();

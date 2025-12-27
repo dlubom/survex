@@ -45,6 +45,9 @@
 #include <wx/confbase.h>
 #include <wx/wfstream.h>
 #include <wx/zipstrm.h>
+#include <wx/datectrl.h>
+#include <wx/dateevt.h>
+#include <wx/choice.h>
 
 #ifdef HAVE_GDAL
 # include <ogrsf_frmts.h>
@@ -100,6 +103,23 @@ static const gla_colour SEL_COLOUR = col_WHITE;
 // by error for legs not in a loop.
 static const gla_colour NODATA_COLOUR = col_LIGHT_GREY_2;
 
+// Colour schemes for date threshold colouring
+struct ThresholdColourScheme {
+    double newer_r, newer_g, newer_b;  // Colour for surveys >= threshold
+    double older_r, older_g, older_b;  // Colour for surveys < threshold
+    const char* name;
+};
+
+static const ThresholdColourScheme threshold_colour_schemes[] = {
+    {1.0, 0.2, 0.2, 0.2, 0.2, 1.0, "Red / Blue"},
+    {0.2, 0.8, 0.2, 0.5, 0.5, 0.5, "Green / Grey"},
+    {1.0, 0.8, 0.0, 0.5, 0.0, 0.8, "Yellow / Purple"},
+    {1.0, 0.5, 0.0, 0.0, 0.6, 0.8, "Orange / Cyan"},
+};
+
+static const int NUM_THRESHOLD_COLOUR_SCHEMES =
+    sizeof(threshold_colour_schemes) / sizeof(threshold_colour_schemes[0]);
+
 // Number of entries across and down the hit-test grid:
 #define HITTEST_SIZE 20
 
@@ -136,6 +156,8 @@ GfxCore::GfxCore(MainFrm* parent, wxWindow* parent_win, GUIControl* control) :
     wxConfigBase::Get()->Read(wxT("metric"), &m_Metric, true);
     wxConfigBase::Get()->Read(wxT("degrees"), &m_Degrees, true);
     wxConfigBase::Get()->Read(wxT("percent"), &m_Percent, false);
+    wxConfigBase::Get()->Read(wxT("date_threshold"), &m_DateThreshold, 0);
+    wxConfigBase::Get()->Read(wxT("date_threshold_scheme"), &m_DateThresholdColourScheme, 0);
 
     for (int pen = 0; pen < NUM_COLOUR_BANDS + 1; ++pen) {
 	m_Pens[pen].SetColour(REDS[pen] / 255.0,
@@ -189,6 +211,7 @@ void GfxCore::Initialise(bool same_file)
     InvalidateList(LIST_SCALE_BAR);
     InvalidateList(LIST_DEPTH_KEY);
     InvalidateList(LIST_DATE_KEY);
+    InvalidateList(LIST_DATE_THRESHOLD_KEY);
     InvalidateList(LIST_ERROR_KEY);
     InvalidateList(LIST_GRADIENT_KEY);
     InvalidateList(LIST_LENGTH_KEY);
@@ -1164,6 +1187,82 @@ void GfxCore::DrawDateKey()
     }
 
     DrawColourKey(num_bands, other);
+}
+
+void GfxCore::DrawDateThresholdKey()
+{
+    auto f = GetDPIScaleFactor();
+    int key_block_height = KEY_BLOCK_HEIGHT * f;
+    int key_block_width = KEY_BLOCK_WIDTH * f;
+
+    // Two colour bands: >= threshold and < threshold
+    int num_bands = 2;
+    int total_block_height = key_block_height * num_bands;
+
+    const int bottom = -total_block_height;
+
+    // Format the threshold date
+    int ty, tm, td;
+    ymd_from_days_since_1900(m_DateThreshold, &ty, &tm, &td);
+    key_legends[0].Printf(wxT(">= %04d-%02d-%02d"), ty, tm, td);
+    key_legends[1].Printf(wxT("< %04d-%02d-%02d"), ty, tm, td);
+
+    // Calculate text width
+    int size = 0;
+    for (int band = 0; band < num_bands; ++band) {
+	int x;
+	GetTextExtent(key_legends[band], &x, NULL);
+	if (x > size) size = x;
+    }
+
+    int left = -key_block_width - size;
+
+    key_lowerleft[m_ColourBy].x = left - KEY_EXTRA_LEFT_MARGIN * f;
+    key_lowerleft[m_ColourBy].y = bottom;
+
+    int y = bottom;
+
+    // Get the colour scheme
+    const ThresholdColourScheme& scheme =
+	threshold_colour_schemes[m_DateThresholdColourScheme];
+
+    // Draw older surveys colour first (at bottom)
+    GLAPen older_pen;
+    older_pen.SetColour(scheme.older_r, scheme.older_g, scheme.older_b);
+    DrawShadedRectangle(older_pen, older_pen, left, y,
+			key_block_width, key_block_height);
+    y += key_block_height;
+
+    // Draw newer surveys colour (at top)
+    GLAPen newer_pen;
+    newer_pen.SetColour(scheme.newer_r, scheme.newer_g, scheme.newer_b);
+    DrawShadedRectangle(newer_pen, newer_pen, left, y,
+			key_block_width, key_block_height);
+    y += key_block_height;
+
+    // Draw border
+    SetColour(col_BLACK);
+    BeginPolyline();
+    PlaceIndicatorVertex(left, y);
+    PlaceIndicatorVertex(left + key_block_width, y);
+    PlaceIndicatorVertex(left + key_block_width, bottom);
+    PlaceIndicatorVertex(left, bottom);
+    PlaceIndicatorVertex(left, y);
+    EndPolyline();
+
+    // Draw labels
+    SetColour(TEXT_COLOUR);
+    y = bottom;
+    y -= GetFontSize() / 2;
+    left += key_block_width + 5;
+
+    // Label for older surveys (< threshold)
+    y += key_block_height / 2;
+    DrawIndicatorText(left, y, key_legends[1]);
+    y += key_block_height;
+
+    // Label for newer surveys (>= threshold)
+    DrawIndicatorText(left, y, key_legends[0]);
 }
 
 void GfxCore::DrawErrorKey()
@@ -2554,6 +2653,9 @@ void GfxCore::GenerateList(unsigned int l)
 	case LIST_DATE_KEY:
 	    DrawDateKey();
 	    break;
+	case LIST_DATE_THRESHOLD_KEY:
+	    DrawDateThresholdKey();
+	    break;
 	case LIST_ERROR_KEY:
 	    DrawErrorKey();
 	    break;
@@ -3245,6 +3347,8 @@ void GfxCore::DrawIndicators()
 		key_list = LIST_DEPTH_KEY; break;
 	    case COLOUR_BY_DATE:
 		key_list = LIST_DATE_KEY; break;
+	    case COLOUR_BY_DATE_THRESHOLD:
+		key_list = LIST_DATE_THRESHOLD_KEY; break;
 	    case COLOUR_BY_ERROR:
 	    case COLOUR_BY_H_ERROR:
 	    case COLOUR_BY_V_ERROR:
@@ -3568,6 +3672,24 @@ void GfxCore::SetColourFromDate(int date, double factor)
     SetColourFrom01(how_far, factor);
 }
 
+void GfxCore::SetColourFromDateThreshold(int date, double factor)
+{
+    // Set the drawing colour based on a date threshold.
+    // Surveys >= threshold date get one colour, older surveys get another.
+    // Undated surveys (date == -1) are treated as older.
+    const ThresholdColourScheme& scheme =
+	threshold_colour_schemes[m_DateThresholdColourScheme];
+    GLAPen pen;
+    if (date >= m_DateThreshold && date != -1) {
+	// Newer surveys (>= threshold)
+	pen.SetColour(scheme.newer_r, scheme.newer_g, scheme.newer_b);
+    } else {
+	// Older surveys or undated
+	pen.SetColour(scheme.older_r, scheme.older_g, scheme.older_b);
+    }
+    SetColour(pen, factor);
+}
+
 void GfxCore::AddPolylineDate(const traverse & centreline)
 {
     BeginPolyline();
@@ -3600,6 +3722,45 @@ void GfxCore::AddQuadrilateralDate(const Vector3 &a, const Vector3 &b,
     BeginQuadrilaterals();
 ////    PlaceNormal(normal);
     SetColourFromDate(static_date_hack, factor);
+    PlaceVertex(a, 0, 0);
+    PlaceVertex(b, w, 0);
+    PlaceVertex(c, w, h);
+    PlaceVertex(d, 0, h);
+    EndQuadrilaterals();
+}
+
+void GfxCore::AddPolylineDateThreshold(const traverse & centreline)
+{
+    BeginPolyline();
+    auto i = centreline.begin();
+    int date = i->GetDate();
+    SetColourFromDateThreshold(date, 1.0);
+    PlaceVertex(*i);
+    while (++i != centreline.end()) {
+	int newdate = i->GetDate();
+	if (newdate != date) {
+	    date = newdate;
+	    SetColourFromDateThreshold(date, 1.0);
+	}
+	PlaceVertex(*i);
+    }
+    EndPolyline();
+}
+
+static int static_date_threshold_hack; // FIXME
+
+void GfxCore::AddQuadrilateralDateThreshold(const Vector3 &a, const Vector3 &b,
+					    const Vector3 &c, const Vector3 &d)
+{
+    Vector3 normal = (a - c) * (d - b);
+    normal.normalise();
+    double factor = dot(normal, light) * .3 + .7;
+    glaTexCoord w(((b - a).magnitude() + (d - c).magnitude()) * .5);
+    glaTexCoord h(((b - c).magnitude() + (d - a).magnitude()) * .5);
+    // FIXME: should plot triangles instead to avoid rendering glitches.
+    BeginQuadrilaterals();
+////    PlaceNormal(normal);
+    SetColourFromDateThreshold(static_date_threshold_hack, factor);
     PlaceVertex(a, 0, 0);
     PlaceVertex(b, w, 0);
     PlaceVertex(c, w, h);
@@ -4167,6 +4328,81 @@ void GfxCore::PlayPres(double speed, bool change_speed) {
     }
 }
 
+bool GfxCore::ShowDateThresholdConfigDialog()
+{
+    wxDialog dlg(m_Parent, wxID_ANY, wxT("Colour by Date Threshold"));
+
+    wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
+
+    // Date threshold picker
+    wxStaticText* dateLabel = new wxStaticText(&dlg, wxID_ANY, wxT("Date threshold:"));
+    mainSizer->Add(dateLabel, 0, wxALL, 10);
+
+    // Convert current threshold to wxDateTime
+    wxDateTime dt;
+    if (m_DateThreshold > 0) {
+	int y, m, d;
+	ymd_from_days_since_1900(m_DateThreshold, &y, &m, &d);
+	dt.Set(d, (wxDateTime::Month)(m - 1), y);
+    } else {
+	dt = wxDateTime::Today();
+    }
+
+    wxDatePickerCtrl* datePicker = new wxDatePickerCtrl(&dlg, wxID_ANY, dt,
+	wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN | wxDP_SHOWCENTURY);
+    mainSizer->Add(datePicker, 0, wxLEFT | wxRIGHT | wxEXPAND, 10);
+
+    // Colour scheme choice
+    wxStaticText* schemeLabel = new wxStaticText(&dlg, wxID_ANY, wxT("Colour scheme:"));
+    mainSizer->Add(schemeLabel, 0, wxALL, 10);
+
+    wxArrayString schemeNames;
+    for (int i = 0; i < NUM_THRESHOLD_COLOUR_SCHEMES; ++i) {
+	schemeNames.Add(wxString::FromUTF8(threshold_colour_schemes[i].name));
+    }
+    wxChoice* schemeChoice = new wxChoice(&dlg, wxID_ANY, wxDefaultPosition,
+	wxDefaultSize, schemeNames);
+    schemeChoice->SetSelection(m_DateThresholdColourScheme);
+    mainSizer->Add(schemeChoice, 0, wxLEFT | wxRIGHT | wxEXPAND, 10);
+
+    mainSizer->AddSpacer(10);
+
+    // Buttons
+    wxBoxSizer* buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxButton* okButton = new wxButton(&dlg, wxID_OK, wxT("OK"));
+    wxButton* cancelButton = new wxButton(&dlg, wxID_CANCEL, wxT("Cancel"));
+    buttonSizer->Add(okButton, 0, wxALL, 5);
+    buttonSizer->Add(cancelButton, 0, wxALL, 5);
+    mainSizer->Add(buttonSizer, 0, wxALIGN_CENTER | wxBOTTOM, 10);
+
+    dlg.SetSizerAndFit(mainSizer);
+    dlg.CenterOnParent();
+
+    if (dlg.ShowModal() == wxID_OK) {
+	// Get selected date and convert to days since 1900
+	wxDateTime selectedDate = datePicker->GetValue();
+	int y = selectedDate.GetYear();
+	int m = selectedDate.GetMonth() + 1;  // wxDateTime months are 0-based
+	int d = selectedDate.GetDay();
+	m_DateThreshold = days_since_1900(y, m, d);
+
+	// Get selected colour scheme
+	m_DateThresholdColourScheme = schemeChoice->GetSelection();
+
+	// Save settings
+	wxConfigBase::Get()->Write(wxT("date_threshold"), m_DateThreshold);
+	wxConfigBase::Get()->Write(wxT("date_threshold_scheme"), m_DateThresholdColourScheme);
+	wxConfigBase::Get()->Flush();
+
+	// Invalidate the key display list
+	InvalidateList(LIST_DATE_THRESHOLD_KEY);
+
+	return true;
+    }
+
+    return false;
+}
+
 void GfxCore::SetColourBy(int colour_by) {
     m_ColourBy = colour_by;
     switch (colour_by) {
@@ -4177,6 +4413,10 @@ void GfxCore::SetColourBy(int colour_by) {
 	case COLOUR_BY_DATE:
 	    AddQuad = &GfxCore::AddQuadrilateralDate;
 	    AddPoly = &GfxCore::AddPolylineDate;
+	    break;
+	case COLOUR_BY_DATE_THRESHOLD:
+	    AddQuad = &GfxCore::AddQuadrilateralDateThreshold;
+	    AddPoly = &GfxCore::AddPolylineDateThreshold;
 	    break;
 	case COLOUR_BY_ERROR:
 	case COLOUR_BY_H_ERROR:
@@ -4466,6 +4706,7 @@ bool GfxCore::HandleRClick(wxPoint point)
 	menu.AppendCheckItem(menu_COLOUR_BY_LENGTH, wmsg(/*Colour by &Length*/82));
 	menu.AppendCheckItem(menu_COLOUR_BY_SURVEY, wmsg(/*Colour by &Survey*/448));
 	menu.AppendCheckItem(menu_COLOUR_BY_STYLE, wmsg(/*Colour by St&yle*/482));
+	menu.AppendCheckItem(menu_COLOUR_BY_DATE_THRESHOLD, wxT("Colour by Date (&Threshold)"));
 	menu.AppendSeparator();
 	/* TRANSLATORS: Menu item which turns off the colour key.
 	 * The "Colour Key" is the thing in aven showing which colour

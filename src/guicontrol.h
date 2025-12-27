@@ -81,6 +81,7 @@ public:
     void OnColourByLength();
     void OnColourBySurvey();
     void OnColourByStyle();
+    void OnColourByDateThreshold();
     void OnShowCrosses();
     void OnShowStationNames();
     void OnShowSurveyLegs();
@@ -142,6 +143,7 @@ public:
     void OnColourByLengthUpdate(wxUpdateUIEvent&);
     void OnColourBySurveyUpdate(wxUpdateUIEvent&);
     void OnColourByStyleUpdate(wxUpdateUIEvent&);
+    void OnColourByDateThresholdUpdate(wxUpdateUIEvent&);
     void OnShowCrossesUpdate(wxUpdateUIEvent&);
     void OnShowStationNamesUpdate(wxUpdateUIEvent&);
     void OnShowSurveyLegsUpdate(wxUpdateUIEvent&);

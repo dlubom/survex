@@ -97,6 +97,7 @@ enum {
     COLOUR_BY_LENGTH,
     COLOUR_BY_SURVEY,
     COLOUR_BY_STYLE,
+    COLOUR_BY_DATE_THRESHOLD,
     COLOUR_BY_LIMIT_ // Leave this last.
 };
 
@@ -138,6 +139,7 @@ class GfxCore : public GLACanvas {
 	LIST_SCALE_BAR,
 	LIST_DEPTH_KEY,
 	LIST_DATE_KEY,
+	LIST_DATE_THRESHOLD_KEY,
 	LIST_ERROR_KEY,
 	LIST_GRADIENT_KEY,
 	LIST_LENGTH_KEY,
@@ -205,6 +207,8 @@ private:
     bool m_Tubes = false;
     int m_ColourBy = COLOUR_BY_DEPTH;
     int error_type;
+    int m_DateThreshold = 0;  // Date threshold in days since 1900
+    int m_DateThresholdColourScheme = 0;  // Index of colour scheme
 
     bool m_HaveData = false;
     bool m_HaveTerrain = true;
@@ -288,6 +292,7 @@ private:
     void SetColourFrom01(double how_far, double factor);
 
     void SetColourFromDate(int date, double factor);
+    void SetColourFromDateThreshold(int date, double factor);
     void SetColourFromError(double E, double factor);
     void SetColourFromGradient(double angle, double factor);
     void SetColourFromLength(double len, double factor);
@@ -317,6 +322,7 @@ private:
     void DrawColourKey(int num_bands, const wxString & other);
     void DrawDepthKey();
     void DrawDateKey();
+    void DrawDateThresholdKey();
     void DrawErrorKey();
     void DrawGradientKey();
     void DrawLengthKey();
@@ -595,6 +601,7 @@ public:
     void AddPolyline(const traverse & centreline);
     void AddPolylineDepth(const traverse & centreline);
     void AddPolylineDate(const traverse & centreline);
+    void AddPolylineDateThreshold(const traverse & centreline);
     void AddPolylineError(const traverse & centreline);
     void AddPolylineGradient(const traverse & centreline);
     void AddPolylineLength(const traverse & centreline);
@@ -607,6 +614,8 @@ public:
 			       const Vector3 &c, const Vector3 &d);
     void AddQuadrilateralDate(const Vector3 &a, const Vector3 &b,
 			      const Vector3 &c, const Vector3 &d);
+    void AddQuadrilateralDateThreshold(const Vector3 &a, const Vector3 &b,
+				       const Vector3 &c, const Vector3 &d);
     void AddQuadrilateralError(const Vector3 &a, const Vector3 &b,
 			       const Vector3 &c, const Vector3 &d);
     void AddQuadrilateralGradient(const Vector3 &a, const Vector3 &b,
@@ -628,6 +637,11 @@ public:
     double GetPresentationSpeed() const { return presentation_mode ? pres_speed : 0; }
 
     void SetColourBy(int colour_by);
+    void SetDateThreshold(int days) { m_DateThreshold = days; }
+    int GetDateThreshold() const { return m_DateThreshold; }
+    void SetDateThresholdColourScheme(int scheme) { m_DateThresholdColourScheme = scheme; }
+    int GetDateThresholdColourScheme() const { return m_DateThresholdColourScheme; }
+    bool ShowDateThresholdConfigDialog();
     bool ExportMovie(const wxString & fnm);
     void OnPrint(const wxString &filename, const wxString &title,
 		 const wxString &datestamp,
