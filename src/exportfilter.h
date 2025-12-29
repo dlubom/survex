@@ -44,6 +44,7 @@ class ExportFilter {
 			time_t datestamp,
 			double min_x, double min_y, double min_z,
 			double max_x, double max_y, double max_z);
+    virtual void set_leg_date(int);
     virtual void start_pass(int);
     virtual void line(const img_point *, const img_point *, unsigned, bool);
     virtual void label(const img_point* p, const wxString& s,
@@ -61,6 +62,9 @@ ExportFilter::header(const char*,
 		     time_t,
 		     double, double, double,
 		     double, double, double) { }
+
+inline void
+ExportFilter::set_leg_date(int) { }
 
 inline void
 ExportFilter::start_pass(int) { }

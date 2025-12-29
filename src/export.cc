@@ -37,6 +37,7 @@
 #include "mainfrm.h"
 #include "osalloc.h"
 #include "pos.h"
+#include "vrml.h"
 
 #include <float.h>
 #include <locale.h>
@@ -103,6 +104,9 @@ const format_info export_format_info[] = {
     { ".svg", /*SVG files*/417,
       LABELS|LEGS|SURF|SPLAYS|STNS|PASG|XSECT|WALLS|MARKER_SIZE|TEXT_HEIGHT|SCALE|ORIENTABLE,
       LABELS|LEGS|STNS },
+    { ".wrl", /*VRML files*/537,
+      LEGS|SURF|SPLAYS|ORIENTABLE|CENTRED,
+      LEGS|SURF },
     { ".shp", /*Shapefiles (lines)*/523,
       LEGS|SURF|SPLAYS,
       LEGS },
@@ -1512,6 +1516,9 @@ Export(const wxString &fnm_out, const wxString &title,
        case FMT_SVG:
 	   filt = new SVG(scale, text_height);
 	   break;
+       case FMT_VRML:
+	   filt = new VRML;
+	   break;
        case FMT_SHP_LINES:
 	   filt = new ShapefileLines(fnm_out.utf8_str(),
 				     model.GetCSProj().c_str());
@@ -1664,6 +1671,7 @@ Export(const wxString &fnm_out, const wxString &title,
 			  // First point is move...
 			  fPendingMove = true;
 		      } else {
+			  filt->set_leg_date(pos->GetDate());
 			  filt->line(&p1, &p, flags, fPendingMove);
 			  fPendingMove = false;
 		      }

@@ -285,6 +285,7 @@ static wxString formats[] = {
     wxT("Plot"),
     wxT("Survex pos"),
     wxT("SVG"),
+    wxT("VRML"),
     // These next two get filled in lazily since they are translated which
     // means we need to wait until after the messages are loaded.
     wxT(""), // "Shapefiles (lines)"

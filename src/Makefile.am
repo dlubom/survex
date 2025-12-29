@@ -12,7 +12,7 @@ noinst_HEADERS = cavern.h commands.h cmdline.h date.h datain.h debug.h\
  glbitmapfont.h gllogerror.h guicontrol.h gla.h gpx.h moviemaker.h\
  export3d.h exportfilter.h hpgl.h cavernlog.h aboutdlg.h aven.h avenpal.h\
  gfxcore.h json.h log.h mainfrm.h pos.h vector3.h\
- aventreectrl.h export.h model.h printing.h avenprcore.h img2aven.h\
+ aventreectrl.h export.h model.h printing.h avenprcore.h img2aven.h vrml.h\
  thgeomag.h thgeomagdata.h
 
 LDADD = $(LIBOBJS)
@@ -41,7 +41,7 @@ cavern_LDADD = $(PROJ_LIBS)
 aven_SOURCES = aven.cc gfxcore.cc mainfrm.cc model.cc vector3.cc aboutdlg.cc \
  namecompare.cc aventreectrl.cc export.cc export3d.cc \
  gdalexport.cc gla-gl.cc glbitmapfont.cc gpx.cc guicontrol.cc  \
- json.cc kml.cc log.cc moviemaker.cc hpgl.cc \
+ json.cc kml.cc log.cc moviemaker.cc hpgl.cc vrml.cc \
  cavernlog.cc avenprcore.cc printing.cc pos.cc \
  date.c img_for_survex.c hash.c \
  brotatemask.xbm brotate.xbm handmask.xbm hand.xbm \
@@ -88,7 +88,8 @@ extend_SOURCES = extend.c img_for_survex.c hash.c \
 
 survexport_SOURCES = survexport.cc model.cc export.cc export3d.cc \
 		gdalexport.cc namecompare.cc hash.c img_for_survex.c \
-		gpx.cc hpgl.cc json.cc kml.cc pos.cc vector3.cc $(COMMONSRC)
+		gpx.cc hpgl.cc json.cc kml.cc pos.cc vrml.cc \
+		vector3.cc $(COMMONSRC)
 
 #testerr_SOURCES = testerr.c message.c filename.c
 

@@ -1921,6 +1921,11 @@ msgstr "Survex pos files"
 msgid "SVG files"
 msgstr "SVG files"
 
+#: ../src/export.cc:105
+#: n:537
+msgid "VRML files"
+msgstr "VRML files"
+
 #: ../src/export.cc:85
 #: n:445
 msgid "JSON files"
@@ -3642,6 +3647,11 @@ msgstr "produce Shapefile (points) output"
 #: n:160
 msgid "produce SVG output"
 msgstr "produce SVG output"
+
+#: ../src/survexport.cc:176
+#: n:538
+msgid "produce VRML output"
+msgstr "produce VRML output"
 
 #: ../src/survexport.cc:411
 #: n:252

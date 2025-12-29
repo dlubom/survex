@@ -41,6 +41,7 @@ typedef enum {
     FMT_PLT,
     FMT_POS,
     FMT_SVG,
+    FMT_VRML,
     FMT_SHP_LINES,
     FMT_SHP_POINTS,
     FMT_MAX_PLUS_ONE_

@@ -116,6 +116,7 @@ main(int argc, char **argv)
 	{"shp-lines", no_argument, 0, OPT_FMT_BASE + FMT_SHP_LINES},
 	{"shp-points", no_argument, 0, OPT_FMT_BASE + FMT_SHP_POINTS},
 	{"svg", no_argument, 0, OPT_FMT_BASE + FMT_SVG},
+	{"vrml", no_argument, 0, OPT_FMT_BASE + FMT_VRML},
 	{"help", no_argument, 0, HLP_HELP},
 	{"version", no_argument, 0, HLP_VERSION},
 	// US spelling:
@@ -173,6 +174,7 @@ main(int argc, char **argv)
 	{HLP_ENCODELONG(34),  /*produce Shapefile (lines) output*/525, 0, 0},
 	{HLP_ENCODELONG(35),  /*produce Shapefile (points) output*/526, 0, 0},
 	{HLP_ENCODELONG(36),  /*produce SVG output*/160, 0, 0},
+	{HLP_ENCODELONG(37),  /*produce VRML output*/538, 0, 0},
 	{0, 0, 0, 0}
    };
 
