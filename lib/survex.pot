@@ -1923,6 +1923,11 @@ msgstr ""
 msgid "SVG files"
 msgstr ""
 
+#: ../src/export.cc:105
+#: n:537
+msgid "VRML files"
+msgstr ""
+
 #: ../src/export.cc:85
 #: n:445
 msgid "JSON files"
@@ -3643,6 +3648,11 @@ msgstr ""
 #: ../src/survexport.cc:175
 #: n:160
 msgid "produce SVG output"
+msgstr ""
+
+#: ../src/survexport.cc:176
+#: n:538
+msgid "produce VRML output"
 msgstr ""
 
 #: ../src/survexport.cc:411
