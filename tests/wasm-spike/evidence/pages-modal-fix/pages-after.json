@@ -1,0 +1,168 @@
+{
+  "url": "http://127.0.0.1:8780/modal-fixed/",
+  "browser": "156.0.8078.74",
+  "checks": [
+    {
+      "name": "automatic Kataster and HGT",
+      "pass": true,
+      "observed": {
+        "file": "/external/kataster.3d",
+        "legs": 18553,
+        "stations": 18539,
+        "triangles": 2369843,
+        "terrain": true,
+        "names": true,
+        "pan": 335,
+        "tilt": -65,
+        "scale": 1,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "gl": {
+          "draws": 9970,
+          "vertices": 14288878,
+          "maxDrawVertices": 12288,
+          "backend": "WebGL2 shader/VBO",
+          "bitmaps": 258
+        },
+        "heapBytes": 271843328
+      }
+    },
+    {
+      "name": "iframe rotation tilt pan zoom",
+      "pass": true,
+      "observed": {
+        "file": "/external/kataster.3d",
+        "legs": 18553,
+        "stations": 18539,
+        "triangles": 2369843,
+        "terrain": true,
+        "names": true,
+        "pan": 316.9999999999999,
+        "tilt": -50.59999999999999,
+        "scale": 2.6489431030966126,
+        "translation": [
+          784.7111284080211,
+          221.22983614073746,
+          -306.6932252340939
+        ],
+        "gl": {
+          "draws": 169449,
+          "vertices": 242904560,
+          "maxDrawVertices": 12288,
+          "backend": "WebGL2 shader/VBO",
+          "bitmaps": 4345
+        },
+        "heapBytes": 271843328
+      }
+    },
+    {
+      "name": "local .3d replaces scene and removes old terrain",
+      "pass": true,
+      "observed": {
+        "file": "/uploads/1/real-nordalpenschacht-205.3d",
+        "legs": 17,
+        "stations": 20,
+        "terrain": false,
+        "names": true,
+        "pan": 0,
+        "tilt": -90,
+        "scale": 1,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "gl": {
+          "draws": 169630,
+          "vertices": 242920706,
+          "maxDrawVertices": 12288,
+          "backend": "WebGL2 shader/VBO",
+          "bitmaps": 4489
+        },
+        "heapBytes": 271843328
+      }
+    },
+    {
+      "name": "local .3d and zipped DEM",
+      "pass": true,
+      "observed": {
+        "file": "/uploads/2/synthetic-2180.3d",
+        "legs": 6,
+        "stations": 7,
+        "triangles": 8192,
+        "terrain": true,
+        "names": true,
+        "pan": 0,
+        "tilt": -90,
+        "scale": 1,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "gl": {
+          "draws": 169808,
+          "vertices": 242987190,
+          "maxDrawVertices": 12288,
+          "backend": "WebGL2 shader/VBO",
+          "bitmaps": 4627
+        },
+        "heapBytes": 271843328
+      }
+    },
+    {
+      "name": "local files produce no network requests",
+      "pass": true,
+      "observed": []
+    },
+    {
+      "name": "restore default scene",
+      "pass": true,
+      "observed": {
+        "file": "/external/kataster.3d",
+        "legs": 18553,
+        "stations": 18539,
+        "triangles": 2369843,
+        "terrain": true,
+        "names": true,
+        "pan": 335,
+        "tilt": -65,
+        "scale": 1,
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "gl": {
+          "draws": 9970,
+          "vertices": 14288878,
+          "maxDrawVertices": 12288,
+          "backend": "WebGL2 shader/VBO",
+          "bitmaps": 258
+        },
+        "heapBytes": 271843328
+      }
+    },
+    {
+      "name": "console and GL errors",
+      "pass": true,
+      "observed": {
+        "errors": [],
+        "warnings": [],
+        "gl": {
+          "draws": 9970,
+          "vertices": 14288878,
+          "maxDrawVertices": 12288,
+          "backend": "WebGL2 shader/VBO",
+          "bitmaps": 258
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "pass": true
+}

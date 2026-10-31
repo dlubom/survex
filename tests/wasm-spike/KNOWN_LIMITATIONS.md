@@ -8,6 +8,8 @@ The Pages wrapper starts the full Kataster and zipped HGT automatically. Its fil
 
 Unsupported WebAssembly JSPI/WebGL2 gets a visible message, not a blank canvas. Chromium was tested; other browser engines remain unaccepted. A missing app page also gets a visible diagnostic. The downloadable static directory is relocatable, but rebuilding still needs prepared dependencies. File persistence, performance/FPS measurements and a clean-machine dependency installer remain future work.
 
+The first published build produced a delayed scheduler warning after dismissing an invalid-file modal. Cause: the new JSPI export was missing the scheduler activation wrapper. This is fixed by registering `aven_open_files` in the Aven bootstrap. `pages/browser-file-error-check.js` fails before and passes after; the modal activation ends normally and the next valid file opens without warnings. See `evidence/pages-modal-fix/`.
+
 ## Resolved in stage 3
 
 | Previous failure | Regression or evidence |

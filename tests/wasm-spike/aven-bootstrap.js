@@ -1,4 +1,12 @@
 // Runtime paths are MEMFS paths, independent of build-machine prefixes.
+// This application export can suspend in a normal wx error dialog. Register
+// it with the pinned scheduler as well as JSPI_EXPORTS, so its spill stack and
+// resumed activation are released when the dialog and loader finish.
+var avenPreviousRuntimeInit = Module.onRuntimeInitialized;
+Module.onRuntimeInitialized = function () {
+  if (avenPreviousRuntimeInit) avenPreviousRuntimeInit();
+  __wxScheduler.installExportWraps(['aven_open_files']);
+};
 Module.preRun = Module.preRun || [];
 Module.preRun.push(function () {
   ENV.SURVEXLIB = '/survex';
