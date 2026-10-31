@@ -1,0 +1,59 @@
+Survex 1.4.24
+Copyright © 1990-2026 Olly Betts
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:23:13: warning: Unknown team role “Becka”
+ *team Insts Becka Lawson
+             ^~~~~
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:24:12: warning: Unknown team role “Becka”
+ *team Tape Becka
+            ^~~~~
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:25:13: warning: Unknown team role “Brian”
+ *team Notes Brian Outram
+             ^~~~~
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:26:12: warning: Unknown team role “Brian”
+ *team Pics Brian Outram
+            ^~~~~
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:27:26: warning: End of line not blank
+ *instrument Compass Set# 2; Clino Set# 2 (Probably) tape: 'chainese split end' (probably)
+                          ^
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:59:13: warning: Unknown team role “Mark”
+ *team Insts Mark Shinwell
+             ^~~~
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:60:12: warning: Unknown team role “Mark”
+ *team Tape Mark Shinwell
+            ^~~~
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:61:13: warning: Unknown team role “Earl”
+ *team Notes Earl Merson
+             ^~~~
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:62:12: warning: Unknown team role “None”
+ *team Pics None (done in 1st survey)
+            ^~~~
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:63:26: warning: End of line not blank
+ *instrument Compass Set# 5; Clino Set# 5
+                          ^
+/private/tmp/aven-wasm-spike/fixtures/real-nordalpenschacht-205.svx:4:9: info: Survey has no fixed points. Therefore I’ve fixed 205.1.0 at (0,0,0)
+
+Removing trailing traverses...
+
+Concatenating traverses...
+
+Simplifying network...
+
+Calculating network...
+
+Calculating traverses...
+
+Calculating trailing traverses...
+
+Calculating statistics...
+
+Survey contains 20 survey stations, joined by 19 legs.
+There are 0 loops.
+Total length of survey legs =   90.75m (  90.75m adjusted)
+Total plan length of survey legs =   60.33m
+Total vertical length of survey legs =   42.90m
+Vertical range = 38.83m (from 205.1.0 at 0.00m to 205.2.17 at -38.83m)
+North-South range = 32.78m (from 205.1.9 at 3.06m to 205.2.17 at -29.72m)
+East-West range = 19.50m (from 205.1.10 at 5.10m to 205.2.17 at -14.40m)
+CPU time used  0.00s
+
+There were 10 warning(s).

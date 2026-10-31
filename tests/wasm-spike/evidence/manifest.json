@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-31",
+  "survex_commit": "25aa2cf2eb99899b7a5f2a38aaae6fb6959e6174",
+  "wx_commit": "01b74ea19a09968277f59475f8919f2d2a4ff00e",
+  "emsdk_commit": "d7b4130688bfa348392b921ab04015aa15c4f154",
+  "pcbjam_scheduler_commit": "46652150aef774bb5565739f6e716b983d12df17",
+  "emscripten_version": "6.0.6",
+  "aven_objects": {
+    "count": 33,
+    "all_have_wasm_magic": true
+  },
+  "wx_build": {
+    "exit_code": 0,
+    "compiler_commands": 797
+  },
+  "strict_aven_link": {
+    "exit_code": 1,
+    "undefined_symbol_count": 21
+  },
+  "generated_resources_archive": {
+    "url": "https://survex.com/software/1.4.24/survex-1.4.24.tar.gz",
+    "sha256": "7a49c98079882668d802af2500f025e74e34ea1e3185cac34219a72215f5b5ad"
+  },
+  "diagnostic_artifacts": {
+    "smoke.wasm": {
+      "bytes": 38597910,
+      "sha256": "c9bac2267f84321259accbdf03f71757de84b5eb77fc396932a4c886e7202a81"
+    },
+    "smoke.html": {
+      "bytes": 3533,
+      "sha256": "6a11481088b84b8301f9b408314333cf1669155b325f79abc270c5021eff8545"
+    },
+    "smoke.js": {
+      "bytes": 496855,
+      "sha256": "789c6aea30565b8c1e0a17abe58053020c1ea75a19fb7446b1578eb5e9b438d3"
+    }
+  },
+  "scratch": "/private/tmp/aven-wasm-spike",
+  "limitations": [
+    "no Aven runtime",
+    "no browser cave/terrain verification",
+    "no GDAL or FFmpeg",
+    "PROJ without TIFF/CURL",
+    "Chromium only",
+    "debug build, no production size benchmark"
+  ]
+}

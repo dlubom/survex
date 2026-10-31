@@ -1,0 +1,27 @@
+Survex 1.4.24
+Copyright © 1990-2026 Olly Betts
+
+Removing trailing traverses...
+
+Concatenating traverses...
+
+Simplifying network...
+
+Calculating network...
+
+Calculating traverses...
+
+Calculating trailing traverses...
+
+Calculating statistics...
+
+Approximate full range of grid convergence: 0.7° at synthetic.e to 0.7° at synthetic.f
+Survey contains 7 survey stations, joined by 6 legs.
+There are 0 loops.
+Total length of survey legs =   63.00m (  63.00m adjusted)
+Total plan length of survey legs =   50.00m
+Total vertical length of survey legs =   17.00m
+Vertical range = 12.00m (from synthetic.c at 1500.00m to synthetic.f at 1488.00m)
+North-South range = 20.00m (from synthetic.e at 154020.07m to synthetic.b at 154000.07m)
+East-West range = 18.00m (from synthetic.f at 565491.12m to synthetic.e at 565473.12m)
+CPU time used  0.03s

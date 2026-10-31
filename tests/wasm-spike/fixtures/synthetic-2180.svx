@@ -1,0 +1,29 @@
+; SYNTHETIC TEST FIXTURE. NOT A REAL CAVE OR FIELD SURVEY.
+; Horizontal CRS EPSG:2180. Coordinates below use Survex normalized easting,northing.
+; Arbitrary synthetic heights in metres: no real vertical datum asserted.
+*title "SYNTHETIC EPSG2180 Aven WASM test"
+*cs EPSG:2180
+*cs out EPSG:2180
+*begin synthetic
+*date 2026.10.31
+*fix a 565478.124426 154000.073675 1500
+*entrance a
+*data cartesian from to dx dy dz
+a b 10 0 0
+b c 0 20 0
+c d 0 0 -5
+d e -15 0 0
+b f 3 4 -12
+*flags surface
+a s 0 -10 0
+*flags not surface
+*data passage station left right up down
+a 2 2 3 1
+b 2 3 3 1
+c 3 2 4 1
+d 2 2 3 2
+e 1 2 2 1
+*data
+b 2 2 3 1
+f 1 1 2 1
+*end synthetic

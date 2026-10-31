@@ -1,0 +1,27 @@
+{
+  "kind": "synthetic; not measured terrain",
+  "horizontal_crs": "EPSG:4326; longitude x, latitude y",
+  "vertical": "Arbitrary synthetic metres; no real vertical datum asserted",
+  "columns": 65,
+  "rows": 65,
+  "sample_spacing_degrees": 0.0001,
+  "northwest_sample_lon_lat": [
+    19.8968,
+    49.2532
+  ],
+  "southeast_sample_lon_lat": [
+    19.9032,
+    49.2468
+  ],
+  "centre_lon_lat_height": [
+    19.9,
+    49.25,
+    1510
+  ],
+  "range_metres": [
+    1502,
+    1518
+  ],
+  "nodata": -32768,
+  "bil_bytes": 8450
+}

@@ -191,10 +191,10 @@ AC_CHECK_LIB(Xxf86vm, XF86VidModeQueryVersion, [WX_LIBS="$WX_LIBS -lXxf86vm"], [
 save_LIBS=$LIBS
 dnl Check if we need a library for OpenGL functions.  Usually it's the "GL"
 dnl library, but it's called opengl32 on Microsoft Windows).
-AC_SEARCH_LIBS([glPushMatrix], [GL opengl32], [WX_LIBS="$WX_LIBS $ac_cv_search_glPushMatrix"], [], [$WX_LIBS])
+AC_SEARCH_LIBS([glPushMatrix], [GL opengl32], [AS_IF([test "x$ac_cv_search_glPushMatrix" != "xnone required"], [WX_LIBS="$WX_LIBS $ac_cv_search_glPushMatrix"])], [], [$WX_LIBS])
 dnl Check if we need a library for GLU functions.  Usually it's the "GLU"
 dnl library, but it's called glu32 on Microsoft Windows).
-AC_SEARCH_LIBS([gluProject], [GLU glu32], [WX_LIBS="$WX_LIBS $ac_cv_search_gluProject"], [], [$WX_LIBS])
+AC_SEARCH_LIBS([gluProject], [GLU glu32], [AS_IF([test "x$ac_cv_search_gluProject" != "xnone required"], [WX_LIBS="$WX_LIBS $ac_cv_search_gluProject"])], [], [$WX_LIBS])
 LIBS=$save_LIBS
 
 AC_SUBST(WX_LIBS)
@@ -261,15 +261,23 @@ PKG_CHECK_MODULES([PROJ], [proj >= 6.2.0], [
 AC_SUBST([PROJ_LIBS])
 AC_SUBST([PROJ_CFLAGS])
 
-dnl Check for GDAL.
-PKG_CHECK_MODULES([GDAL], [gdal >= 2.3], [
-  AC_DEFINE([HAVE_GDAL], [1], [Define to 1 if you have the 'GDAL' library.])
+dnl Check for GDAL.  Explicit opt-out is useful for cross-build smoke tests.
+AC_ARG_WITH([gdal],
+  [AS_HELP_STRING([--without-gdal], [build without geodata overlays and Shapefile export])],
+  [], [with_gdal=yes])
+AS_IF([test "x$with_gdal" = xno], [
+  GDAL_LIBS=
+  GDAL_CFLAGS=
 ], [
-  if test "$mswindows" = no ; then
-    AC_MSG_ERROR([GDAL required for geodata handling])
-  else
-    AC_MSG_WARN([GDAL required for geodata handling])
-  fi
+  PKG_CHECK_MODULES([GDAL], [gdal >= 2.3], [
+    AC_DEFINE([HAVE_GDAL], [1], [Define to 1 if you have the 'GDAL' library.])
+  ], [
+    if test "$mswindows" = no ; then
+      AC_MSG_ERROR([GDAL required for geodata handling])
+    else
+      AC_MSG_WARN([GDAL required for geodata handling])
+    fi
+  ])
 ])
 AC_SUBST([GDAL_LIBS])
 AC_SUBST([GDAL_CFLAGS])
