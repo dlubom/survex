@@ -1,0 +1,200 @@
+{
+  "url": "https://dlubom.github.io/survex/",
+  "source_commit": "fc062349ab724a0f9fc50505c29db93580248f37",
+  "manifest_sha256": "e0e60b8e6c68f1079c60835a3b43ac28e7e9d59869731bcaa39b9d034cb19fa8",
+  "headers": {
+    "Connection": "close",
+    "Content-Length": "4269",
+    "Server": "GitHub.com",
+    "Content-Type": "application/json; charset=utf-8",
+    "Last-Modified": "Sat, 31 Oct 2026 13:13:26 GMT",
+    "Access-Control-Allow-Origin": "*",
+    "ETag": "\"6ae5e976-10ad\"",
+    "expires": "Sat, 31 Oct 2026 13:24:14 GMT",
+    "Cache-Control": "max-age=600",
+    "x-proxy-cache": "MISS",
+    "X-GitHub-Request-Id": "60D4:1581:1238D77:126C282:6AE5E9A5",
+    "x-github-edge-region": "fra",
+    "Accept-Ranges": "bytes",
+    "Age": "0",
+    "Date": "Sat, 31 Oct 2026 13:14:14 GMT",
+    "Via": "1.1 varnish",
+    "X-Served-By": "cache-dus1260027-DUS",
+    "X-Cache": "MISS",
+    "X-Cache-Hits": "0",
+    "X-Timer": "S1793452455.790630,VS0,VE112",
+    "Vary": "Accept-Encoding",
+    "X-Fastly-Request-ID": "4f06e5efbc25cb34f257ebad11dbfe1594e5f4dd"
+  },
+  "files": [
+    {
+      "file": ".nojekyll",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "content_type": "application/octet-stream",
+      "pass": true
+    },
+    {
+      "file": "about.html",
+      "sha256": "fce37612960d9d020358072b06f7edfbac1181327cbd9fb83889f90be61e70ee",
+      "bytes": 3720,
+      "content_type": "text/html; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "app/39002a034b5b2b95f822/aven.data",
+      "sha256": "49fea552b16c639621dbe25b2357f3c5e49e188835d84ad9c84de326ba55fd4f",
+      "bytes": 27267598,
+      "content_type": "application/octet-stream",
+      "pass": true
+    },
+    {
+      "file": "app/39002a034b5b2b95f822/aven.html",
+      "sha256": "2bf9304dbb05e78736ecc31c9818945b65521c8c83b956da2487016751b7aa86",
+      "bytes": 3592,
+      "content_type": "text/html; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "app/39002a034b5b2b95f822/aven.js",
+      "sha256": "b6f117feba02ce02ed9e6b908609bbe2d804d5d102afb132b75eb573fa3968e4",
+      "bytes": 539666,
+      "content_type": "application/javascript; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "app/39002a034b5b2b95f822/aven.wasm",
+      "sha256": "d0ca27a5c5a615f7bb54155b58c69acd07e9e057ba4447cd05c794489bc21eec",
+      "bytes": 19448128,
+      "content_type": "application/wasm",
+      "pass": true
+    },
+    {
+      "file": "index.html",
+      "sha256": "b020a92b284ecf5efacfd6e1162e8f7dde5ae58c3c0d71ecc8bea65928af7aaf",
+      "bytes": 1326,
+      "content_type": "text/html; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/Emscripten.txt",
+      "sha256": "620a78084fc7ca97c0b5dea9abf891f3ffcadfdbf305276f099c9c4e12fc1d86",
+      "bytes": 5093,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/Expat.txt",
+      "sha256": "8c6b5b6de8fae20b317f4992729abc0e520bfba4c7606cd1e9eeb87418eebdec",
+      "bytes": 1144,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/JPEG.txt",
+      "sha256": "3dc4e4a145c907a96bd6a0e40be3f722fecf061951909143cdff5365cba9c78c",
+      "bytes": 18584,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/NanoSVG.txt",
+      "sha256": "e82bc3dd03400aecabe12201219ba14750dbc4b36faab58663a7a6068548d372",
+      "bytes": 880,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/PCRE.txt",
+      "sha256": "9c9488256e3612ec5ea40fd12abe7ec55a58f23bd36e6f465116c2b3cbffba02",
+      "bytes": 3464,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/PROJ.txt",
+      "sha256": "6a8f30793e877d32e3f88b972f0970a051a3b5a26cd057d3993cb51e21c43319",
+      "bytes": 1784,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/Survex-GPL.txt",
+      "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6",
+      "bytes": 17984,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/index.html",
+      "sha256": "d832b78c67f8616d8258d9c5a2a0f3bf0e6637ad4a7a9a4f80bf498dd7ffa7ec",
+      "bytes": 789,
+      "content_type": "text/html; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/libcxx.txt",
+      "sha256": "539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b",
+      "bytes": 16703,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/libpng.txt",
+      "sha256": "bf5e22b9dce8464064ae17a48ea1133c3369ac9e1d80ef9e320e5219aa14ea9b",
+      "bytes": 5345,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/musl.txt",
+      "sha256": "b870108ec5e7790e9f9919064f1b9421d62d5f9b0e6c230c6adf7ea2da62e97b",
+      "bytes": 6196,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/wxWidgets-LGPL.txt",
+      "sha256": "b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c",
+      "bytes": 25383,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/wxWidgets.txt",
+      "sha256": "e8453be21aea2b7cc9a39d5b0475190bbfa0a60605b4178377590b94d9c43eae",
+      "bytes": 2497,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "licenses/zlib.txt",
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
+      "bytes": 1002,
+      "content_type": "text/plain; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "source.tar.gz",
+      "sha256": "3ca248822977b22bab9cdaf193c78e18351ea87eeda949d9833a65945b9dbbac",
+      "bytes": 9264872,
+      "content_type": "application/gzip",
+      "pass": true
+    },
+    {
+      "file": "viewer.css",
+      "sha256": "59c0bb55544d66f05a26148a26bcdca9ad151c029c2497b6a7810eda0bd1f8aa",
+      "bytes": 1314,
+      "content_type": "text/css; charset=utf-8",
+      "pass": true
+    },
+    {
+      "file": "viewer.js",
+      "sha256": "cf10423f22c5fa8f3141ebfcdf4dfd9ad5f42293ce4af7d597f8484e3b1b8618",
+      "bytes": 4526,
+      "content_type": "application/javascript; charset=utf-8",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

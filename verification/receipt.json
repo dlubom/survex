@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "tested_at_utc": "2026-10-31T13:17:55.569834+00:00",
+  "url": "https://dlubom.github.io/survex/",
+  "source_commit": "fc062349ab724a0f9fc50505c29db93580248f37",
+  "tested_static_commit": "fb977c239899f3d2b292aa047cbc910ecbf6ca23",
+  "app": "app/39002a034b5b2b95f822/aven.html",
+  "manifest_sha256": "e0e60b8e6c68f1079c60835a3b43ac28e7e9d59869731bcaa39b9d034cb19fa8",
+  "publication_run": "https://github.com/dlubom/survex/actions/runs/41204545230",
+  "publication_status": "success",
+  "source_ci": {
+    "url": "https://github.com/dlubom/survex/actions/runs/41204529756",
+    "head_sha": "fc062349ab724a0f9fc50505c29db93580248f37",
+    "status": "in_progress",
+    "conclusion": "",
+    "jobs": [
+      {
+        "name": "makedist",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "valgrind",
+        "status": "in_progress",
+        "conclusion": ""
+      },
+      {
+        "name": "msys2-ucrt64",
+        "status": "in_progress",
+        "conclusion": ""
+      },
+      {
+        "name": "macos",
+        "status": "in_progress",
+        "conclusion": ""
+      },
+      {
+        "name": "sanitisers",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "debian-stable",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "browser": {
+    "version": "Chromium 156.0.8078.74",
+    "page_checks": 7,
+    "core_actions": 11,
+    "modal_regression": "PASS",
+    "returning_browser_cache_update": "PASS",
+    "console_errors": 0,
+    "console_warnings": 0,
+    "gl_errors": 0,
+    "crossOriginIsolated": false,
+    "SharedArrayBuffer": "undefined",
+    "heap_bytes_observed": 271843328
+  },
+  "terrain": {
+    "stations_compared": 18539,
+    "legs": 18553,
+    "triangles": 2369843,
+    "real_dem_points_compared": 10000,
+    "real_dem_points_retained": 1186869,
+    "synthetic_dem_points_compared": 4225,
+    "vertical_datum": "unknown; original heights unchanged"
+  },
+  "delivery": {
+    "public_files_verified": 24,
+    "package_bytes": 56641590,
+    "source_archive_included": true,
+    "published_evidence_commit_note": "This receipt is added after testing; subsequent verification-only commits do not change the application or manifest."
+  },
+  "not_accepted": [
+    "Firefox/Safari",
+    "touch/HiDPI",
+    "persistent local files",
+    "context-loss recovery",
+    "sustained performance/FPS",
+    "complete desktop pixel parity",
+    "clean-machine dependency installer"
+  ],
+  "evidence": {
+    "cache-update.json": {
+      "bytes": 398,
+      "sha256": "0934b3c3a58a172223cc4ab55be838cef4cc0942de099d4e6fbe488299777054"
+    },
+    "core-results.json": {
+      "bytes": 101577,
+      "sha256": "4d2246993de5ea82433c63f3caef943c37486a75099603c4c2290a8cb4fd0757"
+    },
+    "file-recovery.json": {
+      "bytes": 2476,
+      "sha256": "914003892cc72a9814deca8865ce44773774af698d64c65bbb5fc3fddf61a859"
+    },
+    "index.html": {
+      "bytes": 2055,
+      "sha256": "3b896b4bf85fa0a725e159d0ae5f6300e797d09a94a9c51f34b90e276d988d0a"
+    },
+    "invalid-file-dialog.png": {
+      "bytes": 522939,
+      "sha256": "7b98cb2fc421cfe42a0eb7e610d67e1e541cd4f61bcad6a5601cfa14f66867d2"
+    },
+    "kataster-snapshot.json.gz": {
+      "bytes": 1107072,
+      "sha256": "31ce9f7bd9857205c3e46765a51db0de3b4f28712fc49aa7f8b01d9187638234"
+    },
+    "kataster-verification.json": {
+      "bytes": 1033,
+      "sha256": "7a46054bfc8b336c7460767ad53f129d5642723d309b2fcf659949f79628ae79"
+    },
+    "local-cave.png": {
+      "bytes": 49854,
+      "sha256": "4e3b863054c244b1b9e017b6162de07feef88687e0c0cf975f8739fc8457642e"
+    },
+    "local-dem.png": {
+      "bytes": 46700,
+      "sha256": "f75120a83b5f19a540ded171953e8d0a4447cf1d0494ff7fa4e785485b3fbcc3"
+    },
+    "lrud.png": {
+      "bytes": 63131,
+      "sha256": "ffdde47c4bd4e26fdd2701107faa746592786a2a73738585341499ec463d6551"
+    },
+    "navigation.png": {
+      "bytes": 657490,
+      "sha256": "c8c1c973d986a8e72f78605d0590eb64a6a17c25aeb9f58912f481094810667a"
+    },
+    "pages-results.json": {
+      "bytes": 3825,
+      "sha256": "352f5e575389972b6b52bd778177fc48ec510a458c894fb6e6788c087ea1b092"
+    },
+    "readback.json": {
+      "bytes": 6513,
+      "sha256": "4ead12f00765e89dbfffd203f3a431ccd166f5ee01a04a4263547270e862dcf8"
+    },
+    "startup.png": {
+      "bytes": 576810,
+      "sha256": "0e1e472b7ad5e024fe4d5b561b00cf1316dafb3b6d7f9019b47b652824eb2578"
+    },
+    "station-tree.png": {
+      "bytes": 39236,
+      "sha256": "9d87694f8668ca7496d172a3ec8875aa587eb6534eb510fe11cc51a726ea2a25"
+    },
+    "synthetic-elevation.png": {
+      "bytes": 32500,
+      "sha256": "187575cd0e4324e4c15fe144474869b18d0eaccdd23bef62d2059a7266409865"
+    },
+    "synthetic-snapshot.json.gz": {
+      "bytes": 191975,
+      "sha256": "046cf7b2ba8cecd0031751ad0f24257bc1b61c0c9597d4d132a67c77ed54e6c7"
+    },
+    "synthetic-verification.json": {
+      "bytes": 979,
+      "sha256": "fb344f12d06b4d190efc5c88ca751ab1ae615ab9a04002a0c2ed974a7c72ad15"
+    }
+  }
+}

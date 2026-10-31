@@ -1,0 +1,137 @@
+{
+  "url": "https://dlubom.github.io/survex/",
+  "parked": {
+    "dead": false,
+    "waitsBegun": 1,
+    "waitsResolved": 0,
+    "earlyWaitResolves": 0,
+    "pendingWaits": 1,
+    "runningActivations": 0,
+    "suspendedActivations": [
+      {
+        "id": 6,
+        "kind": "aven_open_files",
+        "waitKind": "modal",
+        "token": 1,
+        "suspendedMs": 268
+      },
+      {
+        "id": -1,
+        "kind": "untracked",
+        "waitKind": "frame",
+        "token": 0,
+        "suspendedMs": 0
+      }
+    ],
+    "mutatorsWrapped": 0,
+    "mutatorsDelivered": 0,
+    "mutatorQueueDepth": 0,
+    "ring": [
+      [
+        1793452436385,
+        "wrapped",
+        "exports",
+        9
+      ],
+      [
+        1793452436385,
+        "wrapped",
+        "parkers",
+        0
+      ],
+      [
+        1793452436385,
+        "wrapped",
+        "exports",
+        1
+      ],
+      [
+        1793452439867,
+        "beginWait",
+        "modal",
+        1
+      ],
+      [
+        1793452439867,
+        "park",
+        "modal",
+        1
+      ]
+    ]
+  },
+  "after": {
+    "dump": {
+      "dead": false,
+      "waitsBegun": 1,
+      "waitsResolved": 1,
+      "earlyWaitResolves": 0,
+      "pendingWaits": 0,
+      "runningActivations": 0,
+      "suspendedActivations": [
+        {
+          "id": -1,
+          "kind": "untracked",
+          "waitKind": "frame",
+          "token": 0,
+          "suspendedMs": 5
+        }
+      ],
+      "mutatorsWrapped": 0,
+      "mutatorsDelivered": 0,
+      "mutatorQueueDepth": 0,
+      "ring": [
+        [
+          1793452436385,
+          "wrapped",
+          "exports",
+          9
+        ],
+        [
+          1793452436385,
+          "wrapped",
+          "parkers",
+          0
+        ],
+        [
+          1793452436385,
+          "wrapped",
+          "exports",
+          1
+        ],
+        [
+          1793452439867,
+          "beginWait",
+          "modal",
+          1
+        ],
+        [
+          1793452439867,
+          "park",
+          "modal",
+          1
+        ],
+        [
+          1793452440242,
+          "resolve",
+          "modal",
+          1
+        ]
+      ]
+    },
+    "live": null
+  },
+  "recovered": {
+    "file": "/uploads/2/real-nordalpenschacht-205.3d",
+    "legs": 17,
+    "gl": {
+      "draws": 30061,
+      "vertices": 42879156,
+      "maxDrawVertices": 12288,
+      "backend": "WebGL2 shader/VBO",
+      "bitmaps": 888
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "pass": true
+}
