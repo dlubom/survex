@@ -11,8 +11,8 @@
   "source_ci": {
     "url": "https://github.com/dlubom/survex/actions/runs/41204529756",
     "head_sha": "fc062349ab724a0f9fc50505c29db93580248f37",
-    "status": "in_progress",
-    "conclusion": "",
+    "status": "completed",
+    "conclusion": "success",
     "jobs": [
       {
         "name": "makedist",
@@ -21,18 +21,18 @@
       },
       {
         "name": "valgrind",
-        "status": "in_progress",
-        "conclusion": ""
+        "status": "completed",
+        "conclusion": "success"
       },
       {
         "name": "msys2-ucrt64",
-        "status": "in_progress",
-        "conclusion": ""
+        "status": "completed",
+        "conclusion": "success"
       },
       {
         "name": "macos",
-        "status": "in_progress",
-        "conclusion": ""
+        "status": "completed",
+        "conclusion": "success"
       },
       {
         "name": "sanitisers",
@@ -136,6 +136,10 @@
       "bytes": 6513,
       "sha256": "4ead12f00765e89dbfffd203f3a431ccd166f5ee01a04a4263547270e862dcf8"
     },
+    "source-ci.json": {
+      "bytes": 12243,
+      "sha256": "1739f632db94089afe41bce9cc47dbe399c2747a6530ba28634ab8f96db616d0"
+    },
     "startup.png": {
       "bytes": 576810,
       "sha256": "0e1e472b7ad5e024fe4d5b561b00cf1316dafb3b6d7f9019b47b652824eb2578"
@@ -156,5 +160,12 @@
       "bytes": 979,
       "sha256": "fb344f12d06b4d190efc5c88ca751ab1ae615ab9a04002a0c2ed974a7c72ad15"
     }
+  },
+  "recorded_at_utc": "2026-10-31T13:25:29.748486+00:00",
+  "native_local": {
+    "suites": 8,
+    "passed": 8,
+    "source_hashes_match_stage4_build": true,
+    "gui_scope": "Stage-3 GUI evidence is historical; no new native GUI parity claim."
   }
 }
