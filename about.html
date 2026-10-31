@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dane i obsługa — Aven w Tatrach</title><link rel="icon" href="data:,">
+<style>body{max-width:780px;margin:40px auto;padding:0 20px;font:17px/1.65 system-ui;color:#203a32;background:#f4f7f3}a{color:#165f4a}h1,h2{line-height:1.2}code{font-size:.9em}li{margin:.6em 0}small{color:#49665b}</style></head>
+<body><a href="./">← Wróć do wizualizacji</a>
+<h1>Kataster Tatr Zachodnich w Aven</h1>
+<p>Eksperymentalna wersja rzeczywistego Aven działająca w przeglądarce. Model jaskiń i teren otwierają się automatycznie. Pozostaje dostępne menu i drzewo pomiarów Aven.</p>
+<h2>Obsługa</h2>
+<ul>
+<li>Przeciągaj lewym przyciskiem, aby obracać; środkowym, aby pochylać; prawym, aby przesuwać. Kółko zmienia przybliżenie.</li>
+<li>Kliknij stację na modelu albo dwukrotnie w drzewie. Nazwy i teren przełączysz w menu <b>View</b>.</li>
+<li><b>Otwórz pliki…</b> przyjmuje jeden <code>.3d</code> i opcjonalnie jeden teren <code>.hgt</code> lub <code>.zip</code> z HGT/BIL. Dla BIL umieść nagłówek i plik projekcji w tym samym ZIP. Można też dołączyć sam DEM do otwartej jaskini.</li>
+<li>Własne pliki są czytane lokalnie i nie są wysyłane na serwer. Nie są zachowywane po odświeżeniu strony. Przycisk <b>Kataster + teren</b> przywraca domyślny zestaw.</li>
+</ul>
+<h2>Dane i autorzy</h2>
+<p>Jaskinie: <a href="https://github.com/dlubom/Jaskiniowy-Kataster-Tatr-Zachodnich/tree/3f865414d1dacaa15cd5477e567b0f852c43b32d">Jaskiniowy Kataster Tatr Zachodnich i autorzy pomiarów wymienieni w źródłach</a>, licencja <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Model skompilowano z <code>KATASTER.wpj</code> za pomocą Survex 1.4.24. Wynikowy model zachowuje tę licencję; pomiary nie zostały zmienione.</p>
+<p>Teren: <a href="https://viewfinderpanoramas.org/dem3.html">Viewfinder Panoramas — Jonathan de Ferranti</a>, plik <code>N49E019_VF1.hgt</code> z tego samego Katastru. Dane spakowano bezstratnie na potrzeby odtwarzania w przeglądarce, bez resamplingu ani przesunięcia wysokości. <a href="https://www.viewfinderpanoramas.org/">Warunki autora i źródło</a>.</p>
+<p>Model jaskiń: EPSG:32634; siatka HGT: WGS84, 3601 × 3601 próbek. Wspólny układ wysokościowy rzeczywistych źródeł nie jest potwierdzony. Trzy wschodnie otwory są poza tym kaflem. Import Walls w Survex nie przenosi LRUD, więc brak brył korytarzy w tym zestawie nie oznacza braku pomiarów LRUD w źródłach.</p>
+<h2>Oprogramowanie i zakres eksperymentu</h2>
+<p><a href="https://survex.com/">Survex / Aven</a> — Olly Betts, Mark R. Shinwell i pozostali autorzy, GNU GPL v2 lub nowsza. <a href="source.tar.gz">Kod źródłowy tej wersji</a> · <a href="licenses/Survex-GPL.txt">licencja</a> · <a href="https://github.com/dlubom/survex/tree/f024f2d00d110b9023b37d6a9f2b974dea084bd6">commit i instrukcje budowania</a>.</p>
+<p>Wykorzystano fork <a href="https://github.com/PCBJam/wxWidgets/tree/01b74ea19a09968277f59475f8919f2d2a4ff00e">wxWidgets WASM</a>, Emscripten 6.0.6 i PROJ 9.7.0. Przypięcia źródeł oraz poprawki są w repozytorium; <a href="licenses/">licencje bibliotek</a> i <a href="manifest.json">manifest plików i danych</a> towarzyszą paczce. This software is based in part on the work of the Independent JPEG Group.</p>
+<p>Wymagane są WebGL2 i WebAssembly JSPI. Wersję sprawdzono w Chromium; inne silniki, dotyk, trwałe przechowywanie plików i pełny parytet z desktopem pozostają poza potwierdzonym zakresem.</p>
+<small>To eksperyment techniczny, niezależny od oficjalnego wydania Survex.</small>
+</body></html>

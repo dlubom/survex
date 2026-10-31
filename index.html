@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tatry Zachodnie — Aven</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="viewer.css">
+  <script src="viewer.js" defer></script>
+</head>
+<body>
+  <header>
+    <strong>Tatry Zachodnie <span>· Aven — eksperyment</span></strong>
+    <nav aria-label="Pliki i informacje">
+      <button id="restore" disabled>Kataster + teren</button>
+      <button id="open-files" disabled>Otwórz pliki…</button>
+      <input id="local-files" type="file" accept=".3d,.hgt,.zip" multiple hidden>
+      <a href="about.html" target="_blank" rel="noopener">Dane i obsługa</a>
+    </nav>
+    <output id="file-status" aria-live="polite"></output>
+  </header>
+  <main>
+    <iframe id="aven" title="Aven — Kataster Tatr Zachodnich" allow="fullscreen"></iframe>
+    <section id="loading" role="status" aria-live="polite">
+      <h1>Jaskinie Tatr Zachodnich</h1>
+      <p id="progress">Wczytywanie Katastru i terenu…</p>
+      <p>Model otworzy się automatycznie. Pierwsze uruchomienie pobiera aplikację i dane.</p>
+      <p id="failure" hidden></p>
+    </section>
+  </main>
+</body>
+</html>

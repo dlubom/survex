@@ -1,0 +1,123 @@
+{
+  "source_commit": "f024f2d00d110b9023b37d6a9f2b974dea084bd6",
+  "preview_only": false,
+  "app": "app/4a250868147388f8b85d/aven.html",
+  "default_scene": {
+    "survey": "/external/kataster.3d",
+    "terrain": "/external/terrain.zip"
+  },
+  "scene_files": {
+    "kataster.3d": {
+      "bytes": 659882,
+      "sha256": "afc1d80073c528c9ab28a922bdf2c0f12ba546b456f3b1beaf4542e6d9277c25"
+    },
+    "terrain.zip": {
+      "bytes": 10631135,
+      "sha256": "cca5300a518d5eaa2becb66651fefe49fa0b72633ad8cc1429722dfcb8ce4e69"
+    }
+  },
+  "data_commit": "3f865414d1dacaa15cd5477e567b0f852c43b32d",
+  "hgt_sha256": "d2afeb74d418f197cbeea16a08e660f81d5f2e09e83e81a68263d5451250d645",
+  "survey_license": "CC BY-SA 4.0",
+  "dem_author": "Jonathan de Ferranti / Viewfinder Panoramas",
+  "dem_source": "https://viewfinderpanoramas.org/dem3.html",
+  "vertical_shift": null,
+  "files": {
+    ".nojekyll": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "about.html": {
+      "sha256": "4d468e3e474e5274227ab6648500392da4770ac805a161bbfbd55bd2f8a7e39f",
+      "bytes": 3720
+    },
+    "app/4a250868147388f8b85d/aven.data": {
+      "sha256": "d5d68e425dc3b6371424011a2b95390b7ceb60ed1539ec1e9858250177a2a9c4",
+      "bytes": 27267585
+    },
+    "app/4a250868147388f8b85d/aven.html": {
+      "sha256": "2bf9304dbb05e78736ecc31c9818945b65521c8c83b956da2487016751b7aa86",
+      "bytes": 3592
+    },
+    "app/4a250868147388f8b85d/aven.js": {
+      "sha256": "b8256c0f1e5cf59465cdcf88de66699d1f2acdf4697436a1d11d05645b6af4bb",
+      "bytes": 539130
+    },
+    "app/4a250868147388f8b85d/aven.wasm": {
+      "sha256": "d0ca27a5c5a615f7bb54155b58c69acd07e9e057ba4447cd05c794489bc21eec",
+      "bytes": 19448128
+    },
+    "index.html": {
+      "sha256": "70e6b83aad1f7587b3576fa22b11aab7279e64fb9b18de88341f7f73ebf672fb",
+      "bytes": 1240
+    },
+    "licenses/Emscripten.txt": {
+      "sha256": "620a78084fc7ca97c0b5dea9abf891f3ffcadfdbf305276f099c9c4e12fc1d86",
+      "bytes": 5093
+    },
+    "licenses/Expat.txt": {
+      "sha256": "8c6b5b6de8fae20b317f4992729abc0e520bfba4c7606cd1e9eeb87418eebdec",
+      "bytes": 1144
+    },
+    "licenses/JPEG.txt": {
+      "sha256": "3dc4e4a145c907a96bd6a0e40be3f722fecf061951909143cdff5365cba9c78c",
+      "bytes": 18584
+    },
+    "licenses/NanoSVG.txt": {
+      "sha256": "e82bc3dd03400aecabe12201219ba14750dbc4b36faab58663a7a6068548d372",
+      "bytes": 880
+    },
+    "licenses/PCRE.txt": {
+      "sha256": "9c9488256e3612ec5ea40fd12abe7ec55a58f23bd36e6f465116c2b3cbffba02",
+      "bytes": 3464
+    },
+    "licenses/PROJ.txt": {
+      "sha256": "6a8f30793e877d32e3f88b972f0970a051a3b5a26cd057d3993cb51e21c43319",
+      "bytes": 1784
+    },
+    "licenses/Survex-GPL.txt": {
+      "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6",
+      "bytes": 17984
+    },
+    "licenses/index.html": {
+      "sha256": "d832b78c67f8616d8258d9c5a2a0f3bf0e6637ad4a7a9a4f80bf498dd7ffa7ec",
+      "bytes": 789
+    },
+    "licenses/libcxx.txt": {
+      "sha256": "539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b",
+      "bytes": 16703
+    },
+    "licenses/libpng.txt": {
+      "sha256": "bf5e22b9dce8464064ae17a48ea1133c3369ac9e1d80ef9e320e5219aa14ea9b",
+      "bytes": 5345
+    },
+    "licenses/musl.txt": {
+      "sha256": "b870108ec5e7790e9f9919064f1b9421d62d5f9b0e6c230c6adf7ea2da62e97b",
+      "bytes": 6196
+    },
+    "licenses/wxWidgets-LGPL.txt": {
+      "sha256": "b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c",
+      "bytes": 25383
+    },
+    "licenses/wxWidgets.txt": {
+      "sha256": "e8453be21aea2b7cc9a39d5b0475190bbfa0a60605b4178377590b94d9c43eae",
+      "bytes": 2497
+    },
+    "licenses/zlib.txt": {
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
+      "bytes": 1002
+    },
+    "source.tar.gz": {
+      "sha256": "47dd5967c757f1a529b37ba23806d36ea6253788ccde41092bed7044546369fc",
+      "bytes": 8831635
+    },
+    "viewer.css": {
+      "sha256": "59c0bb55544d66f05a26148a26bcdca9ad151c029c2497b6a7810eda0bd1f8aa",
+      "bytes": 1314
+    },
+    "viewer.js": {
+      "sha256": "87256f692694552b354f7e877a50a6435994194a39263458b5fcf4dc75ae73cb",
+      "bytes": 4526
+    }
+  }
+}
