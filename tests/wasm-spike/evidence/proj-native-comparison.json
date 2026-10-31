@@ -1,0 +1,18 @@
+{
+  "native_tool": "/opt/homebrew/bin/cs2cs EPSG:4326 EPSG:2180 -f %.12f",
+  "native_input_lat_lon": [
+    50,
+    20
+  ],
+  "native_output_northing_easting": [
+    237447.41727195773,
+    571644.9389664611
+  ],
+  "wasm_output_easting_northing": [
+    571644.938966461,
+    237447.417271959
+  ],
+  "max_absolute_difference_metres": 1.280568540096283e-09,
+  "criterion_metres": 0.001,
+  "pass": true
+}

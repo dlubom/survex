@@ -23,6 +23,10 @@
 #include "log.h"
 #include "gla.h"
 
+#ifdef __EMSCRIPTEN__
+# include <emscripten.h>
+#endif
+
 MyLogWindow::MyLogWindow()
     /* TRANSLATORS: %s will be replaced by the application name ("Aven"
      * currently) */
@@ -40,3 +44,21 @@ void MyLogWindow::DoLogText(const wxString & msg) {
     wxLogWindow::DoLogText(msg);
     Show();
 }
+
+#ifdef __EMSCRIPTEN__
+void MyLogWindow::DoLogTextAtLevel(wxLogLevel level, const wxString& msg)
+{
+    // stderr is always console.error in the shell. Preserve the actual wx
+    // severity instead, so e.g. EndModal debug messages are not false errors.
+    EM_ASM({
+        const message = UTF8ToString($1);
+        if ($0 <= $2) console.error(message);
+        else if ($0 === $3) console.warn(message);
+        else if ($0 === $4 || $0 === $5) console.debug(message);
+        else console.info(message);
+    }, level, msg.utf8_str().data(), wxLOG_Error, wxLOG_Warning,
+       wxLOG_Debug, wxLOG_Trace);
+    wxLogWindow::DoLogTextAtLevel(level, msg);
+    if (level <= wxLOG_Warning) Show();
+}
+#endif

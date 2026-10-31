@@ -1,0 +1,5 @@
+{
+  "exit": -5,
+  "stdout": "",
+  "stderr": "2026-10-31 12:55:42.913 scale-regression[7185:7820184] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)\nSwift/SwiftNativeNSArray.swift:78: Fatal error: Array index out of range\n"
+}

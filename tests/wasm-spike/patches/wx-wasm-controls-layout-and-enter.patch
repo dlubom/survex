@@ -1,0 +1,362 @@
+diff --git a/build/wasm/wx-dom.js b/build/wasm/wx-dom.js
+index 3075f2b..19a0b2d 100644
+--- a/build/wasm/wx-dom.js
++++ b/build/wasm/wx-dom.js
+@@ -1359,9 +1359,9 @@
+     });
+   };
+ 
+-  // tools: [{id,label,tooltip,kind:'button'|'toggle'|'separator',
++  // tools: [{id,label,tooltip,kind:'button'|'toggle'|'separator'|'control',
+   //          toggled,enabled,img,imgW,imgH}]
+-  window.wxDomToolbarSetTools = function (domId, toolsJson) {
++  window.wxDomToolbarSetTools = function (domId, toolsJson, vertical, marginX, marginY) {
+     var el = controls.get(domId);
+     if (!el || !el.dataset.wxToolBar) return;
+     var tools;
+@@ -1372,11 +1372,26 @@
+       return;
+     }
+     el.textContent = '';
++    el.style.flexDirection = vertical ? 'column' : 'row';
++    el.style.padding = (marginY || 0) + 'px ' + (marginX || 0) + 'px';
+     tools.forEach(function (t, idx) {
++      if (t.kind === 'control') {
++        // This is only a layout slot. The wx control (which can be a
++        // composite of several DOM/canvas children) keeps its native event
++        // routing, ownership and position relative to the TLW container.
++        var slot = document.createElement('div');
++        slot.dataset.wxToolControl = String(t.id);
++        slot.style.cssText = 'flex:0 0 auto;pointer-events:none;';
++        slot.style.width = t.width + 'px';
++        slot.style.height = t.height + 'px';
++        el.appendChild(slot);
++        return;
++      }
+       if (t.kind === 'separator') {
+         var sep = document.createElement('div');
+-        sep.style.cssText =
+-          'border-left:1px solid #808080;align-self:stretch;margin:1px 3px;';
++        sep.style.cssText = 'flex:0 0 auto;align-self:stretch;' + (vertical
++          ? 'border-top:1px solid #808080;margin:3px 1px;'
++          : 'border-left:1px solid #808080;margin:1px 3px;');
+         el.appendChild(sep);
+         return;
+       }
+@@ -1385,7 +1400,7 @@
+       // same look as every other tooltip (no native title attribute)
+       tooltipHover(btn, function () { return t.tooltip || t.label || ''; });
+       btn.style.cssText = 'padding:1px 3px;margin:1px;font:inherit;' +
+-                          'display:flex;align-items:center;';
++                          'display:flex;align-items:center;flex:0 0 auto;';
+       if (t.img) {
+         var img = document.createElement('img');
+         if (t.imgW > 0) { img.width = t.imgW; img.style.width = t.imgW + 'px'; }
+@@ -1418,6 +1433,35 @@
+     });
+   };
+ 
++  // Slot geometry in toolbar-client coordinates. C++ uses SetSize(), so
++  // composite children, hit testing and clipping all follow the same rect.
++  window.wxDomToolbarGetToolRect = function (domId, index, rect) {
++    var el = controls.get(domId);
++    var slot = el && el.children[index];
++    if (!slot || !slot.dataset.wxToolControl) return 0;
++    // Realize() also runs before a frame is shown. Measure a clone in that
++    // case rather than replacing the wx control's size with a zero rect.
++    var clone = null;
++    if (!el.getClientRects().length) {
++      clone = el.cloneNode(true);
++      clone.style.display = 'flex';
++      clone.style.visibility = 'hidden';
++      clone.style.left = '-100000px';
++      clone.style.top = '0';
++      document.body.appendChild(clone);
++      el = clone;
++      slot = el.children[index];
++    }
++    var box = slot.getBoundingClientRect();
++    var parent = el.getBoundingClientRect();
++    HEAP32[rect >> 2] = Math.round(box.left - parent.left);
++    HEAP32[(rect >> 2) + 1] = Math.round(box.top - parent.top);
++    HEAP32[(rect >> 2) + 2] = Math.round(box.width);
++    HEAP32[(rect >> 2) + 3] = Math.round(box.height);
++    if (clone) clone.remove();
++    return 1;
++  };
++
+   // Command id of the last activated menu item / tool (set by the click
+   // handlers above; read by wxMenuBar/wxToolBar OnDomEvent).
+   window.wxDomGetLastCommandId = function (domId) {
+@@ -1600,6 +1644,22 @@
+     return (w << 16) | h;
+   };
+ 
++  window.wxDomTextCtrlSizeFromText = function (domId, xlen, ylen) {
++    var el = controls.get(domId);
++    var css = el ? window.getComputedStyle(el) : null;
++    function pixels(name) { return css ? (parseFloat(css[name]) || 0) : 0; }
++    // Layout uses border-box; leave two additional CSS pixels for the caret
++    // and avoid rounding a measured glyph into the border. Computed styles
++    // are available even before the parent frame is shown.
++    var width = Math.max(0, xlen) + pixels('paddingLeft') + pixels('paddingRight') +
++                pixels('borderLeftWidth') + pixels('borderRightWidth') + 2;
++    var height = Math.max(1, ylen) + pixels('paddingTop') + pixels('paddingBottom') +
++                 pixels('borderTopWidth') + pixels('borderBottomWidth') + 2;
++    width = Math.min(0xffff, Math.ceil(width));
++    height = Math.min(0xffff, Math.ceil(height));
++    return (width << 16) | height;
++  };
++
+   // ========== Tooltip layer ==========
+   //
+   // One port-rendered tooltip for everything: DOM-backed widgets AND
+diff --git a/include/wx/wasm/private/dom.h b/include/wx/wasm/private/dom.h
+index e92c2d9..5ae6526 100644
+--- a/include/wx/wasm/private/dom.h
++++ b/include/wx/wasm/private/dom.h
+@@ -236,11 +236,19 @@ inline void wxDomMenuSetStructure(int domId, const wxString& json)
+ }
+ 
+ // Toolbar tools: JSON [{id,label,tooltip,kind,toggled,enabled,img,imgW,
+-// imgH}] — kind: "button" | "toggle" | "separator".
+-inline void wxDomToolbarSetTools(int domId, const wxString& json)
++// imgH}] — kind: "button" | "toggle" | "separator" | "control".
++// Control slots supply width/height instead of button properties.
++inline void wxDomToolbarSetTools(int domId, const wxString& json,
++                                bool vertical, int marginX, int marginY)
+ {
+-    EM_ASM({ wxDomToolbarSetTools($0, UTF8ToString($1)); },
+-           domId, (const char *)json.utf8_str());
++    EM_ASM({ wxDomToolbarSetTools($0, UTF8ToString($1), $2, $3, $4); },
++           domId, (const char *)json.utf8_str(), vertical, marginX, marginY);
++}
++
++inline bool wxDomToolbarGetToolRect(int domId, size_t index, int *rect)
++{
++    return EM_ASM_INT({ return wxDomToolbarGetToolRect($0, $1, $2); },
++                      domId, index, rect) != 0;
+ }
+ 
+ // Command id of the last activated menu item / tool / tab index.
+@@ -331,4 +339,14 @@ inline void wxDomGetIntrinsicSize(int domId, int *w, int *h)
+     if ( h ) *h = packed & 0xffff;
+ }
+ 
++// Text extent plus the actual DOM input's padding, border and caret room.
++inline void wxDomTextCtrlSizeFromText(int domId, int xlen, int ylen,
++                                    int *w, int *h)
++{
++    int packed = EM_ASM_INT({ return wxDomTextCtrlSizeFromText($0, $1, $2); },
++                            domId, xlen, ylen);
++    if ( w ) *w = (packed >> 16) & 0xffff;
++    if ( h ) *h = packed & 0xffff;
++}
++
+ #endif // __WX_WASM_PRIVATE_DOM_H__
+diff --git a/include/wx/wasm/textctrl.h b/include/wx/wasm/textctrl.h
+index 53c404f..9103e4a 100644
+--- a/include/wx/wasm/textctrl.h
++++ b/include/wx/wasm/textctrl.h
+@@ -46,6 +46,8 @@ public:
+     virtual void OnDomEvent(wxDomEventKind kind) wxOVERRIDE;
+ 
+ protected:
++    virtual wxSize DoGetSizeFromTextSize(int xlen, int ylen = -1) const wxOVERRIDE;
++
+     // setting the value programmatically resets the modified flag
+     // and pushes the new value into the DOM element
+     virtual void DoSetValue(const wxString& value, int flags = 0) wxOVERRIDE;
+diff --git a/include/wx/wasm/toolbar.h b/include/wx/wasm/toolbar.h
+index f06a3bd..d94b494 100644
+--- a/include/wx/wasm/toolbar.h
++++ b/include/wx/wasm/toolbar.h
+@@ -60,8 +60,11 @@ private:
+     // Re-serializes m_tools to JSON and pushes them to the DOM toolbar
+     // node; no-op until Create() made the node.
+     void WasmRebuildTools();
++    void WasmLayoutControls();
++    void OnSize(wxSizeEvent& event);
+ 
+     wxDECLARE_DYNAMIC_CLASS(wxToolBar);
++    wxDECLARE_EVENT_TABLE();
+ };
+ 
+ #endif // __WX_WASM_TOOLBAR_H__
+diff --git a/src/wasm/frame.cpp b/src/wasm/frame.cpp
+index 1c86ee3..1240f05 100644
+--- a/src/wasm/frame.cpp
++++ b/src/wasm/frame.cpp
+@@ -189,15 +189,9 @@ wxPoint wxFrame::GetClientAreaOrigin() const
+     }
+ #endif // wxUSE_MENUS
+ 
+-#if wxUSE_TOOLBAR
+-    if ( m_frameToolBar && m_frameToolBar->IsShown() )
+-    {
+-        if ( m_frameToolBar->GetWindowStyleFlag() & wxTB_VERTICAL )
+-            pt.x += m_frameToolBar->GetSize().x;
+-        else
+-            pt.y += m_frameToolBar->GetSize().y;
+-    }
+-#endif // wxUSE_TOOLBAR
++    // wxFrameBase already includes the visible toolbar in this non-universal
++    // port. Adding it again shifts the client area and statusbar below the
++    // frame while DoGetClientSize() reserves its height only once.
+ 
+     return pt;
+ }
+diff --git a/src/wasm/keyboard.cpp b/src/wasm/keyboard.cpp
+index add7a29..e57735c 100644
+--- a/src/wasm/keyboard.cpp
++++ b/src/wasm/keyboard.cpp
+@@ -303,6 +303,11 @@ bool KeyCodeNeedsCharEvent(int keyCode)
+ {
+     switch (keyCode)
+     {
++        // Deferred DOM dispatch prevents the default for non-printable
++        // Enter, so the browser won't send the keypress we could otherwise
++        // use. Generate CHAR after an unhandled KEY_DOWN, as for arrows.
++        case WXK_RETURN:
++        case WXK_NUMPAD_ENTER:
+         case WXK_ESCAPE:
+         case WXK_BACK:
+         case WXK_DELETE:
+diff --git a/src/wasm/textctrl.cpp b/src/wasm/textctrl.cpp
+index 0c35708..93e2fcd 100644
+--- a/src/wasm/textctrl.cpp
++++ b/src/wasm/textctrl.cpp
+@@ -56,6 +56,25 @@ bool wxTextCtrl::Create(wxWindow *parent, wxWindowID id,
+     return true;
+ }
+ 
++wxSize wxTextCtrl::DoGetSizeFromTextSize(int xlen, int ylen) const
++{
++    // Generic composite controls (notably wxSpinCtrl) use this to fit their
++    // formatted range. The base implementation returns (-1, -1), which
++    // otherwise leaves only the spin arrows and a fallback-width text box.
++    if (ylen < 0)
++    {
++        ylen = GetCharHeight();
++        if (HasFlag(wxTE_MULTILINE))
++            ylen *= wxMax(2, wxMin(GetNumberOfLines(), 10));
++    }
++
++    int width = wxMax(0, xlen) + 2;
++    int height = wxMax(1, ylen) + 2;
++    if (WasmGetDomId())
++        wxDomTextCtrlSizeFromText(WasmGetDomId(), xlen, ylen, &width, &height);
++    return wxSize(width, height);
++}
++
+ // ----------------------------------------------------------------------------
+ // dirty flag
+ // ----------------------------------------------------------------------------
+diff --git a/src/wasm/toolbar.cpp b/src/wasm/toolbar.cpp
+index 9c03cd5..98dc67d 100644
+--- a/src/wasm/toolbar.cpp
++++ b/src/wasm/toolbar.cpp
+@@ -44,6 +44,10 @@ public:
+ 
+ wxIMPLEMENT_DYNAMIC_CLASS(wxToolBar, wxControl);
+ 
++wxBEGIN_EVENT_TABLE(wxToolBar, wxToolBarBase)
++    EVT_SIZE(wxToolBar::OnSize)
++wxEND_EVENT_TABLE()
++
+ wxToolBar::wxToolBar()
+ {
+ }
+@@ -170,14 +174,27 @@ void wxToolBar::WasmRebuildTools()
+     {
+         wxToolBarToolBase *tool = node->GetData();
+ 
+-        // control tools render through their own wxControl DOM node
+-        if (tool->IsControl())
+-            continue;
+-
+         if (!first)
+             json += wxT(",");
+         first = false;
+ 
++        if (tool->IsControl())
++        {
++            // Reserve a slot even for composite controls without a DOM node
++            // of their own (e.g. wxSearchCtrl and wxSpinCtrlDouble). Their
++            // child nodes stay in the TLW; move them through the wx geometry
++            // path after measuring the toolbar's normal flex layout.
++            wxSize size = tool->GetControl()->GetSize();
++            // A range/digit/font change can invalidate the best size after
++            // Create() but before Realize(). Keep explicit minimum sizes,
++            // while allowing the new formatted value to fit.
++            size.IncTo(tool->GetControl()->GetEffectiveMinSize());
++            json += wxString::Format(
++                wxT("{\"id\":%d,\"kind\":\"control\",\"width\":%d,\"height\":%d}"),
++                tool->GetId(), size.x, size.y);
++            continue;
++        }
++
+         const char *kind;
+         if (tool->IsSeparator())
+             kind = "separator";
+@@ -218,8 +235,34 @@ void wxToolBar::WasmRebuildTools()
+ 
+     json += wxT("]");
+ 
+-    wxDomToolbarSetTools(WasmGetDomId(), json);
++    const wxSize margins = GetToolMargins();
++    wxDomToolbarSetTools(WasmGetDomId(), json,
++                        (GetWindowStyleFlag() & wxTB_VERTICAL) != 0,
++                        margins.x, margins.y);
+     InvalidateBestSize();
++    WasmLayoutControls();
++}
++
++void wxToolBar::WasmLayoutControls()
++{
++    size_t index = 0;
++    for (wxToolBarToolsList::compatibility_iterator node = m_tools.GetFirst();
++         node; node = node->GetNext(), ++index)
++    {
++        wxToolBarToolBase *tool = node->GetData();
++        if (!tool->IsControl())
++            continue;
++
++        int rect[4];
++        if (wxDomToolbarGetToolRect(WasmGetDomId(), index, rect))
++            tool->GetControl()->SetSize(rect[0], rect[1], rect[2], rect[3]);
++    }
++}
++
++void wxToolBar::OnSize(wxSizeEvent& event)
++{
++    WasmLayoutControls();
++    event.Skip();
+ }
+ 
+ void wxToolBar::OnDomEvent(wxDomEventKind kind)
+diff --git a/src/wasm/window.cpp b/src/wasm/window.cpp
+index fb75798..032feee 100644
+--- a/src/wasm/window.cpp
++++ b/src/wasm/window.cpp
+@@ -680,6 +680,20 @@ void wxWindowWasm::OnDomEvent(wxDomEventKind kind)
+                 SetFocus();
+             break;
+ 
++        case wxDOM_EVENT_FOCUSOUT:
++            // Browser Tab/click navigation can leave a wx control without
++            // another wx window taking focus (e.g. a toolbar DOM button).
++            // Send the native kill-focus event so composite editors commit
++            // their text. SetFocus() may already have done this, or a deferred
++            // focusout may arrive after focus returned: don't duplicate it.
++            if ( gs_focusWindow == this && !EM_ASM_INT({
++                    var ae = document.activeElement;
++                    return ae && ae.closest &&
++                           ae.closest('[data-wx-dom-id="' + $0 + '"]') ? 1 : 0;
++                }, m_domId) )
++                KillFocus();
++            break;
++
+         case wxDOM_EVENT_SCROLL:
+         {
+             // A built-in scrollbar gutter dragged: discriminate which one by

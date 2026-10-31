@@ -1,0 +1,20 @@
+/Library/Developer/CommandLineTools/usr/bin/make  check-TESTS
+PASS: smoke.tst
+PASS: diffpos.tst
+PASS: cavern.tst
+PASS: extend.tst
+PASS: 3dtopos.tst
+PASS: aven.tst
+PASS: imgtest.tst
+PASS: dump3d.tst
+============================================================================
+Testsuite summary for survex 1.4.24
+============================================================================
+# TOTAL: 8
+# PASS:  8
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  0
+# XPASS: 0
+# ERROR: 0
+============================================================================

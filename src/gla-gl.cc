@@ -75,6 +75,10 @@
 #define GL_ALIASED_POINT_SIZE_RANGE 0x846D
 #endif
 
+#ifdef __EMSCRIPTEN__
+#include "aven-webgl.h"
+#endif
+
 using namespace std;
 
 const int BLOB_DIAMETER = 5;

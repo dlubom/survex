@@ -1,0 +1,45 @@
+{
+  "result": "PASS",
+  "syntax": "Python compilation succeeded",
+  "deterministic_regeneration": true,
+  "inventory_file_hashes_match": true,
+  "checks": [
+    {
+      "command": [
+        "/opt/homebrew/bin/python3",
+        "/private/tmp/aven-webgl2-stage3-evidence/repo/tests/wasm-spike/generate-stage3-manifest.py",
+        "--repo",
+        "/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex",
+        "--evidence-dir",
+        "/private/tmp/aven-webgl2-stage3-evidence/manifest-validation"
+      ],
+      "exit_code": 0,
+      "stdout": "Wrote /private/tmp/aven-webgl2-stage3-evidence/manifest-validation/manifest.json: 46 evidence files, 2467981 bytes\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/python3",
+        "/private/tmp/aven-webgl2-stage3-evidence/repo/tests/wasm-spike/generate-stage3-manifest.py",
+        "--repo",
+        "/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex",
+        "--evidence-dir",
+        "/private/tmp/aven-webgl2-stage3-evidence/manifest-validation",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: source and evidence hashes match manifest\n",
+      "stderr": ""
+    },
+    {
+      "test": "modified evidence rejected",
+      "exit_code": 1,
+      "stderr": "evidence_files: ui-results.json\n"
+    },
+    {
+      "test": "stale native test source identity rejected",
+      "exit_code": 1,
+      "stderr": "Tested source hash mismatch in native-summary.json: src/gfxcore.cc\n"
+    }
+  ]
+}

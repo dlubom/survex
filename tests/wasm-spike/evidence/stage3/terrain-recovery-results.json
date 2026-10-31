@@ -1,0 +1,17 @@
+{
+  "expectedDialog": true,
+  "state": {
+    "file": "/external/czarna.3d",
+    "triangles": 9826,
+    "gl": {
+      "draws": 1590,
+      "vertices": 268140,
+      "maxDrawVertices": 12288,
+      "backend": "WebGL2 shader/VBO",
+      "bitmaps": 752
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "pass": true
+}

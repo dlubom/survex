@@ -24,5 +24,8 @@ class MyLogWindow : public wxLogWindow {
   public:
     MyLogWindow();
   protected:
-    void DoLogText(const wxString & msg);
+    void DoLogText(const wxString & msg) override;
+#ifdef __EMSCRIPTEN__
+    void DoLogTextAtLevel(wxLogLevel level, const wxString& msg) override;
+#endif
 };

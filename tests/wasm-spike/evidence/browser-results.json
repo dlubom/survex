@@ -1,0 +1,13 @@
+{
+  "application": "wx-toolkit-diagnostic-not-aven",
+  "browser": "Chromium 156.0.0.0, macOS Playwright browser",
+  "jspi": true,
+  "webgl2": true,
+  "initial": {"frames": 1, "selections": 1, "size": [916, 726], "centerPixel": [98, 121, 136, 255], "glError": 0, "warm": false},
+  "after_warm_tree_click": {"frames": 2, "selections": 2, "size": [916, 726], "centerPixel": [98, 67, 34, 255], "glError": 0, "warm": true},
+  "after_rgb_tree_click": {"frames": 3, "selections": 3, "size": [916, 726], "centerPixel": [98, 121, 136, 255], "glError": 0, "warm": false},
+  "after_resize": {"frames": 4, "selections": 3, "size": [676, 564], "centerPixel": [98, 121, 136, 255], "glError": 0, "warm": false},
+  "runtime_error": null,
+  "console_error": "Only favicon.ico HTTP 404; no WASM or GL runtime error observed.",
+  "interaction": "Real pointer clicks at treeitem coordinates returned by wxElementRegistry; frame pixels read by C++ glReadPixels. No mocked rendering or direct event-handler invocation."
+}

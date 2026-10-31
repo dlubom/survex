@@ -1,0 +1,63 @@
+emmake: "make -j4 -C src -f Makefile -f ../objects.mk aven-wasm-objects" in "/private/tmp/aven-webgl2-build"
+/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++ -DHAVE_CONFIG_H -I. -I/private/tmp/aven-webgl2-src/src -I..    -Wall -Wunused -Wpointer-arith      -Wwrite-strings -Wcast-align -Wno-sign-compare   -I/private/tmp/aven-wasm-spike/target/include  -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -pthread -O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -DAVEN_WEB_TEST=1 -MT aven-gfxcore.o -MD -MP -MF .deps/aven-gfxcore.Tpo -c -o aven-gfxcore.o `test -f 'gfxcore.cc' || echo '/private/tmp/aven-webgl2-src/src/'`gfxcore.cc
+/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++ -DHAVE_CONFIG_H -I. -I/private/tmp/aven-webgl2-src/src -I..    -Wall -Wunused -Wpointer-arith      -Wwrite-strings -Wcast-align -Wno-sign-compare   -I/private/tmp/aven-wasm-spike/target/include  -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -pthread -O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -DAVEN_WEB_TEST=1 -MT aven-model.o -MD -MP -MF .deps/aven-model.Tpo -c -o aven-model.o `test -f 'model.cc' || echo '/private/tmp/aven-webgl2-src/src/'`model.cc
+/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++ -DHAVE_CONFIG_H -I. -I/private/tmp/aven-webgl2-src/src -I..    -Wall -Wunused -Wpointer-arith      -Wwrite-strings -Wcast-align -Wno-sign-compare   -I/private/tmp/aven-wasm-spike/target/include  -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -pthread -O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -DAVEN_WEB_TEST=1 -MT aven-glbitmapfont.o -MD -MP -MF .deps/aven-glbitmapfont.Tpo -c -o aven-glbitmapfont.o `test -f 'glbitmapfont.cc' || echo '/private/tmp/aven-webgl2-src/src/'`glbitmapfont.cc
+/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/emcc -DHAVE_CONFIG_H -I. -I/private/tmp/aven-webgl2-src/src -I..    -Wall -Wunused -Wpointer-arith      -Wwrite-strings -Wcast-align  -I/private/tmp/aven-wasm-spike/target/include -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -pthread -DAVEN -O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -MT aven-z_getopt.o -MD -MP -MF .deps/aven-z_getopt.Tpo -c -o aven-z_getopt.o `test -f 'z_getopt.c' || echo '/private/tmp/aven-webgl2-src/src/'`z_getopt.c
+mv -f .deps/aven-z_getopt.Tpo .deps/aven-z_getopt.Po
+In file included from In file included from /private/tmp/aven-webgl2-src/src/model.cc:27:
+In file included from /private/tmp/aven-webgl2-src/src/model.h:27In file included from /private/tmp/aven-webgl2-src/src/gfxcore.cc:33:
+In file included from /private/tmp/aven-webgl2-src/src/aven.h/private/tmp/aven-webgl2-src/src/glbitmapfont.cc:25:
+In file included from /private/tmp/aven-webgl2-src/src/glbitmapfont.h:26:
+:45:
+In file included from /private/tmp/aven-wasm-spike/wxwidgets/include/wx/wx.h:
+In file included from /private/tmp/aven-wasm-spike/wxwidgets/include/wx/wx.h:23:23In file included from /private/tmp/aven-wasm-spike/wxwidgets/include/wx/wx.h:23:
+:
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h::
+:147:16/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147:16: 16: : warning: first argument in call to 'memset' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+warning: warning: first argument in call to 'memset' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+first argument in call to 'memset' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]  147 |      147 |  
+    memset(th  147 |   i         memset(ths, 0, sizeof(* its,  0, his));
+      s|                ^
+izeof(*this));
+      |                ^
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147:16:    mnote: explicitly cast the pointer to silence this warning
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147:  147 | e      mset( 16:  memthissnote: explicitly cast the pointer to silence this warning
+e  147 |  t(t,hi     s, 0, sizeof( *this));
+       me mset(| 0               ^
+      |                (void*)
+,this, 0, sizeof(*this));
+      |                ^
+      |                (void*)
+ sizeof(*this));
+      |                ^
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147:16: note: explicitly cast the pointer to silence this warning
+  147 |         memset(this, 0, sizeof(*this));
+      |                ^
+      |                (void*)
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16: 281:16: warning: warning: first argument in call to 'memcpy' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+first argument in call to 'memcpy' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+  281 |         memcpy(this, &other, sizeof(*this));
+      |                ^
+  281 |         memcpy(/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16: thinote: explicitly cast the pointer to silence this warning
+s, &other, sizeof(*this));
+      | /private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h  281 |         memcpy(               ^
+:281:16: this, &other, sizeof(*warning: t/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:hi16: first argument in call to 'memcpy' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+note: sexplicitly cast the pointer to silence this warning
+));
+        281 |         memcpy(this, &other, sizeof(*this));
+        281 | | |                ^
+      |                (void*)
+               ^
+      |                (void*)
+        memcpy(this, &other, sizeof(*this));
+      |                ^
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16: note: explicitly cast the pointer to silence this warning
+  281 |         memcpy(this, &other, sizeof(*this));
+      |                ^
+      |                (void*)
+2 warnings generated.
+mv -f .deps/aven-glbitmapfont.Tpo .deps/aven-glbitmapfont.Po
+2 warnings generated.
+mv -f .deps/aven-model.Tpo .deps/aven-model.Po
+2 warnings generated.
+mv -f .deps/aven-gfxcore.Tpo .deps/aven-gfxcore.Po

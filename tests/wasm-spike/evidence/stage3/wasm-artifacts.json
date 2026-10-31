@@ -1,0 +1,22 @@
+{
+  "build_directory": "/private/tmp/aven-webgl2-stage3-build/web",
+  "scope": "Final browser-served files; binary payloads are not committed.",
+  "files": {
+    "aven.data": {
+      "bytes": 42612682,
+      "sha256": "d651e1a446df7211615e7db27d2a6b4e96e5f58b9785965255b08fccbd350c85"
+    },
+    "aven.html": {
+      "bytes": 3592,
+      "sha256": "2bf9304dbb05e78736ecc31c9818945b65521c8c83b956da2487016751b7aa86"
+    },
+    "aven.js": {
+      "bytes": 538233,
+      "sha256": "4ae6e4f1039b17ed3658200befdd1f7ab1c39a85a99163680a416321c5ec6972"
+    },
+    "aven.wasm": {
+      "bytes": 19445921,
+      "sha256": "25069e009542da106eb3565c33e64be09374799e1a2cac25af403ef80f5bc139"
+    }
+  }
+}

@@ -33,6 +33,10 @@
 #include <cfloat>
 #include <map>
 
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+# include <emscripten.h>
+#endif
+
 using namespace std;
 
 int Model::Load(const wxString& file, const wxString& prefix)
@@ -430,6 +434,53 @@ int Model::Load(const wxString& file, const wxString& prefix)
 
 #if 0
     printf("time to load = %.3f\n", (double)timer.Time());
+#endif
+
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+    // Observations of the ordinary loader, used by the browser acceptance
+    // test. No alternate loading or geometry path is involved.
+    size_t web_leg_count = 0;
+    size_t web_surface_leg_count = 0;
+    size_t web_xsect_count = 0;
+    for (const auto& group : traverses) {
+        for (const auto& tr : group) {
+            web_leg_count += tr.size() - 1;
+            if (tr.flags & img_FLAG_SURFACE)
+                web_surface_leg_count += tr.size() - 1;
+        }
+    }
+    for (const auto& tube : tubes) web_xsect_count += tube.size();
+    EM_ASM({
+        Module.avenTest = Module.avenTest || {};
+        Module.avenTest.model = ({
+            file: UTF8ToString($0), title: UTF8ToString($1),
+            crs: UTF8ToString($2), offset: [$3, $4, $5],
+            legs: $6, surfaceLegs: $7, xsects: $8, tubes: $9,
+            stations: []
+        });
+        delete Module.avenTest.terrain;
+    }, file.utf8_str().data(), m_Title.utf8_str().data(),
+       m_cs_proj.utf8_str().data(),
+       m_Offset.GetX(), m_Offset.GetY(), m_Offset.GetZ(),
+       web_leg_count, web_surface_leg_count, web_xsect_count, tubes.size());
+    for (const auto* label : m_Labels) {
+        const Vector3 world = *label + m_Offset;
+        EM_ASM({
+            Module.avenTest.model.stations.push({
+                name: UTF8ToString($0), world: [$1, $2, $3],
+                local: [$4, $5, $6], flags: $7
+            });
+        }, label->GetText().utf8_str().data(),
+           world.GetX(), world.GetY(), world.GetZ(),
+           label->GetX(), label->GetY(), label->GetZ(), label->get_flags());
+    }
+    EM_ASM({
+        const m = Module.avenTest.model;
+        console.log('AVEN_WEB_MODEL ' + JSON.stringify({
+            file: m.file, crs: m.crs, stations: m.stations.length,
+            legs: m.legs, xsects: m.xsects, tubes: m.tubes
+        }));
+    });
 #endif
 
     return 0; // OK

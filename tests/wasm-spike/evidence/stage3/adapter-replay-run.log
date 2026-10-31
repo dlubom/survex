@@ -1,0 +1,1 @@
+PASS: inherited attributes, nested/redefined lists, matrix ordering, flat shading, bitmap labels, wire/AA; 2369843 triangles x 2 passes, 14219058 vertices, 1158 draws, max batch 12288, retained heap delta 189699376 bytes, heap 216858624 bytes

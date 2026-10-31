@@ -1,0 +1,20 @@
+{
+  "baseline_source": "f024f2d00d110b9023b37d6a9f2b974dea084bd6",
+  "before_public_static_commit": "949e320deecaaca6478f2a51f091c3b9191cb270",
+  "cause": "aven_open_files was in JSPI_EXPORTS but absent from the pinned wx scheduler activation wrappers; a modal suspension ended without releasing its resumed window.",
+  "fix": "Register aven_open_files via __wxScheduler.installExportWraps during runtime initialization. No warning suppression or timeout-based recovery.",
+  "regression": "browser-file-error-check.js fails before and passes after; modal activation is named aven_open_files, its live window is null after completion, valid file loads next; no errors/warnings.",
+  "wasm_unchanged": true,
+  "native_source_unchanged": true,
+  "source_files": {
+    "tests/wasm-spike/aven-bootstrap.js": "f3345b67ace610648393dda4f8a5e219e9b0f73e55f99f65fcecceee0dfd3ad0",
+    "tests/wasm-spike/pages/browser-file-error-check.js": "0364365e2425e3aaecf264dfd05a39c30a847c8cede3d66f215ac349a2cab409",
+    "tests/wasm-spike/fixtures/invalid-browser-input.3d": "d5838372fe4c1f704780137b10ac0f2c206e5cb3aff9852e76de8d61eed732f9"
+  },
+  "artifacts": {
+    "aven.html": "2bf9304dbb05e78736ecc31c9818945b65521c8c83b956da2487016751b7aa86",
+    "aven.wasm": "d0ca27a5c5a615f7bb54155b58c69acd07e9e057ba4447cd05c794489bc21eec",
+    "aven.js": "b6f117feba02ce02ed9e6b908609bbe2d804d5d102afb132b75eb573fa3968e4",
+    "aven.data": "49fea552b16c639621dbe25b2357f3c5e49e188835d84ad9c84de326ba55fd4f"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "expectedDialog": true,
+  "rejected": {
+    "file": "/fixtures/synthetic-2180.3d",
+    "terrain": false,
+    "generatedTerrain": false
+  },
+  "recovered": {
+    "file": "/fixtures/synthetic-2180.3d",
+    "triangles": 8192,
+    "gl": {
+      "draws": 718,
+      "vertices": 119232,
+      "maxDrawVertices": 12288,
+      "backend": "WebGL2 shader/VBO",
+      "bitmaps": 498
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "pass": true
+}

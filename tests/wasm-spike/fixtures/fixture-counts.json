@@ -1,0 +1,42 @@
+{
+  "synthetic-2180": {
+    "node_labels": 7,
+    "unique_coordinate_tuples": 7,
+    "rendered_line_records": 6,
+    "xsect_records": 7,
+    "xsect_tubes": 2,
+    "cs": "EPSG:2180",
+    "sum_line_lengths_from_rounded_3d": 73.0,
+    "surface_line_records": 1,
+    "all_stations_inside_dem_sample_extent": true
+  },
+  "bundled-passage": {
+    "node_labels": 4,
+    "unique_coordinate_tuples": 4,
+    "rendered_line_records": 3,
+    "xsect_records": 14,
+    "xsect_tubes": 5,
+    "cs": null,
+    "sum_line_lengths_from_rounded_3d": 27.771907952610775,
+    "surface_line_records": 0
+  },
+  "real-nordalpenschacht-205": {
+    "node_labels": 20,
+    "unique_coordinate_tuples": 18,
+    "rendered_line_records": 17,
+    "xsect_records": 0,
+    "xsect_tubes": 0,
+    "cs": null,
+    "sum_line_lengths_from_rounded_3d": 90.74222167643542,
+    "surface_line_records": 0
+  },
+  "terrain": {
+    "bil_bytes": 8450,
+    "nrows": 65,
+    "ncols": 65,
+    "centre_height_m": 1510,
+    "min_m": 1502,
+    "max_m": 1518,
+    "zip_crc_ok": true
+  }
+}

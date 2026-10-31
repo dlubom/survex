@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "numpy": "2.4.6",
+  "pyproj": "3.7.2",
+  "PROJ": "9.5.1",
+  "hgt_sha256": "d2afeb74d418f197cbeea16a08e660f81d5f2e09e83e81a68263d5451250d645",
+  "models": {
+    "full": {
+      "samples": 1186869,
+      "triangles": 2369843,
+      "vertices": 7109529,
+      "pass": true
+    },
+    "czarna": {
+      "samples": 5031,
+      "triangles": 9826,
+      "vertices": 29478,
+      "pass": true
+    }
+  }
+}

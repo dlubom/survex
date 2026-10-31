@@ -1,0 +1,20 @@
+{
+  "wx_revision": "01b74ea19a09968277f59475f8919f2d2a4ff00e",
+  "build_command": "source /private/tmp/aven-wasm-spike/emsdk/emsdk_env.sh; emmake make -j4 -C /private/tmp/aven-wasm-spike/wx-build",
+  "build_exit": 0,
+  "js_syntax": "node --check build/wasm/wx-dom.js: exit 0",
+  "shell_syntax": "bash -n apply-wx-patches.sh: exit 0",
+  "git_diff_check": "exit 0",
+  "core_archive_sha256": "83c53383cef1ae1b63c430dde72e2d825b46fb99fdcedb5ec162a0f92ec1c52a",
+  "warnings": "Existing wxLogRecordInfo non-trivial memset/memcpy warnings; no compile errors.",
+  "browser_validation": "Subsequent root browser acceptance PASS; see ui-results.json for actual layout, tree Enter, search and spin-control checks.",
+  "build_log": "build-focusout.log",
+  "patch_sha256": "076287fdee943aa63571d747ba4107d2070c39900d9bcb6f658d21caa323cea7",
+  "fixes": [
+    "Toolbar control slots and resize layout",
+    "Single toolbar frame origin",
+    "Enter character delivery",
+    "WASM text-size API for generic SpinCtrl formatted ranges",
+    "DOM focusout synchronizes wx focus and commits generic SpinCtrl edits"
+  ]
+}

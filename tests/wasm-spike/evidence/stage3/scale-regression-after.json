@@ -1,0 +1,6 @@
+{
+  "exit": 0,
+  "stdout": "PASS: actual Aven volume rescaling, first wheel, reverse wheel and zoom bounds\n",
+  "stderr": "",
+  "execution": "outside sandbox; Cocoa initialization permitted"
+}

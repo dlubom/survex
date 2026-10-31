@@ -1,0 +1,105 @@
+{
+  "source": "/private/tmp/aven-webgl2-stage3-common-src",
+  "build_directory": "/private/tmp/aven-webgl2-stage3-native",
+  "copied_files": [
+    "src/gfxcore.cc",
+    "src/guicontrol.cc",
+    "src/aven-webgl.cc",
+    "lib/images/texture.png"
+  ],
+  "source_hashes": {
+    "src/aven.cc": "87b976ad10b20d7564deb2cec4ff58c1dc60a734a120415123a9e48d4cb690e6",
+    "src/gfxcore.cc": "df65f5c8d153c2604e1652e44254620d7073704575e0324638010acc67009ec2",
+    "src/gfxcore.h": "dc001977379aafdf45581d3f68a995f1078cd4b47a728efe6d84779c5edbd31f",
+    "src/gla.h": "dcb3f07e02f7172901a020650aaaf598fb1bc4c168c35af041831d2b99d19c29",
+    "src/model.cc": "390c17587cac50a0cf68deb5afce1c53c5a94ca06161768533f43a80b9115224",
+    "src/guicontrol.cc": "1790b864c6e98cd8cc676dbc4a7d82af6adfea55d58690df67d721cef83715e5",
+    "src/aven-webgl.cc": "bd4739a4fd2b34437be8879a4a07ccac2df8567fd559451575da1f53d6cff709",
+    "src/aven-webgl.h": "7ee0251f3bc1431305cbfc0366cb2c53bee237e9cc3594dcc5ab88efea2c4388",
+    "src/aven-webgl-matrix.h": "957d00e626d8c5714b7b173441504941369e9064ce46494eb9e89965008075fd",
+    "src/gla-gl.cc": "82cf35e3d5c868d2170e4f794636ed19001c21269b8805cffbe27db111fa377c",
+    "src/glbitmapfont.cc": "8d18ca0f4d5ca7da54dda3443af9093ebcb24010e516752a14da61fb6a18575d",
+    "src/mainfrm.cc": "3c3cd505a5f782450c4418c25e12a1833646ffe2b9547d8328320ce42ebc8dd5",
+    "src/mainfrm.h": "b5c5254c26285f4de735a35206ed1588d9ff074ea2486b4b8f04ba5f85a4e139",
+    "src/log.cc": "98a7448f644dca0d8b3abb6442575edec222795fb2ec68d565eac37a5a113319",
+    "src/log.h": "5ab1e96712d611c63df6690ed71693e277fecc0baa46569168ce769d9223e44a",
+    "lib/images/texture.png": "8af616f8896553bf5d8a6218b42852c5aed28e8ee3e8f589c46e9bae15774418",
+    "tests/wasm-spike/scale-regression.cc": "138a4b4a66bd3a0f249e9f634c4789e903eac65f502ae7434670dfc084a3ee3c",
+    "tests/wasm-spike/native-regressions.mk": "be1dbdf2d3e0418e3e7aa804f0563a98be78b4e47af649ea071ee9348edbf699"
+  },
+  "live_app_hashes_before": {
+    "/private/tmp/aven-webgl2-stage3-native/Aven Stage3.app/Contents/MacOS/aven-bin": "382b9276e1e57589a07794ada6a93de08892ed5f7b4d27e44cfdaa5695a5e010",
+    "/private/tmp/aven-webgl2-stage3-native/Aven Stage3.app/Contents/MacOS/aven-launch": "76131959408597ef67512b19b499acf00f41b48f06e70a5b4917abeeff0145f7"
+  },
+  "refresh_review": "PASS: ToggleFog/ToggleAntiAlias only change flags; SetDataTransform reads both each paint. Refresh(false) schedules repaint without changing rendering algorithms or cached geometry.",
+  "build": {
+    "command": [
+      "make",
+      "-j4",
+      "-C",
+      "src",
+      "all",
+      "imgtest"
+    ],
+    "exit": 0,
+    "log": "/private/tmp/aven-webgl2-stage3-native/logs/build-final-review.log"
+  },
+  "check": {
+    "command": [
+      "make",
+      "-j1",
+      "-C",
+      "tests",
+      "check"
+    ],
+    "exit": 0,
+    "log": "/private/tmp/aven-webgl2-stage3-native/logs/check-final-review.log"
+  },
+  "scale_build": {
+    "command": [
+      "make",
+      "-j4",
+      "-C",
+      "src",
+      "-f",
+      "Makefile",
+      "-f",
+      "/private/tmp/aven-webgl2-stage3-common-src/tests/wasm-spike/native-regressions.mk",
+      "scale-regression"
+    ],
+    "exit": 0,
+    "log": "/private/tmp/aven-webgl2-stage3-native/logs/scale-build-final-review.log"
+  },
+  "scale_test": {
+    "exit": 0,
+    "stdout": "PASS: actual Aven volume rescaling, first wheel, reverse wheel and zoom bounds\n",
+    "stderr": "",
+    "execution": "outside sandbox; Cocoa initialization permitted"
+  },
+  "live_app_hashes_after": {
+    "/private/tmp/aven-webgl2-stage3-native/Aven Stage3.app/Contents/MacOS/aven-bin": "382b9276e1e57589a07794ada6a93de08892ed5f7b4d27e44cfdaa5695a5e010",
+    "/private/tmp/aven-webgl2-stage3-native/Aven Stage3.app/Contents/MacOS/aven-launch": "76131959408597ef67512b19b499acf00f41b48f06e70a5b4917abeeff0145f7"
+  },
+  "live_app_unchanged": true,
+  "source_matches_worktree": true,
+  "binary_sha256": "c342e2884bc3e96743b2a852efbf33808036139817cbf9176192ad8da23754f6",
+  "logs_sha256": {
+    "build-final-review.log": "bb74eea16ad3b537da687579bc7631b0d8ae792430270b75d7471f711b0da7f9",
+    "check-final-review.log": "1a9669d2cf6e9337b049372b8e551ebeac171f0a1d5e0a496db77287ed14ac91",
+    "scale-build-final-review.log": "7f9b39369f87f5eeae6a51eb1d5a5d86b689c1797280ad860a5d7477f8331ec0",
+    "scale-final-review.json": "0ee3ce65b07c26b7e19536459d0f96ddc5f177b979b74eef5ae9e2b75ba59a65",
+    "scale-final-review-unsandboxed.json": "c4823a5240df6070e1edcc6a95204cfe579fec9f8ba5897f8637b1b6258927bf"
+  },
+  "scale_test_sandboxed": {
+    "exit": -5,
+    "stdout": "",
+    "stderr": "2026-10-31 12:55:42.913 scale-regression[7185:7820184] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)\nSwift/SwiftNativeNSArray.swift:78: Fatal error: Array index out of range\n"
+  },
+  "suites": {
+    "total": 8,
+    "pass": 8,
+    "fail": 0,
+    "error": 0
+  },
+  "native_gui_scope": "Root verified the existing .app interactively. This review deliberately left that bundle unchanged; the newly rebuilt src/aven received native build, CLI suites and actual scale-regression verification."
+}

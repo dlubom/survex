@@ -1,0 +1,27 @@
+Filtered host/thread flags: ['-pthread', '-pthread', '-lSM']
+
+compile: /private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++ -std=c++17 -O0 -g3 -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -c /private/tmp/aven-wasm-spike/wx-smoke/smoke.cpp -o /private/tmp/aven-wasm-spike/wx-smoke/smoke.o
+In file included from /private/tmp/aven-wasm-spike/wx-smoke/smoke.cpp:2:
+In file included from /private/tmp/aven-wasm-spike/wxwidgets/include/wx/wx.h:23:
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147:16: warning: first argument in call to 'memset' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+  147 |         memset(this, 0, sizeof(*this));
+      |                ^
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147:16: note: explicitly cast the pointer to silence this warning
+  147 |         memset(this, 0, sizeof(*this));
+      |                ^
+      |                (void*)
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16: warning: first argument in call to 'memcpy' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+  281 |         memcpy(this, &other, sizeof(*this));
+      |                ^
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16: note: explicitly cast the pointer to silence this warning
+  281 |         memcpy(this, &other, sizeof(*this));
+      |                ^
+      |                (void*)
+2 warnings generated.
+
+compile exit: 0
+
+link: /private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++ -std=c++17 -O0 -g3 -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 /private/tmp/aven-wasm-spike/wx-smoke/smoke.o -L/private/tmp/aven-wasm-spike/wx-build/lib /private/tmp/aven-wasm-spike/wx-build/lib/libwx_wasmu_gl-3.2.a /private/tmp/aven-wasm-spike/wx-build/lib/libwx_wasmu_core-3.2.a /private/tmp/aven-wasm-spike/wx-build/lib/libwx_baseu-3.2.a -sUSE_LIBPNG=1 -sUSE_ZLIB=1 -lwxjpeg-3.2-wasm32-unknown-emscripten -lwxpng-3.2-wasm32-unknown-emscripten -lwxregexu-3.2-wasm32-unknown-emscripten -lwxscintilla-3.2-wasm32-unknown-emscripten -lwxexpat-3.2-wasm32-unknown-emscripten -lz -sJSPI=1 -sJSPI_EXPORTS=main,wx_dom_event,wx_dom_mouse,wx_window_close,wx_window_move,wx_window_resize,ProcessEvents,wxWasmMailboxTick,wxWasmTopLevelTick,wxWasmJobTick '-sEXPORTED_RUNTIME_METHODS=['"'"'HEAPU8'"'"','"'"'HEAP8'"'"','"'"'HEAP32'"'"','"'"'ccall'"'"','"'"'stackSave'"'"','"'"'stackRestore'"'"']' '-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$stringToNewUTF8' -sALLOW_MEMORY_GROWTH=1 -sMAX_WEBGL_VERSION=2 -sASSERTIONS=1 -sERROR_ON_UNDEFINED_SYMBOLS=1 --pre-js /private/tmp/aven-wasm-spike/support/jspi-scheduler.js --pre-js /private/tmp/aven-wasm-spike/wxwidgets/build/wasm/wx.js --pre-js /private/tmp/aven-wasm-spike/wxwidgets/build/wasm/wx-dom.js --shell-file /private/tmp/aven-wasm-spike/wxwidgets/build/wasm/template.html -o /private/tmp/aven-wasm-spike/wx-smoke/smoke.html
+em++: warning: -sJSPI (ASYNCIFY=2) is still experimental [-Wexperimental]
+
+link exit: 0

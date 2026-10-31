@@ -1,0 +1,27 @@
+{
+  "result": "PASS",
+  "platform": "macOS native wxWidgets",
+  "verification": "Interactive CUA validation performed by root agent; screenshot inspected by root agent.",
+  "binary_sha256": "c342e2884bc3e96743b2a852efbf33808036139817cbf9176192ad8da23754f6",
+  "screenshot": "native-final-czarna-dem.png",
+  "screenshot_sha256": "2cd6be16e5abb186614302dae0167a456a6ff376a2ab4311fd53891103c812db",
+  "final_binary_checks": [
+    "Aven relaunch",
+    "Czarna model with HGT terrain",
+    "station labels and survey tree",
+    "station BorowiecGorna:52",
+    "plan and elevation views"
+  ],
+  "earlier_binary_checks": {
+    "binary_sha256": "382b9276e1e57589a07794ada6a93de08892ed5f7b4d27e44cfdaa5695a5e010",
+    "checks": [
+      "station selection",
+      "rotation",
+      "zoom",
+      "Z stretch 2.0"
+    ]
+  },
+  "stderr": "native-ui.stderr.log",
+  "stderr_scope": "One macOS sandbox_extension_issue_file_to_process Operation not permitted launch diagnostic. Application remained functional; no observed GL error or crash. Native stderr is not empty.",
+  "source": "Root acceptance observations communicated after final native binary atomic replacement and relaunch."
+}

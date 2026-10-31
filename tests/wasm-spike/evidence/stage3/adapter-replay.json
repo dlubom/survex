@@ -1,0 +1,52 @@
+{
+  "test": "Actual adapter command capture/replay with inspecting CPU GL sink; not browser rasterisation",
+  "source_sha256": {
+    "src/aven-webgl.cc": "bd4739a4fd2b34437be8879a4a07ccac2df8567fd559451575da1f53d6cff709",
+    "src/aven-webgl.h": "7ee0251f3bc1431305cbfc0366cb2c53bee237e9cc3594dcc5ab88efea2c4388",
+    "src/aven-webgl-matrix.h": "957d00e626d8c5714b7b173441504941369e9064ce46494eb9e89965008075fd",
+    "tests/wasm-spike/adapter-replay-test.cc": "f252f793a306a93df64054852b5d6ac3ea14b7ca1e76394214c6aa970d651323"
+  },
+  "maximum_memory_bytes": 2147483648,
+  "triangle_count": 2369843,
+  "replay_passes": 2,
+  "expected_checked_vertices": 14219058,
+  "steps": [
+    {
+      "name": "compile",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++.py",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fwasm-exceptions",
+        "-sSUPPORT_LONGJMP=wasm",
+        "-sWASM_LEGACY_EXCEPTIONS=1",
+        "-sALLOW_MEMORY_GROWTH=1",
+        "-sMAXIMUM_MEMORY=2147483648",
+        "-sMIN_WEBGL_VERSION=2",
+        "-sMAX_WEBGL_VERSION=2",
+        "-sENVIRONMENT=node",
+        "-sASSERTIONS=1",
+        "-sERROR_ON_UNDEFINED_SYMBOLS=1",
+        "-Wall",
+        "-Wextra",
+        "/private/tmp/aven-webgl2-stage3-review-tests/tests/wasm-spike/adapter-replay-test.cc",
+        "-o",
+        "/private/tmp/aven-webgl2-stage3-replay-verified/adapter-replay-test.js"
+      ],
+      "exit_code": 0,
+      "log": "adapter-replay-compile.log"
+    },
+    {
+      "name": "run",
+      "command": [
+        "/opt/homebrew/bin/node",
+        "/private/tmp/aven-webgl2-stage3-replay-verified/adapter-replay-test.js"
+      ],
+      "exit_code": 0,
+      "log": "adapter-replay-run.log"
+    }
+  ],
+  "output": "PASS: inherited attributes, nested/redefined lists, matrix ordering, flat shading, bitmap labels, wire/AA; 2369843 triangles x 2 passes, 14219058 vertices, 1158 draws, max batch 12288, retained heap delta 189699376 bytes, heap 216858624 bytes\n"
+}

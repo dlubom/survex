@@ -127,7 +127,6 @@ struct Split {
 const int MAX_FRAMERATE = 50;
 
 class GfxCore : public GLACanvas {
-    double m_Scale = 0.0;
     double initial_scale = 1.0;
     int m_ScaleBarWidth = 0;
 
@@ -463,7 +462,6 @@ public:
     bool HasErrorInformation() const;
     bool HasDateInformation() const;
 
-    double GetScale() const { return m_Scale; }
     void SetScale(double scale);
 
     bool ShowingStationNames() const { return m_Names; }
@@ -565,6 +563,9 @@ public:
     void ToggleBoundingBox() { ToggleFlag(&m_BoundingBox); }
     bool DisplayingTerrain() const { return m_Terrain; }
     void ToggleTerrain();
+#ifdef __EMSCRIPTEN__
+    void ClearBrowserTerrain();
+#endif
     void ToggleFatFinger();
     void ToggleTextured() {
 	GLACanvas::ToggleTextured();

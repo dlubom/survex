@@ -1,0 +1,47 @@
+{
+  "result": "FAIL",
+  "failures": [
+    "DEM grid spacing differs from 1/(dimension-1)",
+    "Retained terrain sample count differs from native radius mask",
+    "Terrain triangle count differs from native radius mask",
+    "Captured terrain sample lies outside native radius mask",
+    "Source lon/lat differs from independent HGT point grid",
+    "Rendered DEM XY differs from native PROJ by >=1mm"
+  ],
+  "coverage": "all retained terrain vertices",
+  "samples_verified": 5040,
+  "retained_samples_reported": 5040,
+  "retained_samples_expected": 5031,
+  "triangles_reported": 9843,
+  "triangles_expected": 9826,
+  "native_cave_stations_verified": 464,
+  "native_cave_legs": 509,
+  "max_grid_lon_lat_error_deg": 0.00024707642938537333,
+  "max_projected_xy_error_m": 29.53835138846773,
+  "max_source_height_error_m": 0.0,
+  "max_world_local_offset_error_m": 0.0,
+  "hgt_sha256": "d2afeb74d418f197cbeea16a08e660f81d5f2e09e83e81a68263d5451250d645",
+  "model3d_sha256": "d729c89a56eccd13cf4a095b54d1ee44416cfbffe8122c3c01f1fb59bcab8972",
+  "snapshot_sha256": "fcf7f7533a62192113fb3b2b06dde0200de611aae217b6ac66a496c9299fb2aa",
+  "reference_sha256": "af9d1746abc764e15a133d53cad370b3d15ded85d651e222f085d84f51d053be",
+  "native_transform_command": [
+    "cs2cs",
+    "-f",
+    "%.12f",
+    "EPSG:4326",
+    "EPSG:32634"
+  ],
+  "vertical_datum": "unknown; no vertical transformation or fitted shift applied",
+  "process_exit_code": 1,
+  "command": [
+    "python3",
+    "/private/tmp/aven-webgl2-stage3-data-src/tests/wasm-spike/verify-kataster-terrain.py",
+    "/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/.playwright-mcp/czarna-hgt-before.json",
+    "--hgt",
+    "/private/tmp/aven-webgl2-kataster/assets/N49E019_VF1.hgt",
+    "--model3d",
+    "/private/tmp/aven-webgl2-kataster/assets/czarna.3d",
+    "--model",
+    "czarna"
+  ]
+}

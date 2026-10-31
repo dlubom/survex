@@ -1,0 +1,5 @@
+{
+  "unsupportedMessage": "Ta przeglądarka nie obsługuje wymaganego mechanizmu WebAssembly. Wypróbuj aktualne Chrome lub Edge.",
+  "appRequests": [],
+  "pass": true
+}
