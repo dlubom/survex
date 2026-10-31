@@ -32,7 +32,7 @@ async (page) => {
   };
   const screenshot = name => page.screenshot({path:'.playwright-mcp/'+name+'.png'});
   await page.setViewportSize({width:1200,height:802});
-  await page.goto('http://127.0.0.1:8766/aven.html');
+  await page.goto(new URL('/aven.html', page.url()).href);
   await page.waitForFunction(() => window.Module?.avenTest?.frames>0,null,{timeout:15000});
   result.actions.loaded = await state();
   check(result.actions.loaded.model.legs===17 && result.actions.loaded.model.stations.length===20,'real .3d counts');
@@ -82,9 +82,8 @@ async (page) => {
   await page.waitForFunction(()=>Math.abs(Module.avenTest.camera.tilt)<.01,null,{timeout:5000});
   const b=await page.locator('#glcanvas-1').boundingBox();
   await page.mouse.move(b.x+b.width*.5,b.y+b.height*.5);
-  // Existing Aven keeps a separate requested scale when terrain expands the
-  // viewing volume. Use the normal wheel control to frame the cave in section.
-  await page.mouse.wheel(0,1400); await page.waitForTimeout(150);
+  // Frame the cave in section through the ordinary wheel control.
+  await page.mouse.wheel(0,480); await page.waitForTimeout(150);
   result.actions.terrain=await state();
   result.terrain=await page.evaluate(()=>{
     const t=Module.avenTest.terrain,c=t.samples.find(s=>s.row===32&&s.column===32);

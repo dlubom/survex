@@ -266,11 +266,9 @@ void GfxCore::SetScale(double scale)
 	scale = GetVolumeDiameter();
     }
 
-    m_Scale = scale;
+    GLACanvas::SetScale(scale);
     m_HitTestGridValid = false;
     if (m_here && m_here == &temp_here) SetHere();
-
-    GLACanvas::SetScale(scale);
 }
 
 bool GfxCore::HasUndergroundLegs() const
@@ -358,12 +356,17 @@ void GfxCore::OnPaint(wxPaintEvent&)
                 pan: $0, tilt: $1, scale: $2, translation: [$3, $4, $5],
                 width: $6, height: $7,
                 names: !!$8, tubes: !!$9, terrain: !!$10,
-                stations: []
+                stations: [], stationCount: Module.avenTest.model.stations.length,
+                highlighted: $11
             });
-        }, m_PanAngle, m_TiltAngle, m_Scale,
+        }, m_PanAngle, m_TiltAngle, GetScale(),
            web_translation.GetX(), web_translation.GetY(), web_translation.GetZ(),
-           GetXSize(), GetYSize(), m_Names, m_Tubes, m_Terrain);
+           GetXSize(), GetYSize(), m_Names, m_Tubes, m_Terrain,
+           m_Parent->GetNumHighlightedPts());
+        size_t web_station_count = 0;
         for (auto i = m_Parent->GetLabels(); i != m_Parent->GetLabelsEnd(); ++i) {
+            // Keep acceptance observations bounded on full regional surveys.
+            if (++web_station_count > 1000) break;
             glaCoord sx, sy, sz;
             if (Transform(**i, &sx, &sy, &sz)) {
                 EM_ASM({
@@ -1491,35 +1494,35 @@ bool GfxCore::CheckHitTestGrid(const wxPoint& point, bool centre)
 
     if (!m_HitTestGridValid) CreateHitTestGrid();
 
-    int grid_x = point.x * HITTEST_SIZE / (GetXSize() + 1);
-    int grid_y = point.y * HITTEST_SIZE / (GetYSize() + 1);
-
     LabelInfo *best = NULL;
     int dist_sqrd = sqrd_measure_threshold;
-    int square = grid_x + grid_y * HITTEST_SIZE;
-    list<LabelInfo*>::iterator iter = m_PointGrid[square].begin();
-
-    while (iter != m_PointGrid[square].end()) {
-	LabelInfo *pt = *iter++;
-
-	double cx, cy, cz;
-
-	Transform(*pt, &cx, &cy, &cz);
-
-	cy = GetYSize() - cy;
-
-	int dx = point.x - int(cx);
-	int ds = dx * dx;
-	if (ds >= dist_sqrd) continue;
-	int dy = point.y - int(cy);
-
-	ds += dy * dy;
-	if (ds >= dist_sqrd) continue;
-
-	dist_sqrd = ds;
-	best = pt;
-
-	if (ds == 0) break;
+    // A nearby station may be in an adjacent cell, even for an exact click:
+    // projecting to double and rounding the mouse position to integer pixels
+    // can put them on opposite sides of a cell boundary. Search every cell
+    // touched by the selection radius (also covers fat-finger mode).
+    const int radius = int(ceil(sqrt(double(sqrd_measure_threshold))));
+    const int x_min = max(0, point.x - radius) * HITTEST_SIZE / (GetXSize() + 1);
+    const int x_max = min(GetXSize() - 1, point.x + radius) * HITTEST_SIZE / (GetXSize() + 1);
+    const int y_min = max(0, point.y - radius) * HITTEST_SIZE / (GetYSize() + 1);
+    const int y_max = min(GetYSize() - 1, point.y + radius) * HITTEST_SIZE / (GetYSize() + 1);
+    for (int grid_y = y_min; grid_y <= y_max; ++grid_y) {
+	for (int grid_x = x_min; grid_x <= x_max; ++grid_x) {
+	    int square = grid_x + grid_y * HITTEST_SIZE;
+	    for (LabelInfo* pt : m_PointGrid[square]) {
+		double cx, cy, cz;
+		Transform(*pt, &cx, &cy, &cz);
+		cy = GetYSize() - cy;
+		int dx = point.x - int(cx);
+		int ds = dx * dx;
+		if (ds >= dist_sqrd) continue;
+		int dy = point.y - int(cy);
+		ds += dy * dy;
+		if (ds >= dist_sqrd) continue;
+		dist_sqrd = ds;
+		best = pt;
+		if (ds == 0) break;
+	    }
+	}
     }
 
     if (best) {
@@ -2343,7 +2346,7 @@ void GfxCore::SetScaleBarFromOffset(wxCoord dx)
     // Set the scale of the survey, given an offset as to how much the mouse has
     // been dragged over the scalebar since the last scale change.
 
-    SetScale((m_ScaleBarWidth + dx) * m_Scale / m_ScaleBarWidth);
+    SetScale((m_ScaleBarWidth + dx) * GetScale() / m_ScaleBarWidth);
     ForceRefresh();
 }
 
@@ -2907,6 +2910,12 @@ GfxCore::read_bil(wxInputStream & is, size_t size, unsigned long skipbytes)
 	    know_size = false;
 	}
     }
+    // Each elevation sample is 16 bits. Reject a dangling byte before
+    // reading into an allocation rounded down to a whole number of samples.
+    if (know_size && size % sizeof(*dem) != 0) {
+	wxMessageBox(wxT("Terrain data has an odd byte count"));
+	return false;
+    }
     dem = new unsigned short[size / 2];
     if (skipbytes) {
 	if (is.SeekI(skipbytes, wxFromStart) == ::wxInvalidOffset) {
@@ -2938,13 +2947,15 @@ GfxCore::read_bil(wxInputStream & is, size_t size, unsigned long skipbytes)
 
     if (dem_width == 0 && dem_height == 0) {
 	dem_width = dem_height = sqrt(size / 2);
-	if (dem_width * dem_height * 2 != size) {
+        if (dem_width < 2 || dem_width * dem_height * 2 != size) {
 	    delete [] dem;
 	    dem = NULL;
 	    wxMessageBox(wxT("HGT format data doesn't form a square"));
 	    return false;
 	}
-	step_x = step_y = 1.0 / dem_width;
+	// HGT includes samples on both degree boundaries: N samples span
+	// N-1 intervals. Dividing by N displaced the terrain horizontally.
+	step_x = step_y = 1.0 / (dem_width - 1);
     }
 
     return true;
@@ -3125,7 +3136,13 @@ void GfxCore::DrawTerrain()
 	delete [] dem;
 	dem = NULL;
 	hourglass.stop();
-	error(/*Failed to initialise output coordinate system “%s”*/288, (const char *)m_Parent->GetCSProj().c_str());
+	// A modal dialog here would re-enter painting while DrawList() is
+	// still recording GL commands. Report after the list is finalised.
+	const wxString cs_proj = m_Parent->GetCSProj();
+	CallAfter([cs_proj] {
+	    error(/*Failed to initialise output coordinate system “%s”*/288,
+		  cs_proj.utf8_str().data());
+	});
 	return;
     }
     n_tris = 0;
@@ -3139,7 +3156,8 @@ void GfxCore::DrawTerrain()
         Module.avenTest.terrain = ({
             width: $0, height: $1, originLonLat: [$2, $3],
             spacing: [$4, $5], offset: [$6, $7, $8],
-            crs: UTF8ToString($9), samples: [], triangles: 0
+            crs: UTF8ToString($9), samples: [], sampleCount: 0,
+            samplesTruncated: false, triangles: 0
         });
     }, dem_width, dem_height, o_x, o_y, step_x, step_y,
        off.GetX(), off.GetY(), off.GetZ(), m_Parent->GetCSProj().utf8_str().data());
@@ -3185,10 +3203,13 @@ void GfxCore::DrawTerrain()
                         // Record the actual PROJ result and the exact vertex
                         // passed to the terrain triangulation below.
                         EM_ASM({
-                            Module.avenTest.terrain.samples.push({
+                            const t = Module.avenTest.terrain;
+                            ++t.sampleCount;
+                            if (t.samples.length < 10000) t.samples.push({
                                 column: $0, row: $1, source: [$2, $3, $4],
                                 world: [$5, $6, $7], local: [$8, $9, $10]
                             });
+                            else t.samplesTruncated = true;
                         }, x, y, coord.xyzt.x, coord.xyzt.y, coord.xyzt.z,
                            r.xyzt.x, r.xyzt.y, r.xyzt.z,
                            pt.GetX(), pt.GetY(), pt.GetZ());
@@ -3277,11 +3298,14 @@ void GfxCore::DrawTerrain()
 	delete [] dem;
 	dem = NULL;
 	hourglass.stop();
-	/* TRANSLATORS: Aven shows a circle of terrain covering the area
-	 * of the survey plus a bit, but the terrain data file didn't
-	 * contain any data inside that circle.
-	 */
-	error(/*No terrain data near area of survey*/161);
+	// Finish compiling the terrain list before a modal can re-enter paint.
+	CallAfter([] {
+	    /* TRANSLATORS: Aven shows a circle of terrain covering the area
+	     * of the survey plus a bit, but the terrain data file didn't
+	     * contain any data inside that circle.
+	     */
+	    error(/*No terrain data near area of survey*/161);
+	});
     } else {
 	terrain_diameter = sqrt(r_sqrd + sqrd(abs_z_max)) * 2.0;
 	UpdateVolumeDiameter();
@@ -4236,7 +4260,7 @@ GfxCore::MoveViewer(double forward, double up, double right)
 PresentationMark GfxCore::GetView() const
 {
     return PresentationMark(GetTranslation() + m_Parent->GetOffset(),
-			    m_PanAngle, -m_TiltAngle, m_Scale);
+			    m_PanAngle, -m_TiltAngle, GetScale());
 }
 
 void GfxCore::SetView(const PresentationMark & p)

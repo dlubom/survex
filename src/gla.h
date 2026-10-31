@@ -276,6 +276,7 @@ public:
 	m_Pan = pan;
 	m_Tilt = tilt;
     }
+    double GetScale() const { return m_Scale; }
     void SetScale(double);
     void SetTranslation(const Vector3 &v) {
 	m_Translation = v;

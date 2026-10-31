@@ -1,0 +1,194 @@
+{
+  "browser": "156.0.8078.74",
+  "checks": [
+    {
+      "name": "initial controls follow tools",
+      "pass": true,
+      "observed": {
+        "controls": [
+          {
+            "value": "Find stations",
+            "left": 709,
+            "top": 25,
+            "right": 847,
+            "bottom": 44,
+            "width": 138,
+            "height": 19
+          },
+          {
+            "value": "1.0",
+            "left": 855,
+            "top": 24,
+            "right": 893,
+            "bottom": 46,
+            "width": 38,
+            "height": 22
+          }
+        ],
+        "lastTool": {
+          "left": 655,
+          "top": 24,
+          "right": 680,
+          "bottom": 45,
+          "width": 25,
+          "height": 21
+        },
+        "canvas": {
+          "left": 247,
+          "top": 51,
+          "right": 1200,
+          "bottom": 781,
+          "width": 953,
+          "height": 730
+        },
+        "viewport": [
+          1200,
+          802
+        ]
+      }
+    },
+    {
+      "name": "initial statusbar space",
+      "pass": true,
+      "observed": {
+        "left": 247,
+        "top": 51,
+        "right": 1200,
+        "bottom": 781,
+        "width": 953,
+        "height": 730
+      }
+    },
+    {
+      "name": "tree ArrowUp + Enter activates station 16",
+      "pass": true,
+      "observed": "205.2.16"
+    },
+    {
+      "name": "search finds and centres station",
+      "pass": true,
+      "observed": {
+        "searchBefore": [
+          4.889999999999999,
+          13.810000000000002,
+          19.415
+        ],
+        "searchAfter": [
+          9.75,
+          16.39,
+          19.415
+        ]
+      }
+    },
+    {
+      "name": "Z arrow applies 1.1 exaggeration",
+      "pass": true,
+      "observed": {
+        "zBefore": 520.7839654457024,
+        "zAfter": 572.8623619902728
+      }
+    },
+    {
+      "name": "typed Z value commits on Tab",
+      "pass": true,
+      "observed": {
+        "zBefore": 520.7839654457024,
+        "zTyped": 1041.5679308914048
+      }
+    },
+    {
+      "name": "typed Z value commits on focus loss",
+      "pass": true,
+      "observed": {
+        "zBefore": 520.7839654457024,
+        "zBlur": 520.7839654457024
+      }
+    },
+    {
+      "name": "resized controls follow tools",
+      "pass": true,
+      "observed": {
+        "controls": [
+          {
+            "value": "Find stations",
+            "left": 709,
+            "top": 25,
+            "right": 847,
+            "bottom": 44,
+            "width": 138,
+            "height": 19
+          },
+          {
+            "value": "1.0",
+            "left": 855,
+            "top": 24,
+            "right": 893,
+            "bottom": 46,
+            "width": 38,
+            "height": 22
+          }
+        ],
+        "lastTool": {
+          "left": 655,
+          "top": 24,
+          "right": 680,
+          "bottom": 45,
+          "width": 25,
+          "height": 21
+        },
+        "canvas": {
+          "left": 247,
+          "top": 51,
+          "right": 1000,
+          "bottom": 699,
+          "width": 753,
+          "height": 648
+        },
+        "viewport": [
+          1000,
+          720
+        ]
+      }
+    },
+    {
+      "name": "resized statusbar space",
+      "pass": true,
+      "observed": {
+        "left": 247,
+        "top": 51,
+        "right": 1000,
+        "bottom": 699,
+        "width": 753,
+        "height": 648
+      }
+    },
+    {
+      "name": "first DEM wheel zoom is continuous",
+      "pass": true,
+      "observed": {
+        "before": {
+          "pixels": 197.36939570909442,
+          "scale": 1,
+          "frames": 3
+        },
+        "after": {
+          "pixels": 261.06458714636045,
+          "scale": 71.54514052704246,
+          "frames": 4
+        },
+        "ratio": 1.3227207096035662
+      }
+    },
+    {
+      "name": "console errors",
+      "pass": true,
+      "observed": []
+    },
+    {
+      "name": "console warnings",
+      "pass": true,
+      "observed": []
+    }
+  ],
+  "pass": true
+}

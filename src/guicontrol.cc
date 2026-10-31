@@ -1121,6 +1121,7 @@ void GUIControl::OnViewTexturedUpdate(wxUpdateUIEvent& cmd)
 void GUIControl::OnViewFog()
 {
     m_View->ToggleFog();
+    m_View->Refresh(false);
 }
 
 void GUIControl::OnViewFogUpdate(wxUpdateUIEvent& cmd)
@@ -1132,6 +1133,7 @@ void GUIControl::OnViewFogUpdate(wxUpdateUIEvent& cmd)
 void GUIControl::OnViewSmoothLines()
 {
     m_View->ToggleAntiAlias();
+    m_View->Refresh(false);
 }
 
 void GUIControl::OnViewSmoothLinesUpdate(wxUpdateUIEvent& cmd)

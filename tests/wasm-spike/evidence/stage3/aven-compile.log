@@ -1,0 +1,83 @@
+emmake: "make -j4 -C src -f Makefile -f ../objects.mk aven-wasm-objects" in "/private/tmp/aven-webgl2-stage3-build"
+/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++ -DHAVE_CONFIG_H -I. -I/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src -I..    -Wall -Wunused -Wpointer-arith      -Wwrite-strings -Wcast-align -Wno-sign-compare   -I/private/tmp/aven-wasm-spike/target/include  -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -pthread -O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -DAVEN_WEB_TEST=1 -MT aven-gfxcore.o -MD -MP -MF .deps/aven-gfxcore.Tpo -c -o aven-gfxcore.o `test -f 'gfxcore.cc' || echo '/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/'`gfxcore.cc
+/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++ -DHAVE_CONFIG_H -I. -I/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src -I..    -Wall -Wunused -Wpointer-arith      -Wwrite-strings -Wcast-align -Wno-sign-compare   -I/private/tmp/aven-wasm-spike/target/include  -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -pthread -O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -DAVEN_WEB_TEST=1 -MT aven-model.o -MD -MP -MF .deps/aven-model.Tpo -c -o aven-model.o `test -f 'model.cc' || echo '/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/'`model.cc
+/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++ -DHAVE_CONFIG_H -I. -I/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src -I..    -Wall -Wunused -Wpointer-arith      -Wwrite-strings -Wcast-align -Wno-sign-compare   -I/private/tmp/aven-wasm-spike/target/include  -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -pthread -O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -DAVEN_WEB_TEST=1 -MT aven-glbitmapfont.o -MD -MP -MF .deps/aven-glbitmapfont.Tpo -c -o aven-glbitmapfont.o `test -f 'glbitmapfont.cc' || echo '/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/'`glbitmapfont.cc
+/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/em++ -DHAVE_CONFIG_H -I. -I/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src -I..    -Wall -Wunused -Wpointer-arith      -Wwrite-strings -Wcast-align -Wno-sign-compare   -I/private/tmp/aven-wasm-spike/target/include  -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -pthread -O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -DAVEN_WEB_TEST=1 -MT aven-guicontrol.o -MD -MP -MF .deps/aven-guicontrol.Tpo -c -o aven-guicontrol.o `test -f 'guicontrol.cc' || echo '/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/'`guicontrol.cc
+In file included from /Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/guicontrol.cc:26:
+In file included from /Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/guicontrol.h:27:
+In file included from /private/tmp/aven-wasm-spike/wxwidgets/include/wx/wx.h:23:
+In file included from /Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/model.cc:27:
+In file included from /Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/model.h:27:
+In file included from /private/tmp/aven-wasm-spike/wxwidgets/include/wx/wx.h:/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147In file included from /Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/gfxcore.cc:23:
+In file included from 33/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/glbitmapfont.cc:
+:In file included from 25/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/aven.h:
+:In file included from 45/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/glbitmapfont.h:
+:In file included from 26/private/tmp/aven-wasm-spike/wxwidgets/include/wx/wx.h:
+:In file included from 23/private/tmp/aven-wasm-spike/wxwidgets/include/wx/wx.h:
+:23:
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147:16/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:16:: /private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.hwarning: : 147warning: ::16first argument in call to 'memset' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]:
+ 147first argument in call to 'memset' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]:
+16  147warning: :first argument in call to 'memset' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall] 
+ |    147 |    147warning:   first argument in call to 'memset' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall] 
+   147   |      |         me     mse      t(mteh mis, msee0mts,(e tt(thhmisesizeofm, 0is(s,*, 0, th eitss(i)tz)sh;ii
+      eszeof| o               ^f
+(*t,hi(*this));
+      | s               ^
+ 0, sizeof(*this));
+      |                ^
+));
+      |                ^
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147:16:/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h /private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:147:16:note: :16 explicitly cast the pointer to silence this warning
+:147:note: : explicitly cast the pointer to silence this warning16
+:   note: 147note:  | explicitly cast the pointer to silence this warning 
+explicitly cast the pointer to silence this warning  147  |  
+    147  |              memm  se met(  147 st hmi |    eems t(te   shi , 0ts,,(  ts0, sizemheiizoesfo,(f *(*thm0, stsetiizeh(thsofis))i);)s
+;      ,|                 ^(
+0*      ,| t                (void*)h
+sis
+      |                ^
+      | i               (void*)
+zeof(*this));
+      |                ^
+      |                (void*)
+));
+      |                ^
+      |                (void*)
+/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16: warning: first argument in call to 'memcpy' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+  281 |   /private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16:       memcpy(this,/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16:warning:  first argument in call to 'memcpy' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+ /private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h&:  281281: | 16o:  t     warning: hefirst argument in call to 'memcpy' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]warning: first argument in call to 'memcpy' is a pointer to non-trivially copyable type 'wxLogRecordInfo' [-Wnontrivial-memcall]
+r, si    mem
+ze  281281cof(* | py(t |  htihis , & s ) )  ;
+o          ther   |  m               ^ 
+memcpy/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:,e mcpy(281sizt(t:16ehhi: sonote: fi,explicitly cast the pointer to silence this warning
+ &ot  (her281*,t |  sis    hzeo,   i &os )fm)(e;
+tm*this)hcpy(t)      | e;               ^
+
+      | r, hsize/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16:               ^
+oi/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h:281:16: note: s, explicitly cast the pointer to silence this warning
+ fnote: explicitly cast the pointer to silence this warning
+&o  281 | th(  e  281 |        me*   th mcpr,yis(t  sizeof(hi s)*, &oth thmeir, siesz));
+)      | ;mcp
+      |                ^
+               ^yeof(*(th
+i/private/tmp/aven-wasm-spike/wxwidgets/include/wx/log.h      :| 281s:               (void*)16
+: , &otherth, sis))note: explicitly cast the pointer to silence this warning
+  281 |  ;  i
+      |                ^
+ zeo       |                (void*)
+   memcpy(this, &other, sizeof(*this));
+      |                ^
+f      |                (void*)
+(*this));
+      |                ^
+      |                (void*)
+2 warnings generated.
+mv -f .deps/aven-glbitmapfont.Tpo .deps/aven-glbitmapfont.Po
+/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten/emcc -DHAVE_CONFIG_H -I. -I/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src -I..    -Wall -Wunused -Wpointer-arith      -Wwrite-strings -Wcast-align  -I/private/tmp/aven-wasm-spike/target/include -I/private/tmp/aven-wasm-spike/wx-build/lib/wx/include/wasm32-unknown-emscripten-wasm-unicode-static-3.2 -I/private/tmp/aven-wasm-spike/wxwidgets/include -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE= -D__WXWASM__ -pthread -DAVEN -O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1 -MT aven-z_getopt.o -MD -MP -MF .deps/aven-z_getopt.Tpo -c -o aven-z_getopt.o `test -f 'z_getopt.c' || echo '/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex/src/'`z_getopt.c
+2 warnings generated.
+mv -f .deps/aven-guicontrol.Tpo .deps/aven-guicontrol.Po
+mv -f .deps/aven-z_getopt.Tpo .deps/aven-z_getopt.Po
+2 warnings generated.
+mv -f .deps/aven-model.Tpo .deps/aven-model.Po
+2 warnings generated.
+mv -f .deps/aven-gfxcore.Tpo .deps/aven-gfxcore.Po

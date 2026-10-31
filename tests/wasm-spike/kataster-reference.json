@@ -1,0 +1,295 @@
+{
+  "provenance": {
+    "repo": "/Users/dariuszlubomski/proj/Jaskiniowy-Kataster-Tatr-Zachodnich",
+    "commit": "3f865414d1dacaa15cd5477e567b0f852c43b32d",
+    "git_status": "",
+    "source_model": "KATASTER.wpj compiled using current tracked inputs; existing untracked KATASTER.3d deliberately not used",
+    "compile_command": "cavern -o /private/tmp/aven-webgl2-kataster/KATASTER.3d /Users/dariuszlubomski/proj/Jaskiniowy-Kataster-Tatr-Zachodnich/KATASTER.wpj",
+    "compiler": "Survex 1.4.24",
+    "compiler_warnings": 0,
+    "compiler_errors": 0,
+    "git_status_after_preparation": ""
+  },
+  "crs": {
+    "model": "EPSG:32634",
+    "dem_horizontal": "EPSG:4326 WGS84 geographical point samples",
+    "dem_vertical": "unknown: local source README does not specify vertical datum; no shift applied",
+    "cave_vertical": "mixed source entrance heights; no universal vertical datum declared",
+    "transform_vertical": "Z passed unchanged; this is horizontal CRS transformation, not a vertical datum conversion"
+  },
+  "licensing": {
+    "survey": "Repository CC BY-SA 4.0; source per-SRV metadata retained in source checkout",
+    "dem": "Viewfinder Panoramas Jonathan de Ferranti; repository README says freely available for public use and links source; exact redistribution terms not independently established in this offline audit"
+  },
+  "hgt": {
+    "source": "/Users/dariuszlubomski/proj/Jaskiniowy-Kataster-Tatr-Zachodnich/Powierzchnia/Survex/N49E019_VF1.hgt",
+    "bytes": 25934402,
+    "sha256": "d2afeb74d418f197cbeea16a08e660f81d5f2e09e83e81a68263d5451250d645",
+    "shape": [
+      3601,
+      3601
+    ],
+    "sample_byte_order": "big endian signed int16",
+    "nodata": -32768,
+    "first_sample_lon_lat": [
+      19,
+      50
+    ],
+    "last_sample_lon_lat": [
+      20,
+      49
+    ],
+    "step_deg": 0.0002777777777777778,
+    "gdal_alias": "N49E019.hgt is byte-identical local copy solely because GDAL rejects _VF1 suffix",
+    "no_resample_or_vertical_shift": true
+  },
+  "subset": {
+    "command": "survexport --survey=Czarna --3d --legs --surface-legs --splays --station-names --entrances --fixes --exports KATASTER.3d czarna.3d",
+    "exact_geometry_and_node_flags_match": true,
+    "losses": [
+      "outer Czarna prefix removed",
+      "leg survey names/styles and ERROR_INFO omitted by native survexport; not a metadata-parity fixture"
+    ],
+    "full_authoritative_model": "/private/tmp/aven-webgl2-kataster/assets/kataster.3d"
+  },
+  "crop": {
+    "purpose": "first bounded browser validation; exact original HGT samples, no resampling/reprojection/vertical shift",
+    "source_pixel_window": [
+      3100,
+      2680,
+      107,
+      72
+    ],
+    "first_sample_lon_lat": [
+      19.86111111111111,
+      49.25555555555555
+    ],
+    "step_deg": 0.0002777777777777778,
+    "bit_exact_source_window_verified": true,
+    "bil_bytes": 15408,
+    "zip_bytes": 10688
+  },
+  "assets": {
+    "czarna-terrain.hdr": {
+      "path": "/private/tmp/aven-webgl2-kataster/assets/czarna-terrain.hdr",
+      "bytes": 249,
+      "sha256": "4076e12e12d048697428e69b664b04bcae2a2f4cf631c54028ea766f94c801ee"
+    },
+    "kataster.3d": {
+      "path": "/private/tmp/aven-webgl2-kataster/assets/kataster.3d",
+      "bytes": 659882,
+      "sha256": "afc1d80073c528c9ab28a922bdf2c0f12ba546b456f3b1beaf4542e6d9277c25"
+    },
+    "czarna-terrain.zip": {
+      "path": "/private/tmp/aven-webgl2-kataster/assets/czarna-terrain.zip",
+      "bytes": 10688,
+      "sha256": "84d5cd8d4ec262f48b734d2e5d82b486f865a8a9d400698409fbe48f163bd86b"
+    },
+    "czarna-terrain.prj": {
+      "path": "/private/tmp/aven-webgl2-kataster/assets/czarna-terrain.prj",
+      "bytes": 146,
+      "sha256": "4e0fe7f616bb23140c8fc3a9f2154ce5149f4c9cad0d0e65c261558f5cad8e33"
+    },
+    "N49E019_VF1.hgt": {
+      "path": "/private/tmp/aven-webgl2-kataster/assets/N49E019_VF1.hgt",
+      "bytes": 25934402,
+      "sha256": "d2afeb74d418f197cbeea16a08e660f81d5f2e09e83e81a68263d5451250d645"
+    },
+    "czarna-terrain.bil": {
+      "path": "/private/tmp/aven-webgl2-kataster/assets/czarna-terrain.bil",
+      "bytes": 15408,
+      "sha256": "c426a2f622cb5b5153b174a9daca2267dc641af39de91b83a7d89f0bef825908"
+    },
+    "czarna.3d": {
+      "path": "/private/tmp/aven-webgl2-kataster/assets/czarna.3d",
+      "bytes": 15339,
+      "sha256": "d729c89a56eccd13cf4a095b54d1ee44416cfbffe8122c3c01f1fb59bcab8972"
+    }
+  },
+  "models": {
+    "full": {
+      "counts": {
+        "TITLE": 1,
+        "DATE": 1,
+        "DATE_NUMERIC": 1,
+        "CS": 1,
+        "VERSION": 1,
+        "SEPARATOR": 1,
+        "--": 1,
+        "LEG": 18553,
+        "ERROR_INFO": 426,
+        "NODE": 18539,
+        "STOP": 1
+      },
+      "named_nodes": 12110,
+      "bounds_min": [
+        413421.62,
+        5452928.63,
+        992.41
+      ],
+      "bounds_max": [
+        431570.49,
+        5458248.83,
+        2027.84
+      ],
+      "offset": [
+        422496.055,
+        5455588.73,
+        1510.125
+      ],
+      "extent": [
+        18148.869999999995,
+        5320.200000000186,
+        1035.4299999999998
+      ],
+      "radius": 18940.911424791622,
+      "geometry_legs": 18553,
+      "lrud_xsects": 0,
+      "lrud_limit": "Survex Walls reader parses but ignores LRUD per local doc/Survex_manual/walls.rst:131; no LRUD in freshly compiled .3d",
+      "entrances_outside_dem": [
+        "Koszowa:0",
+        "SzczelinaNadLejem:0",
+        "WyzKoszowaDziura:0"
+      ],
+      "hgt_samples_retained": 1186869,
+      "hgt_height_range_retained_m": [
+        634,
+        2485
+      ],
+      "raw_samples_transformed_before_radius_filter": 12967201,
+      "approx_triangle_count": 2373738,
+      "vertex_upload_estimate_bytes": 370303128,
+      "hgt_triangles_expected": 2369843,
+      "vertex_upload_exact_bytes": 369695508,
+      "vertex_count_expected": 7109529
+    },
+    "czarna": {
+      "counts": {
+        "TITLE": 1,
+        "DATE": 1,
+        "DATE_NUMERIC": 1,
+        "CS": 1,
+        "VERSION": 1,
+        "SEPARATOR": 1,
+        "--": 1,
+        "LEG": 509,
+        "NODE": 464,
+        "STOP": 1
+      },
+      "named_nodes": 464,
+      "bounds_min": [
+        417782.54,
+        5455237.12,
+        1187.25
+      ],
+      "bounds_max": [
+        418582.25,
+        5455524.64,
+        1468.62
+      ],
+      "offset": [
+        418182.395,
+        5455380.88,
+        1327.935
+      ],
+      "extent": [
+        799.710000000021,
+        287.51999999955297,
+        281.3699999999999
+      ],
+      "radius": 1000,
+      "geometry_legs": 509,
+      "lrud_xsects": 0,
+      "lrud_limit": "Survex Walls reader parses but ignores LRUD per local doc/Survex_manual/walls.rst:131; no LRUD in freshly compiled .3d",
+      "entrances_outside_dem": [],
+      "hgt_samples_retained": 5031,
+      "hgt_height_range_retained_m": [
+        982,
+        1778
+      ],
+      "raw_samples_transformed_before_radius_filter": 12967201,
+      "approx_triangle_count": 10062,
+      "vertex_upload_estimate_bytes": 1569672,
+      "hgt_triangles_expected": 9826,
+      "vertex_upload_exact_bytes": 1532856,
+      "vertex_count_expected": 29478,
+      "entrances": [
+        {
+          "name": "Kujat:0",
+          "world": [
+            418581.57,
+            5455524.64,
+            1403.92
+          ],
+          "flags": [
+            "UNDERGROUND",
+            "ENTRANCE",
+            "EXPORTED",
+            "FIXED"
+          ],
+          "lon_lat": [
+            19.881298017333425,
+            49.24707458655438
+          ],
+          "dem_coverage": true,
+          "nearest_hgt_sample": {
+            "column": 3173,
+            "row": 2711,
+            "lon_lat": [
+              19.88138888888889,
+              49.246944444444445
+            ],
+            "world": [
+              418587.96945570357,
+              5455510.0746743,
+              1421
+            ],
+            "distance_xy_m": 15.909171758503108,
+            "dem_minus_entrance_z_m": 17.079999999999927
+          },
+          "old_aven_hgt_grid_horizontal_error_m": 29.290893911853885
+        },
+        {
+          "name": "KujatGlowny:0",
+          "world": [
+            417791.68,
+            5455240.34,
+            1323.42
+          ],
+          "flags": [
+            "UNDERGROUND",
+            "ENTRANCE",
+            "EXPORTED",
+            "FIXED"
+          ],
+          "lon_lat": [
+            19.870505338550654,
+            49.24441214442544
+          ],
+          "dem_coverage": true,
+          "nearest_hgt_sample": {
+            "column": 3134,
+            "row": 2720,
+            "lon_lat": [
+              19.870555555555555,
+              49.24444444444445
+            ],
+            "world": [
+              417795.3885128059,
+              5455243.876106362,
+              1336
+            ],
+            "distance_xy_m": 5.124169731297799,
+            "dem_minus_entrance_z_m": 12.579999999999927
+          },
+          "old_aven_hgt_grid_horizontal_error_m": 29.220386973822112
+        }
+      ]
+    }
+  },
+  "native_oracle": {
+    "pyproj": "3.7.2",
+    "PROJ": "9.5.1",
+    "cs2cs_vs_pyproj_max_error_m": 0.0
+  }
+}

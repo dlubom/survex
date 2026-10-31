@@ -1,0 +1,75 @@
+{
+  "browser": "156.0.8078.74",
+  "checks": [
+    {
+      "item": "Station Names",
+      "pass": true,
+      "frames": 11
+    },
+    {
+      "item": "Crosses",
+      "pass": true,
+      "frames": 13
+    },
+    {
+      "item": "Highlight Fixed Points",
+      "pass": true,
+      "frames": 15
+    },
+    {
+      "item": "Perspective",
+      "pass": true,
+      "frames": 17
+    },
+    {
+      "item": "Textured Walls",
+      "pass": true,
+      "frames": 19
+    },
+    {
+      "item": "Fade Distant Objects",
+      "pass": true,
+      "frames": 21
+    },
+    {
+      "item": "Smoothed Survey Legs",
+      "pass": true,
+      "frames": 23
+    },
+    {
+      "item": "Colour by Depth",
+      "pass": true
+    },
+    {
+      "item": "Colour by Date",
+      "pass": true
+    },
+    {
+      "item": "Colour by Gradient",
+      "pass": true
+    },
+    {
+      "item": "Colour by Length",
+      "pass": true
+    },
+    {
+      "item": "Colour by Survey",
+      "pass": true
+    },
+    {
+      "item": "Colour by Style",
+      "pass": true
+    },
+    {
+      "item": "Side Panel hidden",
+      "pass": true
+    },
+    {
+      "item": "Side Panel restored",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "pass": true
+}

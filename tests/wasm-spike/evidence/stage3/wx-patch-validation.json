@@ -1,0 +1,31 @@
+{
+  "revision": "01b74ea19a09968277f59475f8919f2d2a4ff00e",
+  "patch_sha256": "076287fdee943aa63571d747ba4107d2070c39900d9bcb6f658d21caa323cea7",
+  "files": [
+    "build/wasm/wx-dom.js",
+    "include/wx/wasm/private/dom.h",
+    "include/wx/wasm/toolbar.h",
+    "include/wx/wasm/textctrl.h",
+    "src/wasm/frame.cpp",
+    "src/wasm/keyboard.cpp",
+    "src/wasm/toolbar.cpp",
+    "src/wasm/textctrl.cpp",
+    "src/wasm/window.cpp"
+  ],
+  "first_apply": {
+    "exit": 0,
+    "stdout": "Applied wx toolbar, frame-origin and Enter fixes.",
+    "stderr": ""
+  },
+  "second_apply": {
+    "exit": 0,
+    "stdout": "wx toolbar, frame-origin and Enter fixes already applied.",
+    "stderr": ""
+  },
+  "file_hashes_match_live_source": true,
+  "conflict_rejected": {
+    "exit": 1,
+    "stderr": "Refusing wx patch: target files have conflicting or partial changes.",
+    "files_unchanged": true
+  }
+}

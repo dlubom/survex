@@ -16,6 +16,7 @@
 #include <cstring>
 #include <functional>
 #include <map>
+#include <memory>
 #include <set>
 #include <vector>
 
@@ -27,6 +28,18 @@ namespace {
 using namespace aven_webgl;
 using Colour = std::array<float,4>;
 using Command = std::function<void()>;
+// Keep the frequent immediate-mode operations compact and ordered. Recording
+// complete vertices would incorrectly bake the caller's colour/normal/UV into
+// a GL_COMPILE list: these attributes must still be inherited at replay time.
+enum class GeometryCode { Vertex, Colour, Normal, TexCoord };
+struct GeometryOp {
+    GeometryCode code;
+    float value[4];
+};
+constexpr size_t geometryBlockSize=8192;
+constexpr size_t triangleBatchSize=3*4096;
+using GeometryBlock=std::vector<GeometryOp>;
+std::shared_ptr<GeometryBlock> recordingGeometry;
 struct Vertex {
     float p[3], c[4], n[3], uv[2], dash;
 };
@@ -67,7 +80,34 @@ void error(GLenum code, const char* operation) {
 }
 bool capture(Command command) {
     if (!compiling) return false;
+    // A matrix/state change or nested list call is a strict ordering boundary.
+    recordingGeometry.reset();
     lists[compiling].push_back(std::move(command));
+    return true;
+}
+bool captureGeometry(GeometryCode code,float x,float y,float z=0,float w=0) {
+    if(!compiling) return false;
+    if(!recordingGeometry || recordingGeometry->size()==geometryBlockSize) {
+        auto block=std::make_shared<GeometryBlock>();
+        // Small lists stay small; growth is capped at one block, never at
+        // the total size of the terrain command stream.
+        block->reserve(16);
+        lists[compiling].push_back([block] {
+            for(const auto& op:*block) {
+                const float* v=op.value;
+                switch(op.code) {
+                    case GeometryCode::Vertex: awglVertex3d(v[0],v[1],v[2]);break;
+                    case GeometryCode::Colour: awglColor4f(v[0],v[1],v[2],v[3]);break;
+                    case GeometryCode::Normal: awglNormal3d(v[0],v[1],v[2]);break;
+                    case GeometryCode::TexCoord: awglTexCoord2f(v[0],v[1]);break;
+                }
+            }
+        });
+        recordingGeometry=std::move(block);
+    }
+    // Vertex already converts to float before rendering. Preserve that exact
+    // precision without retaining a separately allocated closure per vertex.
+    recordingGeometry->push_back({code,{x,y,z,w}});
     return true;
 }
 bool enabled(GLenum cap) { return state.enabled.count(cap)!=0; }
@@ -223,7 +263,7 @@ void render(GLenum mode,const std::vector<Vertex>& data,bool screen=false,bool s
     glUniform1ui(uniform("stipplePattern"),state.stipplePattern);
     glActiveTexture(GL_TEXTURE0); glBindTexture(GL_TEXTURE_2D,textureObject(state.texture)); glUniform1i(uniform("image"),0);
     glDrawArrays(mode,0,data.size());
-    EM_ASM({ Module.avenGL=Module.avenGL||{}; const d=Module.avenGL; d.draws=(d.draws||0)+1; d.vertices=(d.vertices||0)+$0; d.backend="WebGL2 shader/VBO"; }, int(data.size()));
+    EM_ASM({ Module.avenGL=Module.avenGL||{}; const d=Module.avenGL; d.draws=(d.draws||0)+1; d.vertices=(d.vertices||0)+$0; d.maxDrawVertices=Math.max(d.maxDrawVertices||0,$0); d.backend="WebGL2 shader/VBO"; }, int(data.size()));
     glBindVertexArray(0);
 }
 Vertex vertex(double x,double y,double z) {
@@ -255,9 +295,23 @@ void awglBegin(GLenum mode) {
     if(capture([=]{awglBegin(mode);})) return;
     if(primitive!=GLenum(-1)) {error(GL_INVALID_OPERATION,"nested begin");return;}
     primitive=mode;vertices.clear();
+    if(mode==GL_TRIANGLES && vertices.capacity()<triangleBatchSize)
+        vertices.reserve(triangleBatchSize);
 }
-void awglEnd() {
-    if(capture([]{awglEnd();})) return;
+namespace {
+// Independent triangles can be submitted as they arrive: all attributes are
+// per vertex, while matrices and render state cannot change inside glBegin.
+// The terrain list is replayed for both depth and colour passes, so keep each
+// complete triangle and its ordering, with bounded CPU and upload buffers.
+void drawPrimitive() {
+    if(primitive==GL_TRIANGLES && state.polygon!=GL_LINE) {
+        vertices.resize(vertices.size()/3*3);
+        if(state.shade==GL_FLAT) for(size_t i=2;i<vertices.size();i+=3) {
+            flat(vertices[i-2],vertices[i]);flat(vertices[i-1],vertices[i]);
+        }
+        render(GL_TRIANGLES,vertices);
+        return;
+    }
     std::vector<Vertex> out;
     auto line=[&](size_t a,size_t b,double start=0.0) {
         Vertex va=vertices[a],vb=vertices[b];flat(va,vb);
@@ -338,21 +392,29 @@ void awglEnd() {
         }
         render(GL_TRIANGLES,coverage,true,true);
     } else render(mode,out);
-    primitive=GLenum(-1);
+}
+}
+void awglEnd() {
+    if(capture([]{awglEnd();})) return;
+    drawPrimitive();
+    vertices.clear();primitive=GLenum(-1);
 }
 void awglVertex3d(GLdouble x,GLdouble y,GLdouble z) {
-    if(capture([=]{awglVertex3d(x,y,z);}))return;
+    if(captureGeometry(GeometryCode::Vertex,x,y,z))return;
     if(primitive==GLenum(-1)){error(GL_INVALID_OPERATION,"vertex outside begin");return;}
     vertices.push_back(vertex(x,y,z));
+    if(primitive==GL_TRIANGLES && vertices.size()==triangleBatchSize) {
+        drawPrimitive();vertices.clear();
+    }
 }
 void awglColor4f(GLfloat r,GLfloat g,GLfloat b,GLfloat a) {
-    if(capture([=]{awglColor4f(r,g,b,a);}))return;state.colour={{r,g,b,a}};
+    if(captureGeometry(GeometryCode::Colour,r,g,b,a))return;state.colour={{r,g,b,a}};
 }
 void awglColor4d(GLdouble r,GLdouble g,GLdouble b,GLdouble a){awglColor4f(r,g,b,a);}
 void awglColor4ub(GLubyte r,GLubyte g,GLubyte b,GLubyte a){awglColor4f(r/255.f,g/255.f,b/255.f,a/255.f);}
 void awglColor3ubv(const GLubyte* c){awglColor4ub(c[0],c[1],c[2],255);}
-void awglNormal3d(GLdouble x,GLdouble y,GLdouble z){if(capture([=]{awglNormal3d(x,y,z);}))return;state.normal={{float(x),float(y),float(z),0}};}
-void awglTexCoord2f(GLfloat x,GLfloat y){if(capture([=]{awglTexCoord2f(x,y);}))return;state.uv={{x,y}};}
+void awglNormal3d(GLdouble x,GLdouble y,GLdouble z){if(captureGeometry(GeometryCode::Normal,x,y,z))return;state.normal={{float(x),float(y),float(z),0}};}
+void awglTexCoord2f(GLfloat x,GLfloat y){if(captureGeometry(GeometryCode::TexCoord,x,y))return;state.uv={{x,y}};}
 void awglEnable(GLenum cap){if(capture([=]{awglEnable(cap);}))return;setEnable(cap,true);}
 void awglDisable(GLenum cap){if(capture([=]{awglDisable(cap);}))return;setEnable(cap,false);}
 void awglMatrixMode(GLenum mode){if(capture([=]{awglMatrixMode(mode);}))return;if(mode!=GL_MODELVIEW&&mode!=GL_PROJECTION){error(GL_INVALID_ENUM,"matrix mode");return;}state.matrixMode=mode;}
@@ -366,8 +428,8 @@ void awglOrtho(GLdouble l,GLdouble r,GLdouble b,GLdouble t,GLdouble n,GLdouble f
 void awglFrustum(GLdouble l,GLdouble r,GLdouble b,GLdouble t,GLdouble n,GLdouble f){if(capture([=]{awglFrustum(l,r,b,t,n,f);}))return;matrix()=multiply(matrix(),frustum(l,r,b,t,n,f));}
 void awglViewport(GLint x,GLint y,GLsizei w,GLsizei h){if(capture([=]{awglViewport(x,y,w,h);}))return;state.viewport[0]=x;state.viewport[1]=y;state.viewport[2]=w;state.viewport[3]=h;glViewport(x,y,w,h);}
 GLuint awglGenLists(GLsizei count){if(count<0){error(GL_INVALID_VALUE,"list count");return 0;}GLuint base=nextList;nextList+=count;return base;}
-void awglNewList(GLuint id,GLenum mode){if(compiling||mode!=GL_COMPILE||!id){error(GL_INVALID_OPERATION,"new list");return;}lists[id].clear();compiling=id;}
-void awglEndList(){if(!compiling){error(GL_INVALID_OPERATION,"end list");return;}compiling=0;}
+void awglNewList(GLuint id,GLenum mode){if(compiling||mode!=GL_COMPILE||!id){error(GL_INVALID_OPERATION,"new list");return;}recordingGeometry.reset();lists[id].clear();compiling=id;}
+void awglEndList(){if(!compiling){error(GL_INVALID_OPERATION,"end list");return;}recordingGeometry.reset();compiling=0;}
 void awglDeleteLists(GLuint id,GLsizei count){for(GLsizei i=0;i<count;++i)lists.erase(id+i);}
 void awglCallList(GLuint id){if(capture([=]{awglCallList(id);}))return;auto i=lists.find(id);if(i==lists.end())return;if(++recursion>64){error(GL_STACK_OVERFLOW,"recursive list");--recursion;return;}for(const auto& c:i->second)c();--recursion;}
 void awglListBase(GLuint id){if(capture([=]{awglListBase(id);}))return;state.listBase=id;}

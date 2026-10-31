@@ -1,6 +1,70 @@
 # Praktyczny test Aven + wxWidgets + Emscripten
 
-## Etap 2 — rzeczywiste Aven w WebGL2 (2026-10-31)
+## Etap 3 — rzeczywisty Kataster, teren HGT i poprawki wspólnego Aven (2026-10-31)
+
+**Pełny Kataster i surowy HGT działają w przeglądarce:** Aven wczytał 18 539 rekordów stacji i 18 553 odcinki oraz narysował **2 369 843 trójkąty terenu**. Zachowano menu, drzewo i renderer Aven. Nie podnoszono limitu pamięci WASM ani nie pomijano geometrii, aby uzyskać ten wynik. Zaobserwowana długość pamięci liniowej WASM wyniosła `253165568 B` (około 241,44 MiB); nie jest to pomiar szczytowego zużycia całej przeglądarki ani wydajności klatek.
+
+Kontynuacja wychodzi z lokalnego commitu etapu 2 `c812392e`, na tej samej izolowanej gałęzi. Link pozostaje ścisły: WebGL2, `ERROR_ON_UNDEFINED_SYMBOLS=1`, bez `LEGACY_GL_EMULATION`. SDK, biblioteki oraz oryginalne pliki zewnętrzne `.3d`/HGT/BIL/ZIP pozostają poza repozytorium; skompresowane obserwacje zawierają pochodne współrzędne i próbki wysokości, a zrzuty przedstawiają te dane. [Autorstwo i zakres dowodów](../tests/wasm-spike/README.md#repeat-the-real-kataster--hgt-experiment). Instrukcja odtwarzania: [README](../tests/wasm-spike/README.md).
+
+Końcowe przebiegi w Chromium `156.0.8078.74` przechodzą: [11 działań podstawowych](../tests/wasm-spike/evidence/stage3/core-results.json), [12 kontroli UI](../tests/wasm-spike/evidence/stage3/ui-results.json), [15 kontroli trybów](../tests/wasm-spike/evidence/stage3/modes-results.json), [trzy zestawy Kataster/DEM](../tests/wasm-spike/evidence/stage3/kataster-results.json), [odzyskanie terenu po braku pokrycia](../tests/wasm-spike/evidence/stage3/terrain-recovery-results.json) i [odrzucenie uszkodzonego HGT](../tests/wasm-spike/evidence/stage3/malformed-hgt-results.json). **0 błędów i ostrzeżeń przeglądarki oraz 0 zarejestrowanych błędów adaptera/WebGL.** Ponowiono podstawowe `.3d`, LRUD i syntetyczny DEM; działania odbywają się przez istniejący interfejs, a `Module.avenTest` służy tylko do obserwacji.
+
+### Naprawione przyczyny
+
+| Problem odtworzony przed zmianą | Zmiana i zakres potwierdzenia |
+| --- | --- |
+| Pierwsze kółko po DEM nadpisywało skalę starą wartością | Usunięto drugą kopię skali w `GfxCore`; kamera i obsługa kółka używają `GLACanvas::GetScale()`. Test rzeczywistych klas Aven zawiódł przed zmianą i przechodzi po niej, również dla kółka wstecz i granic zoomu. Test przeglądarkowy zmierzył ciągły pierwszy krok po DEM: stosunek skali około 1,32272. |
+| Klik dokładnie na stacji czasem jej nie wybierał | Siatka hit-testu przeszukuje wszystkie komórki przecinające promień kliknięcia. Poprzednio pozycja stacji w `double` i klik w pikselach całkowitych mogły trafić po przeciwnych stronach granicy kubełka. Potwierdzono konkretną wcześniej pomijaną stację. |
+| Pola narzędzi nachodziły na ikony, statusbar wychodził poza okno, Enter i utrata fokusu nie zatwierdzały zmian | [Patch przypiętego forka wx](../tests/wasm-spike/patches/README.md) rezerwuje miejsce dla `AddControl`, mierzy pola tekstowe i spin, liczy wysokość toolbaru raz oraz przekazuje Return i utratę fokusu. W przeglądarce sprawdzono wyszukiwanie, Z-stretch, Tab/blur, zmianę rozmiaru i ArrowUp → Enter w drzewie. |
+| Siatka surowego HGT była ściśnięta do `1/N` stopnia | HGT ma próbki punktowe wraz z oboma brzegami kafla; odstęp to `1/(N−1)`. Dla Czarnej stary odczyt miał błąd XY do 29,54 m i błędne liczniki próbek/trójkątów. Po poprawce zgodność z natywnym PROJ osiąga `1,87e−9 m`. Odrzucane są też nieparzyste długości i niepoprawne wymiary HGT. |
+| Komunikat o braku pokrycia DEM otwierał modal podczas zapisu listy renderera | Błąd jest pokazywany przez `CallAfter`, po zakończeniu zapisu. Scenariusz: syntetyczny DEM → Czarna poza jego zasięgiem → normalny komunikat → prawidłowy HGT. Przywrócenie terenu sprawdzono oddzielnie. |
+| Pełny teren przekraczał pamięć przy przechowywaniu i odtwarzaniu poleceń | Geometria list używa bloków zwartych poleceń zamiast osobnej funkcji na każdy atrybut/wierzchołek. Trójkąty są odtwarzane porcjami po najwyżej 12 288 wierzchołków, z zachowaniem stanu, granic prymitywów i kolejności. Pełna geometria terenu jest nadal rysowana. |
+| Native startup wywracał się przed `wxEntry` | Użyto leniwego akcesora `wxConvFile` zamiast bezpośredniego dereferencjonowania nieutworzonego `wxConvFileName`. Minimalny reproducer wykazuje SIGSEGV przed zmianą i sukces po niej. |
+
+Poprawki skali, wyboru stacji, HGT i wyświetlania błędu dotyczą wspólnego Aven. Adapter pozostaje ograniczony do `__EMSCRIPTEN__`, a desktop nadal korzysta z natywnego OpenGL. Dodatkowo przełączanie mgły i wygładzania linii odświeża widok; usunięto niepoprawny profil ICC z tekstury bez zmiany pikseli. Końcowy scenariusz przełącza te tryby i potwierdza odświeżenie klatek bez błędów. Nie jest to porównanie pikselowe z desktopem.
+
+### Rzeczywiste dane i wynik georeferencji
+
+Źródłem jest czysty lokalny checkout `Jaskiniowy-Kataster-Tatr-Zachodnich`, commit `3f865414d1dacaa15cd5477e567b0f852c43b32d`. `KATASTER.wpj` skompilowano na nowo natywnym Survex 1.4.24: 0 ostrzeżeń i 0 błędów. Nie używano wcześniejszego `.3d` leżącego w repozytorium danych i nie zmieniano pomiarów. Układ modelu: EPSG:32634. Podzbiór Czarnej utworzono natywnym `survexport`; zweryfikowano identyczność geometrii i flag punktów względem odfiltrowanego pełnego pliku. Eksport usuwa zewnętrzny prefiks `Czarna` oraz nie zachowuje wszystkich nazw/stylów odcinków i `ERROR_INFO`; pełny Kataster jest podstawą testu metadanych.
+
+DEM `N49E019_VF1.hgt` to niezmienione 25 934 402 bajty, 3601×3601 próbek `int16` big endian. Próbki skrajne leżą w 19°E, 50°N i 20°E, 49°N. SHA-256: `d2afeb74d418f197cbeea16a08e660f81d5f2e09e83e81a68263d5451250d645`. Mniejszy BIL dla Czarnej jest dokładnym wycinkiem `[kolumna 3100, wiersz 2680, szerokość 107, wysokość 72]`; nie wykonywano resamplingu, reprojekcji rastra ani przesunięcia wysokości. Pochodzenie i wartości kontrolne zapisano w [referencji](../tests/wasm-spike/kataster-reference.json).
+
+| Kontrola | Czarna + surowy HGT | Pełny Kataster + surowy HGT |
+| --- | ---: | ---: |
+| Rekordy stacji porównane z natywnym `dump3d` | 464 | 18 539 (w tym 12 110 nazwanych) |
+| Odcinki modelu | 509 | 18 553 |
+| Próbki terenu zachowane przez promień Aven | 5031 | 1 186 869 |
+| Trójkąty: przeglądarka i niezależne zliczenie siatki | 9826 | 2 369 843 |
+| Próbki z kontrolą źródłowego indeksu, XY i Z | **5031 — wszystkie zachowane** | **10 000 — ograniczona obserwacja** |
+| Maks. różnica XY względem natywnego `cs2cs` | 1,8636e−9 m | 1,8636e−9 m w sprawdzonej próbce |
+| Z oraz odjęcie wspólnego środka modelu | 0 m różnicy | 0 m różnicy w sprawdzonej próbce |
+
+Kontrola pełnego modelu porównuje wszystkie 18 539 rekordów stacji, ich współrzędne, nazwy i flagi z natywnym odczytem `.3d`. Limit 10 000 dotyczy wyłącznie obserwacji wierzchołków terenu. Liczniki całej siatki pochodzą niezależnie z surowego HGT, promienia Aven i natywnego PROJ. Liczba 18 651 z końcowego komunikatu `cavern` dotyczy odcinków sieci przed reprezentacją wynikowego `.3d`; nie należy jej zastępować licznikiem 18 553 rysowanych rekordów `LEG`.
+
+[Walidator](../tests/wasm-spike/verify-kataster-terrain.py) sprawdza też SHA źródła, siatkę `1/(N−1)`, brak NODATA w próbkach, wspólny offset modelu i terenu oraz błędy GL. Zapisane wyniki: [błąd przed poprawką HGT](../tests/wasm-spike/evidence/stage3/czarna-hgt-before-verification.json), [Czarna — końcowy surowy HGT](../tests/wasm-spike/evidence/stage3/czarna-final-verification.json), [pełny Kataster — końcowy przebieg](../tests/wasm-spike/evidence/stage3/full-final-verification.json), [niezależne zliczenie siatki](../tests/wasm-spike/evidence/stage3/kataster-mesh-count.json).
+
+Osobno powtórzono BIL 107×72: wszystkie 5031 zachowanych próbek, 9826 trójkątów, maks. różnica XY `2,8091e−9 m`, różnica Z `0 m`. [Wynik wycinka](../tests/wasm-spike/evidence/stage3/crop-final-verification.json). Zrzuty końcowe: [Czarna + HGT](../tests/wasm-spike/evidence/stage3/kataster-czarna-final.png), [Czarna + BIL](../tests/wasm-spike/evidence/stage3/kataster-czarnaCrop-final.png), [pełny Kataster + HGT](../tests/wasm-spike/evidence/stage3/kataster-full-final.png). Każdy z trzech wariantów przeszedł obrót, pochylenie, przesuwanie, zoom i włączenie nazw.
+
+Nieznany pozostaje **układ pionowy rzeczywistego DEM i wspólny układ wysokości wszystkich źródeł jaskiniowych**. Potwierdzono zachowanie wartości Z, nie geodezyjną zgodność datum wysokościowego. Nie dopasowywano powierzchni do otworów. Trzy wschodnie otwory (`Koszowa:0`, `SzczelinaNadLejem:0`, `WyzKoszowaDziura:0`) leżą poza kaflem HGT. To ograniczenie pokrycia danych. Świeży import Walls nie zawiera rekordów LRUD, ponieważ czytnik Survex je parsuje, ale ignoruje; nie wynika z tego brak pomiarów LRUD w źródłach. Test LRUD nadal korzysta z zestawu bundled/syntetycznego z etapu 2.
+
+### Regresje adaptera i desktop
+
+Test [odtwarzania rzeczywistego adaptera](../tests/wasm-spike/adapter-replay-test.cc) wykonał dwa przebiegi po 2 369 843 trójkąty i sprawdził 14 219 058 wierzchołków w przechwytującym odbiorniku GL. Obejmuje dziedziczenie atrybutów, zagnieżdżone i redefiniowane listy, kolejność macierzy, flat shading, bitmapy, obrys i wygładzanie linii. Wynik: 1158 wywołań rysowania, maksymalnie 12 288 wierzchołków w porcji, pamięć liniowa 216 858 624 B. To test CPU/WASM poleceń; dowodem rasteryzacji jest oddzielny przebieg prawdziwej przeglądarki. [Wynik i polecenia](../tests/wasm-spike/evidence/stage3/adapter-replay.json).
+
+Końcowy natywny build jest zgodny z końcowymi źródłami: **8/8 istniejących zestawów testów PASS**, uruchomionych szeregowo, oraz PASS regresji rzeczywistych klas i obsługi kółka. [Podsumowanie, hashe i polecenia](../tests/wasm-spike/evidence/stage3/native-summary.json). SHA-256 binarium: `c342e2884bc3e96743b2a852efbf33808036139817cbf9176192ad8da23754f6`.
+
+Rzeczywiste natywne GUI uruchomiono z Czarną, surowym HGT, nazwami i drzewem; potwierdzono wybór `BorowiecGorna:52` i widok elewacji. [Końcowy zrzut natywnego Aven](../tests/wasm-spike/evidence/stage3/native-final-czarna-dem.png). Obrót, zoom i Z-stretch=2 sprawdzono wcześniej na binarium `382b9276…`; po zastąpieniu go końcowym buildem ponowiono powyższy test otwarcia, terenu i wyboru. Natywny stderr zawiera ostrzeżenie macOS `sandbox_extension`, dlatego brak błędów konsoli WWW nie oznacza pustych wszystkich logów systemowych. Nie deklarujemy pełnego porównania pikselowego desktop/WWW.
+
+### Zakres pozostały do następnego etapu
+
+[Znane ograniczenia](../tests/wasm-spike/KNOWN_LIMITATIONS.md) rozdzielają usunięte reprodukcje od nieprzetestowanych zachowań. Nadal brak importera dowolnych plików użytkownika: przygotowane dane są preładowane w MEMFS. Nie potwierdzono Safari/Firefox, dotyku/HiDPI, odtwarzania po utracie kontekstu, pełnego parytetu opcjonalnych trybów ani wszystkich CRS i siatek. GDAL, FFmpeg, eksport, druk i filmy nie są częścią tego buildu.
+
+**Rekomendacja:** dodać import plików użytkownika i trwałe przechowywanie danych, przygotować powtarzalny pakiet zależności, a następnie sprawdzić inne przeglądarki. Przy tej pracy mierzyć czas ładowania, klatki i pamięć. Sukces pełnego Katasteru usuwa konkretną barierę pamięci, ale nie zastępuje benchmarku ani kontroli zgodności pionowej rzeczywistych danych.
+
+---
+
+## Etap 2 — zachowany raport: rzeczywiste Aven w WebGL2 (2026-10-31)
+
+Poniższy zapis opisuje stan etapu 2. Wymienione tu otwarte problemy skali, wx i natywnego startu zostały następnie podjęte w etapie 3 powyżej.
 
 **Cel eksperymentu osiągnięty:** rzeczywiste Aven otwiera `.3d`, rysuje jaskinię i etykiety, obsługuje drzewo oraz nawigację myszą, wyświetla LRUD i syntetyczny DEM. Test odbył się lokalnie w Chromium `156.0.8078.74`. To nadal eksperyment, z widocznymi ograniczeniami forka wx opisanymi poniżej; nie pełny port produkcyjny.
 

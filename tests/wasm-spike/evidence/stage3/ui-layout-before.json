@@ -1,0 +1,46 @@
+{
+  "baseline": "c812392e",
+  "url": "http://127.0.0.1:8766/aven.html",
+  "inputs": [
+    {
+      "value": "Find stations",
+      "box": {
+        "x": 21,
+        "y": 41,
+        "width": 138,
+        "height": 19,
+        "top": 41,
+        "right": 159,
+        "bottom": 60,
+        "left": 21
+      }
+    },
+    {
+      "value": "1.0",
+      "box": {
+        "x": 0,
+        "y": 41,
+        "width": 20,
+        "height": 20,
+        "top": 41,
+        "right": 20,
+        "bottom": 61,
+        "left": 0
+      }
+    }
+  ],
+  "canvas": {
+    "x": 247,
+    "y": 64,
+    "width": 953,
+    "height": 740,
+    "top": 64,
+    "right": 1200,
+    "bottom": 804,
+    "left": 247
+  },
+  "viewport": [
+    1200,
+    802
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "before_sha256": "c26e7f44d24d5aac3879a1a23ba36f0659718634ed7ab7335c908b5d541b7b29",
+  "after_sha256": "8af616f8896553bf5d8a6218b42852c5aed28e8ee3e8f589c46e9bae15774418",
+  "removed": [
+    {
+      "type": "iCCP",
+      "bytes": 2617,
+      "sha256": "46d06080f59492cb0bc29205b21fce29dc97629a0397bedc7b41a6aa605a812a"
+    }
+  ],
+  "all_other_chunks_byte_identical": true,
+  "idat_sha256": "25b28411bbd833b73bdb4ae0e3f79d69a2de7e0b07b364ef24726e824e23bbf0",
+  "reason": "libpng reports iCCP: known incorrect sRGB profile; remove the invalid profile, preserve image data"
+}

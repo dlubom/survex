@@ -1,0 +1,2 @@
+emmake: "make -j4 -C /private/tmp/aven-wasm-spike/wx-build" in "/Users/dariuszlubomski/.codex/worktrees/aven-webgl2/survex"
+(if test -f utils/wxrc/Makefile ; then cd utils/wxrc && /Library/Developer/CommandLineTools/usr/bin/make all ; fi)

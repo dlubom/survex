@@ -474,7 +474,13 @@ int Model::Load(const wxString& file, const wxString& prefix)
            world.GetX(), world.GetY(), world.GetZ(),
            label->GetX(), label->GetY(), label->GetZ(), label->get_flags());
     }
-    EM_ASM({ console.log('AVEN_WEB_MODEL ' + JSON.stringify(Module.avenTest.model)); });
+    EM_ASM({
+        const m = Module.avenTest.model;
+        console.log('AVEN_WEB_MODEL ' + JSON.stringify({
+            file: m.file, crs: m.crs, stations: m.stations.length,
+            legs: m.legs, xsects: m.xsects, tubes: m.tubes
+        }));
+    });
 #endif
 
     return 0; // OK

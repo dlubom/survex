@@ -1,0 +1,5 @@
+{
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "FAIL DEM attachment preserves survey width: got 2700, expected 50\nFAIL first wheel after DEM is incremental: got 2041.2472416865842, expected 37.800874846047854\n"
+}

@@ -219,7 +219,8 @@ int main(int argc, char **argv)
     utf8_argv = argv;
 
 #if wxUSE_UNICODE
-    wxWCharBuffer buf(wxConvFileName->cMB2WX(argv[0]));
+    // The filename converter can be initialised lazily before wxEntry().
+    wxWCharBuffer buf(wxConvFile.cMB2WX(argv[0]));
     wxChar * wargv[2];
     if (buf) {
 	wargv[0] = wxStrdup(buf);

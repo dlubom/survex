@@ -18,6 +18,9 @@ export CFLAGS="-O1 -g -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXC
 export CXXFLAGS="$CFLAGS -DAVEN_WEB_TEST=1"
 export LDFLAGS="-sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2 -sERROR_ON_UNDEFINED_SYMBOLS=1 -sJSPI=1 -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -sWASM_LEGACY_EXCEPTIONS=1"
 mkdir -p "$AVEN_BUILD/logs"
+bash "$AVEN_SOURCE/tests/wasm-spike/scripts/apply-wx-patches.sh" "$TASK_ROOT/wxwidgets" \
+  > "$AVEN_BUILD/logs/wx-patches.log" 2>&1
+emmake make -j4 -C "$TASK_ROOT/wx-build" > "$AVEN_BUILD/logs/wx-build.log" 2>&1
 # Only pinned release-generated assets; never substitute product source.
 cp "$TASK_ROOT/release-resources/lib/preload_font.h" "$AVEN_SOURCE/lib/"
 for header in avenpal.h img2aven.h thgeomagdata.h; do

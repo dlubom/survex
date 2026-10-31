@@ -1,0 +1,85 @@
+{
+  "checks": [
+    {
+      "name": "czarna",
+      "pass": true,
+      "triangles": 9826,
+      "heapBytes": 56950784,
+      "before": {
+        "pan": 0,
+        "tilt": -90,
+        "scale": 1,
+        "translation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "after": {
+        "pan": 336.59999999999997,
+        "tilt": -66.59999999999997,
+        "scale": 3.2406634197229605,
+        "translation": [
+          42.70239504596077,
+          -6.0468959528623145,
+          -9.740398491927067
+        ]
+      }
+    },
+    {
+      "name": "czarnaCrop",
+      "pass": true,
+      "triangles": 9826,
+      "heapBytes": 28377088,
+      "before": {
+        "pan": 0,
+        "tilt": -90,
+        "scale": 1,
+        "translation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "after": {
+        "pan": 336.59999999999997,
+        "tilt": -66.59999999999997,
+        "scale": 3.2406634197229605,
+        "translation": [
+          42.70239504596077,
+          -6.0468959528623145,
+          -9.740398491927067
+        ]
+      }
+    },
+    {
+      "name": "full",
+      "pass": true,
+      "triangles": 2369843,
+      "heapBytes": 253165568,
+      "before": {
+        "pan": 0,
+        "tilt": -90,
+        "scale": 1,
+        "translation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "after": {
+        "pan": 336.59999999999997,
+        "tilt": -66.59999999999997,
+        "scale": 2.6489431030966126,
+        "translation": [
+          903.5158551747963,
+          -127.9428557139181,
+          -206.09158956318424
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "pass": true
+}

@@ -1,0 +1,127 @@
+{
+  "source": "/Users/dariuszlubomski/proj/Jaskiniowy-Kataster-Tatr-Zachodnich",
+  "commit": "3f865414d1dacaa15cd5477e567b0f852c43b32d",
+  "tools": {
+    "cavern": "cavern - Survex 1.4.24",
+    "survexport": "survexport - Survex 1.4.24",
+    "dump3d": "dump3d - Survex 1.4.24"
+  },
+  "commands": [
+    [
+      "cavern",
+      "-o",
+      "/private/tmp/aven-kataster-portable-repro/assets/kataster.3d",
+      "/Users/dariuszlubomski/proj/Jaskiniowy-Kataster-Tatr-Zachodnich/KATASTER.wpj"
+    ],
+    [
+      "survexport",
+      "--survey=Czarna",
+      "--3d",
+      "--legs",
+      "--surface-legs",
+      "--splays",
+      "--station-names",
+      "--entrances",
+      "--fixes",
+      "--exports",
+      "/private/tmp/aven-kataster-portable-repro/assets/kataster.3d",
+      "/private/tmp/aven-kataster-portable-repro/assets/czarna.3d"
+    ],
+    [
+      "dump3d",
+      "--legs",
+      "/private/tmp/aven-kataster-portable-repro/assets/kataster.3d"
+    ],
+    [
+      "dump3d",
+      "--legs",
+      "/private/tmp/aven-kataster-portable-repro/assets/czarna.3d"
+    ],
+    [
+      "dump3d",
+      "--legs",
+      "--survey=Czarna",
+      "/private/tmp/aven-kataster-portable-repro/assets/kataster.3d"
+    ]
+  ],
+  "counts": {
+    "full": {
+      "TITLE": 1,
+      "DATE": 1,
+      "DATE_NUMERIC": 1,
+      "CS": 1,
+      "VERSION": 1,
+      "SEPARATOR": 1,
+      "--": 1,
+      "LEG": 18553,
+      "ERROR_INFO": 426,
+      "NODE": 18539,
+      "STOP": 1
+    },
+    "czarna": {
+      "TITLE": 1,
+      "DATE": 1,
+      "DATE_NUMERIC": 1,
+      "CS": 1,
+      "VERSION": 1,
+      "SEPARATOR": 1,
+      "--": 1,
+      "LEG": 509,
+      "NODE": 464,
+      "STOP": 1
+    }
+  },
+  "source_status_after": "",
+  "crop": {
+    "purpose": "first bounded browser validation; exact original HGT samples, no resampling/reprojection/vertical shift",
+    "source_pixel_window": [
+      3100,
+      2680,
+      107,
+      72
+    ],
+    "first_sample_lon_lat": [
+      19.86111111111111,
+      49.25555555555555
+    ],
+    "step_deg": 0.0002777777777777778,
+    "bit_exact_source_window_verified": true,
+    "bil_bytes": 15408,
+    "zip_bytes": 10688
+  },
+  "assets": {
+    "N49E019_VF1.hgt": {
+      "bytes": 25934402,
+      "sha256": "d2afeb74d418f197cbeea16a08e660f81d5f2e09e83e81a68263d5451250d645"
+    },
+    "czarna-terrain.bil": {
+      "bytes": 15408,
+      "sha256": "c426a2f622cb5b5153b174a9daca2267dc641af39de91b83a7d89f0bef825908"
+    },
+    "czarna-terrain.hdr": {
+      "bytes": 249,
+      "sha256": "4076e12e12d048697428e69b664b04bcae2a2f4cf631c54028ea766f94c801ee"
+    },
+    "czarna-terrain.prj": {
+      "bytes": 146,
+      "sha256": "4e0fe7f616bb23140c8fc3a9f2154ce5149f4c9cad0d0e65c261558f5cad8e33"
+    },
+    "czarna-terrain.zip": {
+      "bytes": 10688,
+      "sha256": "35d6e03d43b3da4bb97230d87b6c6cd1e885aeee921d10dce462c6add382341c"
+    },
+    "czarna.3d": {
+      "bytes": 15329,
+      "sha256": "43a923b77f22ed23a0710feba204108889037b0cf416a8b9ef3347005bd7b60b"
+    },
+    "kataster.3d": {
+      "bytes": 659872,
+      "sha256": "371ac5609139743533742d282d34816cb0c3e165021433ea5bbfdadd1587f2f6"
+    },
+    "kataster.err": {
+      "bytes": 138963,
+      "sha256": "173e1d6fb8d899568941137a3a3893cdd533fe05d40d9f3459a57d4739417abf"
+    }
+  },
+  "note": "Reproducible .3d timestamps and ZIP metadata differ from the original run; geometry, node flags and raw crop are checked. No vertical shift applied."
+}
