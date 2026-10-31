@@ -1,0 +1,15 @@
+Setting up EMSDK environment (suppress these messages with EMSDK_QUIET=1)
+Adding directories to PATH:
+PATH += /private/tmp/aven-wasm-spike/emsdk
+PATH += /private/tmp/aven-wasm-spike/emsdk/upstream/emscripten
+
+Setting environment variables:
+PATH = /private/tmp/aven-wasm-spike/emsdk:/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten:/private/tmp/aven-wasm-spike/host-tools/bin:/opt/homebrew/opt/m4/bin:/opt/homebrew/bin:/Applications/ChatGPT.app/Contents/Resources/codex-cli/codex-path:/opt/homebrew/opt/tcl-tk/bin:/Library/TeX/texbin:/Applications/Inkscape.app/Contents/MacOS:/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home/bin:/Users/dariuszlubomski/.elan/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/X11/bin:/Users/dariuszlubomski/.codex/tmp/arg0-macos/codex-arg0NGkZU1:/Users/dariuszlubomski/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dariuszlubomski/.local/bin:/Users/dariuszlubomski/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS
+EMSDK = /private/tmp/aven-wasm-spike/emsdk
+EMSDK_NODE = /private/tmp/aven-wasm-spike/emsdk/node/24.19.0_64bit/bin/node
+EMSDK_PYTHON = /private/tmp/aven-wasm-spike/emsdk/python/3.13.3_64bit/bin/python3
+SSL_CERT_FILE = /private/tmp/aven-wasm-spike/emsdk/python/3.13.3_64bit/lib/python3.13/site-packages/certifi/cacert.pem
+Setting up EMSDK environment (suppress these messages with EMSDK_QUIET=1)
+Setting environment variables:
+PATH = /private/tmp/aven-wasm-spike/emsdk:/private/tmp/aven-wasm-spike/emsdk/upstream/emscripten:/opt/homebrew/bin:/private/tmp/aven-wasm-spike/host-tools/bin:/opt/homebrew/opt/m4/bin:/Applications/ChatGPT.app/Contents/Resources/codex-cli/codex-path:/opt/homebrew/opt/tcl-tk/bin:/Library/TeX/texbin:/Applications/Inkscape.app/Contents/MacOS:/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home/bin:/Users/dariuszlubomski/.elan/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/X11/bin:/Users/dariuszlubomski/.codex/tmp/arg0-macos/codex-arg0NGkZU1:/Users/dariuszlubomski/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dariuszlubomski/.local/bin:/Users/dariuszlubomski/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS
+Built actual Aven: /private/tmp/aven-webgl2-stage4-build/web/aven.html

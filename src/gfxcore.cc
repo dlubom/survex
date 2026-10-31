@@ -543,6 +543,14 @@ void GfxCore::OnPaint(wxPaintEvent&)
 	}
 
 	FinishDrawing();
+#ifdef __EMSCRIPTEN__
+        EM_ASM({
+            if (!Module.avenRendered) {
+                Module.avenRendered = true;
+                window.dispatchEvent(new Event('aven-rendered'));
+            }
+        });
+#endif
 #if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
         EM_ASM({
             Module.avenTest.frames = (Module.avenTest.frames || 0) + 1;
@@ -2960,6 +2968,21 @@ GfxCore::read_bil(wxInputStream & is, size_t size, unsigned long skipbytes)
 
     return true;
 }
+
+#ifdef __EMSCRIPTEN__
+void GfxCore::ClearBrowserTerrain()
+{
+    delete [] dem;
+    dem = nullptr;
+    n_tris = 0;
+    terrain_diameter = 0;
+    m_Terrain = false;
+    InvalidateList(LIST_TERRAIN);
+#ifdef AVEN_WEB_TEST
+    EM_ASM({ if (Module.avenTest) delete Module.avenTest.terrain; });
+#endif
+}
+#endif
 
 bool GfxCore::LoadDEM(const wxString & file)
 {

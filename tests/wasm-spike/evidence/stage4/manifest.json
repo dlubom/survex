@@ -1,0 +1,204 @@
+{
+  "baseline": "5c34c8eac22e8c9f59b5ccebc00d99893919971b",
+  "stage": 4,
+  "scope": "Local static project-path acceptance before publication; public receipt accompanies gh-pages bundle.",
+  "source_files": {
+    "src/aven.cc": {
+      "bytes": 15934,
+      "sha256": "c94426be484e75beeadb888befef5d7730311b8116da35d62fadd244500e4eac"
+    },
+    "src/mainfrm.cc": {
+      "bytes": 86997,
+      "sha256": "118be724880cdfb079c124b7694b8ff52f0c8e59f7a444a2171f19d899fe354c"
+    },
+    "src/mainfrm.h": {
+      "bytes": 22374,
+      "sha256": "559cdb0ff967dace12d146628586afa6060ebc08714bb6f8c8831e287b564974"
+    },
+    "src/gfxcore.cc": {
+      "bytes": 142036,
+      "sha256": "f94967785f6766e7c66b184cc6fbaa5fe8db34f7d8330fed2abab8bd5dd9a079"
+    },
+    "src/gfxcore.h": {
+      "bytes": 20395,
+      "sha256": "a5e79821ee02d86b66c0804f321672d2423c53deed4866219b275d7877203902"
+    },
+    "src/gla-gl.cc": {
+      "bytes": 50796,
+      "sha256": "82cf35e3d5c868d2170e4f794636ed19001c21269b8805cffbe27db111fa377c"
+    },
+    "src/aven-webgl.cc": {
+      "bytes": 36595,
+      "sha256": "bd4739a4fd2b34437be8879a4a07ccac2df8567fd559451575da1f53d6cff709"
+    },
+    "src/aven-webgl.h": {
+      "bytes": 6179,
+      "sha256": "7ee0251f3bc1431305cbfc0366cb2c53bee237e9cc3594dcc5ab88efea2c4388"
+    },
+    "src/glbitmapfont.cc": {
+      "bytes": 8805,
+      "sha256": "8d18ca0f4d5ca7da54dda3443af9093ebcb24010e516752a14da61fb6a18575d"
+    },
+    "tests/wasm-spike/aven-bootstrap.js": {
+      "bytes": 890,
+      "sha256": "a741fe799aa73358f0fa92de9c689b088fa67cd12b99b75129ffa71d8cfe939a"
+    },
+    "tests/wasm-spike/scripts/link-aven.sh": {
+      "bytes": 2587,
+      "sha256": "6f72e27a8766fa55a2bf41184220112b03a7e0f8ea535b758b04f383d475d4e9"
+    },
+    "tests/wasm-spike/browser-check.js": {
+      "bytes": 6692,
+      "sha256": "f42bc18fdc6c4437de3818de0ed715bc3cee03f7044359ec05d7848d51a02450"
+    },
+    "tests/wasm-spike/pages/index.html": {
+      "bytes": 1240,
+      "sha256": "70e6b83aad1f7587b3576fa22b11aab7279e64fb9b18de88341f7f73ebf672fb"
+    },
+    "tests/wasm-spike/pages/about.html": {
+      "bytes": 3656,
+      "sha256": "ad9d1b18a296d8ff89c8456676bc1874829820d07317087b58f2c835970e37d5"
+    },
+    "tests/wasm-spike/pages/browser-pages-check.js": {
+      "bytes": 4216,
+      "sha256": "22f9f46d1e227f999db6d81d81001bf85adb47235abf64ec9246c55496fd581a"
+    },
+    "tests/wasm-spike/pages/viewer.js": {
+      "bytes": 4508,
+      "sha256": "47fbdb6960d67d7c2385ef57ca2f85a3751a0a62e199e43451797affca9adac4"
+    },
+    "tests/wasm-spike/pages/kataster-bootstrap.js": {
+      "bytes": 176,
+      "sha256": "a028f0594a78f484ea9a37497dc7417ea01a5d5afab8134cee4d7f2c333d9414"
+    },
+    "tests/wasm-spike/pages/viewer.css": {
+      "bytes": 1314,
+      "sha256": "59c0bb55544d66f05a26148a26bcdca9ad151c029c2497b6a7810eda0bd1f8aa"
+    },
+    "tests/wasm-spike/scripts/package-pages.py": {
+      "bytes": 5792,
+      "sha256": "aab0a1fd4b6e130deca4d8b599d90658da170205003219380cabdb01353cb0c2"
+    },
+    "tests/wasm-spike/scripts/prepare-pages-assets.py": {
+      "bytes": 1492,
+      "sha256": "e303ea62f1b05c1bbae2394c1a624f9a8a27be80dae174913ebc96f27b893d15"
+    }
+  },
+  "artifacts": {
+    "aven.html": {
+      "bytes": 3592,
+      "sha256": "2bf9304dbb05e78736ecc31c9818945b65521c8c83b956da2487016751b7aa86"
+    },
+    "aven.wasm": {
+      "bytes": 19448128,
+      "sha256": "d0ca27a5c5a615f7bb54155b58c69acd07e9e057ba4447cd05c794489bc21eec"
+    },
+    "aven.js": {
+      "bytes": 539130,
+      "sha256": "b8256c0f1e5cf59465cdcf88de66699d1f2acdf4697436a1d11d05645b6af4bb"
+    },
+    "aven.data": {
+      "bytes": 27267585,
+      "sha256": "d5d68e425dc3b6371424011a2b95390b7ceb60ed1539ec1e9858250177a2a9c4"
+    }
+  },
+  "native": {
+    "binary": {
+      "bytes": 1357128,
+      "sha256": "81a7dcb8ca309215c751d322a384c0859e385056d10dd6c4d6cc1f3138b30a34"
+    },
+    "tests": {
+      "total": 8,
+      "pass": 8,
+      "fail": 0
+    },
+    "command": "SURVEXLIB=/private/tmp/aven-wasm-spike/release-resources/lib make -j1 -C /private/tmp/aven-webgl2-stage3-native/tests check",
+    "initial_attempt": "Without SURVEXLIB: message catalogs absent in staging, CLI tests failed and aven --help opened a blocking diagnostic. Interrupted; repeated with pinned release catalogs, 8/8 PASS. No stage-4 native GUI parity claim."
+  },
+  "browser": {
+    "version": "156.0.8078.74",
+    "crossOriginIsolated": false,
+    "SharedArrayBuffer": "undefined",
+    "heap_bytes_observed": 271843328,
+    "heap_is_not_peak_process_memory": true
+  },
+  "evidence": {
+    "assets.json": {
+      "bytes": 431,
+      "sha256": "c67cae742257665f2e0b04ef0cbcae37a76509bc2ebc96e4e9f3dabb6b67c185"
+    },
+    "compatibility.json": {
+      "bytes": 169,
+      "sha256": "730471511a059005553a53c147fed1e438a3ce03ae56262afb136e9e07d2ed8d"
+    },
+    "core-results.json": {
+      "bytes": 101577,
+      "sha256": "5f451d8334b44b26064be0b4236e23f64c070cbb3e3c0ae3c3cdccd273bf149a"
+    },
+    "kataster-snapshot.json.gz": {
+      "bytes": 1107072,
+      "sha256": "31ce9f7bd9857205c3e46765a51db0de3b4f28712fc49aa7f8b01d9187638234"
+    },
+    "kataster-verification.json": {
+      "bytes": 1033,
+      "sha256": "7a46054bfc8b336c7460767ad53f129d5642723d309b2fcf659949f79628ae79"
+    },
+    "local-kataster.png": {
+      "bytes": 657490,
+      "sha256": "c8c1c973d986a8e72f78605d0590eb64a6a17c25aeb9f58912f481094810667a"
+    },
+    "local-upload-dem.png": {
+      "bytes": 46608,
+      "sha256": "6cdc5192dbf40ce20c84c5610ab358fbd82b79733bb0b0c58fbe137abd9428f4"
+    },
+    "local-upload.png": {
+      "bytes": 49821,
+      "sha256": "11d74e59b5d47a6083ab288fb66825f29170f260e2d5c48dea88281901a62367"
+    },
+    "lrud.png": {
+      "bytes": 63131,
+      "sha256": "ffdde47c4bd4e26fdd2701107faa746592786a2a73738585341499ec463d6551"
+    },
+    "native-build.log": {
+      "bytes": 11999,
+      "sha256": "ecd8dd6f0d2af71c2138e180427235cb060aaffa4c86be9fe40d34651de968e2"
+    },
+    "native-check.log": {
+      "bytes": 542,
+      "sha256": "1a9669d2cf6e9337b049372b8e551ebeac171f0a1d5e0a496db77287ed14ac91"
+    },
+    "pages-local-results.json": {
+      "bytes": 4279,
+      "sha256": "923fea84fc3c7a7f6d4075188724e167ebf3199ec34c0f889fa426303ed93123"
+    },
+    "station-tree.png": {
+      "bytes": 39236,
+      "sha256": "9d87694f8668ca7496d172a3ec8875aa587eb6534eb510fe11cc51a726ea2a25"
+    },
+    "synthetic-elevation.png": {
+      "bytes": 32535,
+      "sha256": "6c6db033170e54cc3c6b65c1020685cfaef4f1dbef976ca03bd99fcc74e942ec"
+    },
+    "synthetic-snapshot.json.gz": {
+      "bytes": 191974,
+      "sha256": "236433cd47a3363faecc70ec60066cc4407d6c437c364a3c7a0c9d9511a915ef"
+    },
+    "synthetic-verification.json": {
+      "bytes": 979,
+      "sha256": "fb344f12d06b4d190efc5c88ca751ab1ae615ab9a04002a0c2ed974a7c72ad15"
+    },
+    "wasm-build.log": {
+      "bytes": 3102,
+      "sha256": "c7337eebe5ea2f42cce11010dc0691df79010389f0e96df5b9b03f3abd862d34"
+    },
+    "wasm-link.log": {
+      "bytes": 74,
+      "sha256": "a1f783debfc06bc834c939fe9ef5022ddde538d0062c644515dc5e7c29a222cf"
+    }
+  },
+  "packaging_checks": {
+    "dirty_source_rejected": true,
+    "preloaded_asset_bytes_verified": true,
+    "deterministic_assets_reproduced": true
+  }
+}

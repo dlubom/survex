@@ -32,7 +32,9 @@ async (page) => {
   };
   const screenshot = name => page.screenshot({path:'.playwright-mcp/'+name+'.png'});
   await page.setViewportSize({width:1200,height:802});
-  await page.goto(new URL('/aven.html', page.url()).href);
+  const appURL = new URL('aven.html', page.url());
+  appURL.searchParams.set('fixture', 'real-nordalpenschacht-205');
+  await page.goto(appURL.href);
   await page.waitForFunction(() => window.Module?.avenTest?.frames>0,null,{timeout:15000});
   result.actions.loaded = await state();
   check(result.actions.loaded.model.legs===17 && result.actions.loaded.model.stations.length===20,'real .3d counts');

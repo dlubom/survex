@@ -1,6 +1,12 @@
 # Current limits and archived reproductions
 
-Stage 3 uses the pinned wx fork plus the committed [layout/keyboard/focus patch](patches/README.md). The old failures below are preserved as historical reproductions, not current open issues. Run instructions and checks are in [README](README.md).
+Stage 4 packages the pinned wx fork and actual Aven for static hosting. The old failures below are preserved as historical reproductions, not current open issues. Run instructions and checks are in [README](README.md).
+
+## Stage 4: default scene and optional local files
+
+The Pages wrapper starts the full Kataster and zipped HGT automatically. Its file input accepts `.3d`, `.hgt` and terrain ZIP files through the normal Aven loaders; it does not send local files to a server. This path, scene restoration, 11 core Aven interactions, all synthetic DEM vertices and a 10,000-point real DEM sample pass on the stage-4 build. Native compilation and 8/8 suites pass. See `evidence/stage4/manifest.json` for exact sources, artifacts and scope; native GUI parity was not repeated for stage 4.
+
+Unsupported WebAssembly JSPI/WebGL2 gets a visible message, not a blank canvas. Chromium was tested; other browser engines remain unaccepted. A missing app page also gets a visible diagnostic. The downloadable static directory is relocatable, but rebuilding still needs prepared dependencies. File persistence, performance/FPS measurements and a clean-machine dependency installer remain future work.
 
 ## Resolved in stage 3
 
@@ -31,7 +37,7 @@ Final checks pass: core (11 actions), UI (12 checks), modes (15 checks), raw/cro
 
 - Full visual parity of lighting, textures, fog, line smoothing, wireframe and characters outside the fixture set. Running a mode without errors is a narrower result than image parity.
 - Firefox/Safari, touch/HiDPI, context-loss recovery, all CRS/grid transformations and sustained large-model performance. The recorded heap size is neither browser process memory nor a peak-memory/FPS benchmark.
-- Import of arbitrary host files. Existing File/Open dialogs read preloaded MEMFS data; `AVEN_EXTRA_DATA` supplies local acceptance assets during the build.
+- Persistent storage of local files. The stage-4 wrapper's file input works; the original File/Open dialog still reads MEMFS paths. Reload discards user files.
 - GDAL/FFmpeg, browser `cavern`/`extend`, printing, exports and movies.
 
 Command lists still upload replayed geometry each frame. Profile the real large model before adding persistent GPU caches. Original Kataster `.3d` and DEM payloads are not committed. Compressed observations contain derived coordinates and sampled heights; screenshots depict the data. See [attribution and evidence scope](README.md#repeat-the-real-kataster--hgt-experiment).

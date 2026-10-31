@@ -231,6 +231,11 @@ public:
 
     void OnMRUFile(wxCommandEvent& event);
     void OpenFile(const wxString& file, const wxString& survey = wxString());
+    bool OpenTerrainFile(const wxString& file);
+#ifdef __EMSCRIPTEN__
+    bool OpenBrowserFiles(const wxString& survey, const wxString& terrain,
+                          bool overview = false);
+#endif
 
     void OnPresNewUpdate(wxUpdateUIEvent& event);
     void OnPresOpenUpdate(wxUpdateUIEvent& event);

@@ -1,0 +1,55 @@
+{
+  "result": "PASS",
+  "station_clearance_m": {
+    "synthetic.s": 10.0,
+    "synthetic.f": 22.0,
+    "synthetic.e": 15.0,
+    "synthetic.d": 15.0,
+    "synthetic.c": 10.0,
+    "synthetic.b": 10.0,
+    "synthetic.a": 10.0
+  },
+  "native_vertices_compared": 4225,
+  "native_max_horizontal_error_m": 1.8662795822463695e-09,
+  "native_max_vertical_error_m": 0.0,
+  "centre": {
+    "column": 32,
+    "row": 32,
+    "source": [
+      19.9,
+      49.25,
+      1510
+    ],
+    "world": [
+      565478.1244262591,
+      154000.07367533352,
+      1510
+    ],
+    "local": [
+      -3.9955737409181893,
+      -4.996324666484725,
+      16
+    ]
+  },
+  "entrance": {
+    "name": "synthetic.a",
+    "world": [
+      565478.12,
+      154000.07,
+      1500
+    ],
+    "local": [
+      -4,
+      -5,
+      6
+    ],
+    "flags": 23
+  },
+  "centre_minus_entrance_m": [
+    0.004426259081810713,
+    0.0036753335152752697,
+    10
+  ],
+  "all_local_world_offsets_match": true,
+  "triangles": 8192
+}

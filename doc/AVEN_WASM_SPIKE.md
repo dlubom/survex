@@ -1,6 +1,42 @@
 # Praktyczny test Aven + wxWidgets + Emscripten
 
+## Etap 4 — automatyczny Kataster i paczka GitHub Pages (2026-10-31)
+
+Przygotowano [eksperymentalną stronę](https://dlubom.github.io/survex/), która po wejściu uruchamia rzeczywiste Aven z pełnym Katastrem Tatr Zachodnich i jego terenem. Nie wymaga wybierania plików. Pozostają menu, drzewo, etykiety i nawigacja Aven; dodatkowy pasek pozwala otworzyć własny `.3d`/DEM lokalnie oraz przywrócić domyślny zestaw. Źródła pozostają na izolowanej gałęzi `codex/aven-webgl2`, a publikacja statyczna używa `gh-pages`; scalenie do `master` nie jest wymagane.
+
+Stan odbioru źródeł przed publikacją: poniższe testy lokalne PASS. Wynik konkretnego publicznego wdrożenia jest zapisywany osobno w [potwierdzeniu wdrożenia](https://dlubom.github.io/survex/verification/receipt.json), wraz z SHA źródeł i testowanego commitu strony. Pozwala to odróżnić build i odbiór od późniejszego zapisu dowodów.
+
+### Zmiana i dowody
+
+WASM uruchamia istniejące loadery Aven z preładowanymi ścieżkami. Nowy punkt wejścia `aven_open_files` przyjmuje ścieżki plików skopiowanych przez przeglądarkę do MEMFS; JSPI zachowuje zwykłe modalne komunikaty Aven. Po poprawnym odczycie nowej jaskini usuwany jest poprzedni DEM i jego zasięg. Desktop zachowuje dotychczasowy renderer i ładowanie; wspólna zmiana wydziela istniejącą obsługę DEM do metody. Kontrola niezdefiniowanych symboli pozostaje włączona.
+
+| Kontrola na lokalnym pakiecie pod ścieżką projektu | Wynik |
+| --- | --- |
+| Start bez kliknięć i przywrócenie sceny | 18 539 rekordów stacji, 18 553 odcinki, 2 369 843 trójkąty, nazwy włączone |
+| Obrót, pochylenie, przesuwanie, zoom w osadzonym Aven | PASS — rzeczywiste zdarzenia myszy |
+| Własny `.3d`, potem `.3d` + ZIP DEM | PASS; stary teren usunięty, 0 żądań sieciowych podczas importu |
+| Podstawowy scenariusz Aven | 11 działań PASS, w tym wybór stacji, drzewo, etykiety, LRUD, syntetyczny DEM i resize |
+| Syntetyczny DEM | Wszystkie 4225 punktów, maks. błąd XY 1,87·10⁻⁹ m, Z 0 m; teren 10 m nad punktem wejścia |
+| Zipped HGT pełnego Katastru | Wszystkie rekordy stacji; 10 000 próbek DEM, XY do 1,87·10⁻⁹ m, Z 0 m; liczniki pełnej siatki zgodne |
+| Konsola / adapter / WebGL | 0 błędów i ostrzeżeń w zaakceptowanych przebiegach |
+| Native | Bieżące źródła skompilowane; 8/8 zestawów PASS z właściwym `SURVEXLIB` |
+| Brak JSPI lub brak pliku aplikacji | Czytelny komunikat; bez JSPI nie pobierano dużych plików aplikacji |
+
+[Manifest i zakres dowodów](../tests/wasm-spike/evidence/stage4/manifest.json), [strona i import](../tests/wasm-spike/evidence/stage4/pages-local-results.json), [scenariusz Aven](../tests/wasm-spike/evidence/stage4/core-results.json), [syntetyczna geometria](../tests/wasm-spike/evidence/stage4/synthetic-verification.json), [Kataster/DEM](../tests/wasm-spike/evidence/stage4/kataster-verification.json). Zrzuty: [Kataster](../tests/wasm-spike/evidence/stage4/local-kataster.png), [lokalny plik](../tests/wasm-spike/evidence/stage4/local-upload.png), [wybór w drzewie](../tests/wasm-spike/evidence/stage4/station-tree.png), [LRUD](../tests/wasm-spike/evidence/stage4/lrud.png), [syntetyczna elewacja](../tests/wasm-spike/evidence/stage4/synthetic-elevation.png).
+
+HGT 25 934 402 B spakowano bezstratnie do ZIP 10 631 135 B, bez resamplingu i korekty wysokości. Manifest paczki zawiera hashe i źródła danych. Minimalny pakiet strony ma około 47 MB przed dołączeniem archiwum źródeł. Zaobserwowana pamięć liniowa WASM: 271 843 328 B; nie jest to szczytowa pamięć procesu ani pomiar FPS. Strona działa lokalnie bez izolacji cross-origin i bez SharedArrayBuffer. Wszystkie zasoby są względne, aplikacja ma katalog zależny od hashy; test publiczny sprawdza rzeczywiste nagłówki i ścieżki GitHub Pages. [Instrukcja odtworzenia](../tests/wasm-spike/README.md#package-the-default-kataster-scene-for-static-hosting-stage-4).
+
+Pierwszy natywny przebieg testów nie miał katalogu komunikatów `en.msg`; nawet `aven --help` otwierał komunikat i blokował test. To błąd konfiguracji stagingu, odtwarzalny bez `SURVEXLIB`. Powtórzenie z zasobami przypiętego wydania zakończyło się 8/8 PASS. Nie ponawiano pełnego natywnego GUI dla etapu 4; zrzuty etapu 3 pozostają dowodami tamtego binarium.
+
+Nie potwierdzono innych silników przeglądarek, dotyku/HiDPI, długotrwałej wydajności ani pełnego parytetu obrazu z desktopem. Pliki użytkownika nie są zachowywane po odświeżeniu. Układ pionowy rzeczywistych źródeł nadal nie jest uzgodniony, trzy otwory są poza kaflem, a czytnik Walls ignoruje LRUD. Pakiet statyczny można przenieść na inny hosting, ale przygotowanie SDK/zależności nadal nie jest uniwersalnym instalatorem.
+
+**Następny etap:** pomiar ładowania i płynności pełnego modelu na zwykłym laptopie, następnie powtarzalne budowanie całej paczki z przypiętych zależności. Nie rozszerzać deklaracji zgodności wysokościowej na podstawie samego obrazu.
+
+---
+
 ## Etap 3 — rzeczywisty Kataster, teren HGT i poprawki wspólnego Aven (2026-10-31)
+
+Poniżej zachowany raport etapu 3 (`5c34c8ea`); jego brak importu plików i lokalny zakres zostały rozszerzone w etapie 4.
 
 **Pełny Kataster i surowy HGT działają w przeglądarce:** Aven wczytał 18 539 rekordów stacji i 18 553 odcinki oraz narysował **2 369 843 trójkąty terenu**. Zachowano menu, drzewo i renderer Aven. Nie podnoszono limitu pamięci WASM ani nie pomijano geometrii, aby uzyskać ten wynik. Zaobserwowana długość pamięci liniowej WASM wyniosła `253165568 B` (około 241,44 MiB); nie jest to pomiar szczytowego zużycia całej przeglądarki ani wydajności klatek.
 

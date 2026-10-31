@@ -563,6 +563,9 @@ public:
     void ToggleBoundingBox() { ToggleFlag(&m_BoundingBox); }
     bool DisplayingTerrain() const { return m_Terrain; }
     void ToggleTerrain();
+#ifdef __EMSCRIPTEN__
+    void ClearBrowserTerrain();
+#endif
     void ToggleFatFinger();
     void ToggleTextured() {
 	GLACanvas::ToggleTextured();

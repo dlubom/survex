@@ -1,0 +1,14 @@
+{
+  "output": "/private/tmp/aven-pages-assets-reproduced",
+  "hgt_sha256": "d2afeb74d418f197cbeea16a08e660f81d5f2e09e83e81a68263d5451250d645",
+  "files": {
+    "kataster.3d": {
+      "bytes": 659882,
+      "sha256": "afc1d80073c528c9ab28a922bdf2c0f12ba546b456f3b1beaf4542e6d9277c25"
+    },
+    "terrain.zip": {
+      "bytes": 10631135,
+      "sha256": "cca5300a518d5eaa2becb66651fefe49fa0b72633ad8cc1429722dfcb8ce4e69"
+    }
+  }
+}

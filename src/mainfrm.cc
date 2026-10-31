@@ -1512,10 +1512,40 @@ void MainFrm::OnOpenTerrain(wxCommandEvent&)
     wxFileDialog dlg(this, wmsg(/*Select a terrain file to view*/451),
 		     wxString(), wxString(),
 		     filetypes, wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-    if (dlg.ShowModal() == wxID_OK && m_Gfx->LoadDEM(dlg.GetPath())) {
-	if (!m_Gfx->DisplayingTerrain()) m_Gfx->ToggleTerrain();
+    if (dlg.ShowModal() == wxID_OK) {
+	OpenTerrainFile(dlg.GetPath());
     }
 }
+
+bool MainFrm::OpenTerrainFile(const wxString& file)
+{
+    if (!m_Gfx || !m_Gfx->LoadDEM(file)) return false;
+    if (!m_Gfx->DisplayingTerrain()) m_Gfx->ToggleTerrain();
+    return true;
+}
+
+#ifdef __EMSCRIPTEN__
+bool MainFrm::OpenBrowserFiles(const wxString& survey, const wxString& terrain,
+                              bool overview)
+{
+    if (!m_Gfx) return false;
+    if (!survey.empty()) {
+	if (!LoadData(survey, wxString())) return false;
+	// A local model must not inherit the previous scene's DEM or extent.
+	m_Gfx->ClearBrowserTerrain();
+	AddToFileHistory(survey);
+	InitialiseAfterLoad(survey, wxString());
+    }
+    if (!terrain.empty() && !OpenTerrainFile(terrain)) return false;
+    if (overview) {
+	if (!m_Gfx->ShowingStationNames()) m_Gfx->ToggleStationNames();
+	m_Gfx->TurnCave(335 - m_Gfx->GetCompassValue());
+	m_Gfx->TiltCave(25);
+    }
+    UpdateWindowUI(wxUPDATE_UI_RECURSE);
+    return true;
+}
+#endif
 
 void MainFrm::OnOverlayGeodata(wxCommandEvent&)
 {

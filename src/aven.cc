@@ -38,6 +38,9 @@
 
 #include <assert.h>
 #include <stdio.h>
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 #include <wx/confbase.h>
 #if wxUSE_DISPLAY
@@ -239,6 +242,18 @@ int main(int argc, char **argv)
 }
 #endif
 
+#ifdef __EMSCRIPTEN__
+// Browser file input passes MEMFS paths to the normal Aven loaders. JSPI
+// wraps this entry point so ordinary modal error dialogs can still suspend.
+extern "C" EMSCRIPTEN_KEEPALIVE
+int aven_open_files(const char* survey, const char* terrain)
+{
+    auto* frame = static_cast<MainFrm*>(wxTheApp->GetTopWindow());
+    return frame && frame->OpenBrowserFiles(wxString::FromUTF8(survey),
+                                            wxString::FromUTF8(terrain));
+}
+#endif
+
 bool Aven::OnInit()
 {
     wxUILocale::UseDefault();
@@ -401,6 +416,10 @@ bool Aven::OnInit()
     m_Frame->Layout();
     m_Frame->SendSizeEvent();
     m_Frame->UpdateWindowUI(wxUPDATE_UI_RECURSE);
+    if (const char* terrain = getenv("AVEN_STARTUP_TERRAIN")) {
+        m_Frame->OpenBrowserFiles(wxString(), wxString::FromUTF8(terrain), true);
+    }
+    EM_ASM({ Module.avenReady = true; });
 #endif
 #ifdef _WIN32
     m_Frame->SetFocus();

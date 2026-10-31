@@ -1,6 +1,30 @@
 # Direct Aven WASM experiment
 
-**Actual Aven now runs in WebGL2**, retaining its wx interface, `.3d` parser, LRUD and DEM code. Read [results and limits](../../doc/AVEN_WASM_SPIKE.md) and [known limitations](KNOWN_LIMITATIONS.md). This remains a local experiment, not a production distribution or clean-machine installer.
+**Actual Aven now runs in WebGL2**, retaining its wx interface, `.3d` parser, LRUD and DEM code. Read [results and limits](../../doc/AVEN_WASM_SPIKE.md) and [known limitations](KNOWN_LIMITATIONS.md). The [experimental Pages viewer](https://dlubom.github.io/survex/) starts with the full Tatra Kataster and its terrain. It remains an experiment, not a production distribution or clean-machine installer.
+
+## Package the default Kataster scene for static hosting (stage 4)
+
+The page starts Aven with the pinned Kataster and a losslessly zipped HGT, names enabled and an oblique view. **Otwórz pliki…** optionally reads a local `.3d` and/or `.hgt`/terrain `.zip` through a browser file input and the normal Aven loaders. Files stay in browser memory; there is no upload endpoint or persistence. Opening another survey clears the old scene's terrain. **Kataster + teren** reloads the default scene.
+
+Prepare the audited data with `prepare-kataster.py` as below, then run from the source checkout (output directories must be new):
+
+```sh
+python3 tests/wasm-spike/scripts/prepare-pages-assets.py "$KATASTER_TEST/assets" /tmp/aven-pages-assets
+AVEN_BUILD=/tmp/aven-pages-build AVEN_EXTRA_DATA=/tmp/aven-pages-assets AVEN_WEB_SCENE=kataster \
+  bash tests/wasm-spike/scripts/build-aven.sh
+# Commit the reviewed source before packaging for publication.
+python3 tests/wasm-spike/scripts/package-pages.py --build /tmp/aven-pages-build \
+  --assets /tmp/aven-pages-assets --output /tmp/aven-static-root/survex
+python3 -m http.server 8780 --bind 127.0.0.1 --directory /tmp/aven-static-root
+```
+
+Open <http://127.0.0.1:8780/survex/>. `--allow-dirty` permits local preview only: the manifest marks it and no source archive is supplied. Never publish such a preview. The packager verifies the preloaded scene bytes, adds the exact committed Survex source archive, dependency notices, provenance and SHA-256 manifest. The original HGT bytes are verified after ZIP decompression. Files use relative URLs and a content-addressed app directory; no server, COOP/COEP headers, service worker or `SharedArrayBuffer` is required by this single-thread build. The prepared dependency environment is still required to build it.
+
+Run `pages/browser-pages-check.js` through Playwright on the package root URL. It checks automatic startup, camera controls through the iframe, local survey/DEM input, no network requests during local import, restoration and console/GL errors. It stores `window.avenPagesAcceptance`. To repeat station/tree/LRUD/synthetic checks, navigate directly to the manifest's `app` URL and run `browser-check.js`; that script explicitly selects the bundled fixture and supports nested project paths. Stage-4 [local evidence](evidence/stage4/manifest.json) records the build hashes. Stage-3 evidence remains an archive of commit `5c34c8ea`, not a declaration about later sources.
+
+Publish only a clean, tested package to the repository's **`gh-pages` branch, root `/`**, with `.nojekyll`; configure GitHub Pages to deploy from that branch. Source stays on `codex/aven-webgl2` / draft PR #2. No merge is needed. For first publication, copy the package into a new temporary Git repository, commit on `gh-pages`, and push without force. For updates, fetch/check out the existing branch and replace its static files in a separate checkout. Do not overwrite an existing branch blindly. Verify the public URL, file hashes and browser interactions after GitHub's Pages deployment finishes. Deployment receipts are kept beside the static package at [verification/receipt.json](https://dlubom.github.io/survex/verification/receipt.json); they identify the source and tested static commit separately.
+
+Data attribution and limits appear on the page's **Dane i obsługa** link. Kataster is pinned to `3f865414…`, CC BY-SA 4.0; DEM is credited to Jonathan de Ferranti / Viewfinder Panoramas. The author's [redistribution terms](https://www.viewfinderpanoramas.org/) allow acknowledgement and a source link where a different format or smaller file is needed; this package uses lossless ZIP/MEMFS packaging. No terrain resampling, source edits or vertical shift is applied. Three entrances remain outside the tile; vertical datum agreement and source LRUD import are unresolved.
 
 ## Build and run
 
@@ -87,7 +111,7 @@ make -f Makefile -f "$AVEN_SOURCE/tests/wasm-spike/native-regressions.mk" scale-
 ./scale-regression
 ```
 
-It uses the actual `GfxCore`, `GLACanvas` and ordinary wheel handler, not a reimplementation of their formula. Run existing native suites serially (`make -j1 check` in the native build's `tests` directory) and retain source/binary hashes with their logs. The native converter reproducer is kept in [the archived failure record](KNOWN_LIMITATIONS.md#native-gui-startup-blocked-by-an-existing-converter-bug).
+It uses the actual `GfxCore`, `GLACanvas` and ordinary wheel handler, not a reimplementation of their formula. Run existing native suites serially (`make -j1 check` in the native build's `tests` directory) and retain source/binary hashes with their logs. A staged native build without generated message catalogs needs `SURVEXLIB=/private/tmp/aven-wasm-spike/release-resources/lib` when running these tests; otherwise even `aven --help` may stop at a missing-catalog diagnostic. The native converter reproducer is kept in [the archived failure record](KNOWN_LIMITATIONS.md#native-gui-startup-blocked-by-an-existing-converter-bug).
 
 ## Repeat the real Kataster / HGT experiment
 
