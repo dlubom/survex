@@ -1,5 +1,81 @@
 # Praktyczny test Aven + wxWidgets + Emscripten
 
+## Etap 2 — rzeczywiste Aven w WebGL2 (2026-10-31)
+
+**Cel eksperymentu osiągnięty:** rzeczywiste Aven otwiera `.3d`, rysuje jaskinię i etykiety, obsługuje drzewo oraz nawigację myszą, wyświetla LRUD i syntetyczny DEM. Test odbył się lokalnie w Chromium `156.0.8078.74`. To nadal eksperyment, z widocznymi ograniczeniami forka wx opisanymi poniżej; nie pełny port produkcyjny.
+
+Baza tej kontynuacji: `164eb2c54efac39c7c3a30b792bc9cbbbeb35204` (poprzedni eksperyment), gałąź `codex/aven-webgl2`. Zależności wx/Emscripten/PROJ WASM są przypięte jak w etapie 1. Powstały **34 obiekty Aven** i komplet `aven.html/js/wasm/data`. Link używa `MIN_WEBGL_VERSION=2`, `MAX_WEBGL_VERSION=2` i `ERROR_ON_UNDEFINED_SYMBOLS=1`; **nie używa `LEGACY_GL_EMULATION`**. Nie ma atrap funkcji graficznych ani wyłączonej kontroli symboli. Zmiany nie zostały opublikowane, wypchnięte ani scalone.
+
+### Wybór i zakres zmiany
+
+Rozważono uzupełnienie 21 symboli nad emulacją Emscripten oraz osobny backend ograniczony do GLA Aven. Pierwsza droga pozostawiłaby m.in. pusty `glPolygonMode` i niepełne zachowanie innych operacji. Wybrano drugą: `aven-webgl.{h,cc}` mapuje wywołania wyłącznie w `gla-gl.cc` i `glbitmapfont.cc`, pod `__EMSCRIPTEN__`. Desktop nadal korzysta z natywnego OpenGL; model, wyliczanie LRUD, parser DEM i interfejs Aven pozostają wspólne. Takie ograniczenie zakresu odpowiada zaleceniu używania podzbioru zgodnego z WebGL w [dokumentacji Emscripten](https://emscripten.org/docs/porting/multimedia_and_graphics/OpenGL-support.html).
+
+Backend zawiera:
+
+- bufory wierzchołków i shadery GLSL ES 3.00; triangulację czworokątów, wielokątów i pasów; linie, punkty, tryb obrysu, kolory, normalne, światło, mgłę, kreskowanie i tekstury;
+- listy przechowujące polecenia, z kopiowaniem danych bitmap/kolorów i odtwarzaniem dopiero podczas rysowania; zachowane unieważnianie list GLA;
+- oryginalne bitmapy fontu Aven zamieniane na pikselowe czworokąty, z pozycją rastra, kolorem, clippingiem i przesunięciem znaków; etykiety nie są nakładką HTML;
+- macierze CPU w `double` i projekcję/odwrotną projekcję dla wyboru stacji i przesuwania; trójkąty GLU dla wskaźników, generowanie mipmap;
+- wygładzanie linii przez geometrię w ekranie, z przycięciem do sześciu płaszczyzn przed dzieleniem przez `w`.
+
+Listy poleceń odtwarzają geometrię do bufora przy każdej klatce. Nie zmierzono wydajności dużych modeli. To ograniczony backend Aven, nie kompletna implementacja OpenGL. Opcjonalne tryby mają implementacje, lecz bez osobnych testów obrazu nie deklarujemy ich pełnej zgodności wizualnej.
+
+### Wyniki rzeczywistych interakcji
+
+[Odtwarzalny scenariusz Playwright](../tests/wasm-spike/browser-check.js) steruje menu i myszą; nie wywołuje metod rysowania ani ładowania przez testowe skróty. `AVEN_WEB_TEST` udostępnia tylko obserwacje z normalnego ładowania, renderowania i hit-testu. [Wyniki](../tests/wasm-spike/evidence/webgl2/browser-results.json), [pełna konsola](../tests/wasm-spike/evidence/webgl2/browser-console.log).
+
+| Funkcja | Wynik i dowód |
+| --- | --- |
+| Rzeczywisty Nordalpenschacht `.3d` | PASS: 20 etykiet, 17 odcinków; parsowanie i widoczna geometria Aven |
+| Nazwy stacji | PASS: przełączenie `View → Station Names`; widoczny oryginalny font |
+| Obrót / pochylenie / przesuwanie | PASS: lewy / środkowy / prawy drag zmienia rzeczywistą kamerę |
+| Przybliżanie i oddalanie | PASS: oba kierunki kółka; zmiany skali i klatek |
+| Wybór stacji na modelu | PASS: klik wyliczonej pozycji `205.2.17` wybiera ten punkt i rozwija odpowiednią gałąź drzewa |
+| Drzewo pomiarów | PASS: hierarchia i zaznaczenie; dwuklik w widoczny wiersz `205.2.16` zmienia wybraną stację |
+| Zmiana pliku przez istniejące okno | PASS: `File → Open…` z prawdziwego przykładu do `bundled-passage.3d`, następnie `synthetic-2180.3d` |
+| LRUD | PASS: bundled passage ma 14 przekrojów / 5 sekwencji; bryła widoczna i obracana. Syntetyczny model ma 7 przekrojów / 2 sekwencje |
+| DEM przez istniejące okno | PASS: `File → Open Terrain… → /fixtures/synthetic-terrain.zip`, odczyt 65×65 i 8192 trójkąty |
+| Zmiana rozmiaru | PASS: 1200×802 → 1000×720 → 1200×802, nowe klatki i wymiary kamery |
+| Błędy | Końcowy scenariusz: **0 błędów JS/konsoli, 0 ostrzeżeń, 0 błędów adaptera i natywnego WebGL** |
+
+Zrzuty: [jaskinia, nazwy i wybór](../tests/wasm-spike/evidence/webgl2/final-real-names-tree-selection.png), [aktywacja w drzewie](../tests/wasm-spike/evidence/webgl2/final-tree-activated.png), [LRUD](../tests/wasm-spike/evidence/webgl2/final-passage-lrud.png), [jaskinia pod DEM w elewacji](../tests/wasm-spike/evidence/webgl2/final-synthetic-dem-elevation.png), [mniejsze okno](../tests/wasm-spike/evidence/webgl2/final-resized.png).
+
+### Wzajemne położenie jaskini i DEM
+
+Weryfikacja korzysta z wierzchołków rzeczywiście przekształconych przez Aven/PROJ i przekazanych do geometrii terenu. Wszystkie **4225** porównano z niezależnym natywnym `cs2cs EPSG:4326 EPSG:2180` (PROJ 9.9.0). Maksymalna różnica XY: `1.87e-9 m`; Z: `0 m`. Sprawdzono również odejmowanie środka modelu dla wszystkich wierzchołków. Zachowano [surową obserwację](../tests/wasm-spike/evidence/webgl2/terrain-vertices.json.gz), [skrypt](../tests/wasm-spike/verify-browser-terrain.py) i [wynik](../tests/wasm-spike/evidence/webgl2/terrain-native-comparison.json).
+
+| Punkt | E [m] | N [m] | Z [m] |
+| --- | ---: | ---: | ---: |
+| Środek DEM: 19.9°E, 49.25°N | 565478.1244262591 | 154000.0736753335 | 1510 |
+| `synthetic.a` z `.3d` | 565478.12 | 154000.07 | 1500 |
+| Różnica DEM − stacja | +0.0044262591 | +0.0036753335 | **+10** |
+
+Wszystkie stacje mieszczą się pod centralnym plateau 1510 m. Odstępy pionowe: a/b/c/s = 10 m, d/e = 15 m, f = 22 m. To jawnie syntetyczne wysokości bez deklaracji rzeczywistego układu pionowego. Legenda kolorów na zrzucie jest legendą wysokości jaskini Aven.
+
+### Usunięte przeszkody i pozostałe granice
+
+Po przejściu linkowania naprawiono trzy konkretne problemy integracyjne, tylko dla WASM:
+
+1. Fork uznaje pierwsze utworzone okno najwyższego poziomu za browser root. W Aven było nim ukryte okno logu: właściwy model wczytywał się, lecz canvas miał 20×20. Teraz najpierw powstaje główne okno, a potem zwykły log; początkowa geometria i układ są synchronizowane z viewportem.
+2. `wxMenuItem::Enable/Check` zmienia stan C++, a DOM zachowuje poprzedni JSON. Po zmianie pliku menu LRUD pozostawało szare. `MainFrm::UpdateWindowUI` publikuje strukturę tylko po zmianie, zachowując normalne reguły dostępności.
+3. `stderr` w shellu oznacza błąd konsoli także dla komunikatu wx `Debug: EndModal: 5100`. Log Aven przekazuje rzeczywisty poziom do odpowiedniej metody konsoli; błędy nie są filtrowane. Końcowy przebieg potwierdził brak błędów.
+
+Nieprzetestowane: Safari/Firefox, dotyk i HiDPI, duże modele, utrata kontekstu, wszystkie CRS/siatki, Unicode spoza etykiet zestawu, pełny parytet opcjonalnego teksturowania/światła/mgły, eksport, druk, filmy, uruchamianie `cavern`/`extend` w WWW, import dowolnych lokalnych projektów. GDAL i FFmpeg pozostają poza buildem WASM. Picker przegląda MEMFS z przygotowanymi plikami; nie jest to jeszcze importer plików z dysku użytkownika.
+
+Nadal widoczne ograniczenia UI: nakładanie pól wyszukiwania/Z na lewą część paska narzędzi; brak użytecznego paska statusu; Enter po zmianie wiersza drzewa strzałką nie aktywuje oczekiwanej stacji (dwuklik działa). Po dołączeniu DEM pierwsza zmiana zoomu może przeskoczyć skalę. Odtwarzalne kroki i przyczyny są w [znanych ograniczeniach](../tests/wasm-spike/KNOWN_LIMITATIONS.md). Te wady nie zostały ukryte ani zaliczone jako PASS.
+
+### Kontrola desktopu i następny etap
+
+Natywny Aven zbudowano z wxWidgets 3.3.4, PROJ 9.9.0, GDAL 3.13.3 i FFmpeg 9.0.2; **8/8 istniejących zestawów testów PASS**, uruchomionych szeregowo. [Dowody](../tests/wasm-spike/evidence/webgl2/native-summary.json). Test macierzy wykonał 144 kontrole skalarne, w tym 108 porównań z natywnym GLU: maks. różnica projekcji `4.05e-10`, odwrotnej projekcji `1.81e-7 m`. Test przycinania linii obejmuje kamerę, near/far i sześć płaszczyzn.
+
+**Natywne GUI na tym hoście pozostaje zablokowane błędem już obecnym w bazie:** `wxConvFileName == nullptr` przed `wxEntry`; bazowy i zmieniony Aven kończą się SIGSEGV. Zachowano [minimalny reproducer](../tests/wasm-spike/wx-converter-repro.cc) i [wynik](../tests/wasm-spike/evidence/webgl2/wx-converter-repro.json). Nie przedstawiamy testów CLI jako sukcesu natywnego GUI ani pełnego porównania obrazów desktop/WWW.
+
+**Rekomendacja:** kontynuować tę drogę. Następny etap powinien domknąć wymienione zachowania wxWidgets i skalę po DEM, dodać import lokalnych plików, a następnie zmierzyć większe modele przed przenoszeniem list na trwałe bufory GPU. Instrukcja lokalnego buildu i uruchomienia: [README eksperymentu](../tests/wasm-spike/README.md).
+
+---
+
+## Etap 1 — zachowany raport pierwotnej próby
+
 Data: 2026-10-31. **Wynik: biblioteki i wszystkie 33 jednostki kompilacji Aven zbudowano do WASM, ale kompletnej aplikacji nie uzyskano. Ścisłe linkowanie zatrzymało się na 21 brakujących funkcjach OpenGL/GLU.** Sam fork wxWidgets działa w przetestowanej przeglądarce z prawdziwym WebGL2 i interakcją.
 
 To wynik wykonanych kompilacji i prób, nie dalsza analiza dokumentacji. Diagnostyczna aplikacja wx nie jest Aven i nie wyświetla modelu jaskini. Nie zastosowano atrap GL ani transformacji, nie wyłączono kontroli niezdefiniowanych symboli.

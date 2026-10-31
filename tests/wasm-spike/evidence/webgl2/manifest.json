@@ -1,0 +1,146 @@
+{
+  "stage": "Aven WebGL2 browser acceptance",
+  "date": "2026-10-31",
+  "baseline_commit": "164eb2c54efac39c7c3a30b792bc9cbbbeb35204",
+  "branch": "codex/aven-webgl2",
+  "build": {
+    "command": "bash tests/wasm-spike/scripts/build-aven.sh",
+    "exit_code": 0,
+    "source_directory": "/private/tmp/aven-webgl2-src",
+    "build_directory": "/private/tmp/aven-webgl2-build",
+    "aven_objects": 34,
+    "webgl_min": 2,
+    "webgl_max": 2,
+    "error_on_undefined_symbols": true,
+    "legacy_gl_emulation": false,
+    "final_relink": "Exit 0 after removing trailing whitespace from the HTML shell. WASM, JavaScript and data are byte-identical to the full browser acceptance run."
+  },
+  "browser": {
+    "version": "156.0.8078.74",
+    "action_names": [
+      "loaded",
+      "rotate",
+      "tilt",
+      "pan",
+      "zoomOut",
+      "zoomIn",
+      "selection",
+      "tree",
+      "lrud",
+      "terrain",
+      "resize"
+    ],
+    "console": {
+      "errors": [],
+      "warnings": []
+    },
+    "gl_counters": {
+      "draws": 16055,
+      "vertices": 2326898,
+      "backend": "WebGL2 shader/VBO",
+      "bitmaps": 10154
+    }
+  },
+  "source_sha256": {
+    "doc/AVEN_WASM_SPIKE.md": "c380ff00244f171877373ed2a2bb6b58af5763f75a8f160455bc5efee431d057",
+    "src/Makefile.am": "a2758942aac3abf2b59ac9874ab5a055e7e71f5e4228be6853d759009ddbce34",
+    "src/aven-webgl-matrix.h": "957d00e626d8c5714b7b173441504941369e9064ce46494eb9e89965008075fd",
+    "src/aven-webgl.cc": "2f2e956742fd9e8502640fa84965a242750f14de68ae63b885d34cec5583c643",
+    "src/aven-webgl.h": "7ee0251f3bc1431305cbfc0366cb2c53bee237e9cc3594dcc5ab88efea2c4388",
+    "src/aven.cc": "51ea17e808ce18486354bfbfe9434dc22846bf69da19e95b0215e5f9275474dc",
+    "src/gfxcore.cc": "12e28979f1975a97081abc89f7afbe6fa41f698b8fdc890caeab4b3d96fb47d9",
+    "src/gla-gl.cc": "82cf35e3d5c868d2170e4f794636ed19001c21269b8805cffbe27db111fa377c",
+    "src/glbitmapfont.cc": "8d18ca0f4d5ca7da54dda3443af9093ebcb24010e516752a14da61fb6a18575d",
+    "src/log.cc": "98a7448f644dca0d8b3abb6442575edec222795fb2ec68d565eac37a5a113319",
+    "src/log.h": "5ab1e96712d611c63df6690ed71693e277fecc0baa46569168ce769d9223e44a",
+    "src/mainfrm.cc": "3c3cd505a5f782450c4418c25e12a1833646ffe2b9547d8328320ce42ebc8dd5",
+    "src/mainfrm.h": "b5c5254c26285f4de735a35206ed1588d9ff074ea2486b4b8f04ba5f85a4e139",
+    "src/model.cc": "13098220d9007662efcab257196fb3d03d91a9683244a34ee1699a7d024c82c9",
+    "tests/wasm-spike/KNOWN_LIMITATIONS.md": "64391450cd8117663d391585a78139247f4a03082992bb236c9fe3c39b771841",
+    "tests/wasm-spike/README.md": "7b338a70cf5a74709e52e32bcd6bc7d16288f734b0391e7b0d2a6eb95567b469",
+    "tests/wasm-spike/aven-bootstrap.js": "f5811b32a3e7060d000bb7c68368a121aadc818f651f935fbe101b025425d177",
+    "tests/wasm-spike/aven-shell.html": "e398522b44330ad90e4282d13677f8ce7c9b42426dd5882a8ff5416dad36e2a7",
+    "tests/wasm-spike/browser-check.js": "379dd3de823a5c663daef9d5e020a9348af5522dbead4f8a0d0932246fe28720",
+    "tests/wasm-spike/line-clip-test.cc": "494465456ac4eb4e97bcce1d6395d7b8cb9578f6dda255b43c60c593b5bd519f",
+    "tests/wasm-spike/matrix-glu-oracle.cc": "109f8508f7a2d2efac6850ae9d23adcf6df906b7627c22db0d28c718deca70bc",
+    "tests/wasm-spike/scripts/build-aven.sh": "4cb4423ebc2d3bb640b43bab9391e34cf3b56746f62922b2ad767c7686991fde",
+    "tests/wasm-spike/scripts/link-aven.sh": "979e0903d699707b023f1994acccb571eca9bcbc6481cf24a4756c2a903a4729",
+    "tests/wasm-spike/verify-browser-terrain.py": "31f6500cd68b3044fa65cff5ffd50bd5b4ed024e4fd69ae62d9c63af8f1b8be5",
+    "tests/wasm-spike/wx-converter-repro.cc": "6c6ead1024b9d258f43bb18ea85b4b08870cdf78ac08afe424ed5bff1aa83be7"
+  },
+  "artifacts": {
+    "aven.data": {
+      "bytes": 15978575,
+      "sha256": "0912f12a585df099504b44acb3aa0bdbab3457adc102f6e9b0432a8258857086"
+    },
+    "aven.html": {
+      "bytes": 3592,
+      "sha256": "2bf9304dbb05e78736ecc31c9818945b65521c8c83b956da2487016751b7aa86"
+    },
+    "aven.js": {
+      "bytes": 533481,
+      "sha256": "fa74ad10e73a9a63b02fdd70ec76a286c049f9001bac1392868385f2580d210c"
+    },
+    "aven.wasm": {
+      "bytes": 19401045,
+      "sha256": "9cba924663a448b63dd62713072f3a1c6a7e0b3daa017280bdd000ad3b76c395"
+    }
+  },
+  "fixture_sha256": {
+    "tests/wasm-spike/fixtures/README.md": "e2c06c545871849d75530d5000c27b9c5ae61a7effcf1c6dd628c3c4d4ecd5be",
+    "tests/wasm-spike/fixtures/bundled-passage.3d": "e85d6a8833df08fe65d4545f7fde2c136a316094b8b84e04e9bc7c67e7240264",
+    "tests/wasm-spike/fixtures/bundled-passage.cavern.log": "e0c49608d019edb937bb2bac58601344ebb4d47923c8d5e81109d1a0c4f87773",
+    "tests/wasm-spike/fixtures/bundled-passage.dump": "d5766c0a0b45b3a0ab0e3016a6e2838d95fbb23249976b8e00e6b8643bdeba5b",
+    "tests/wasm-spike/fixtures/bundled-passage.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/wasm-spike/fixtures/bundled-passage.legs.dump": "6de1d2cde6b205115177ac301130b712931960ef035df78d2183b4e3a57a98b4",
+    "tests/wasm-spike/fixtures/bundled-passage.svx": "cc6113379b885e7f11bfe9780be850a2ab22100a929729d59dcc0eb62ca9f825",
+    "tests/wasm-spike/fixtures/fixture-counts.json": "662c1ad21c6ff85e1fd179283ff2e5b9030c8a23bcd65893bfb1aa9749f89d53",
+    "tests/wasm-spike/fixtures/official-sample/sample/loser/caves/205/205.svx": "2d33180e36de7c4e2700b5136f5fe61e1d3eb147bcc80ac17f2055ec74658afc",
+    "tests/wasm-spike/fixtures/real-nordalpenschacht-205.3d": "b894dac74728154c822674a04321070073b747dc4ec21807820a1740005f96e6",
+    "tests/wasm-spike/fixtures/real-nordalpenschacht-205.cavern.log": "aa6ca6d659f053b01fd245edb94c8722219c66c6dc29444fd04dcc40f58c2785",
+    "tests/wasm-spike/fixtures/real-nordalpenschacht-205.dump": "3262e42994daef19dd447fae4871cbbfd2cf9fd3b0e9326e99b7c98ed714f9a4",
+    "tests/wasm-spike/fixtures/real-nordalpenschacht-205.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/wasm-spike/fixtures/real-nordalpenschacht-205.legs.dump": "9c312caa69290d12e7ffa8447fdf9a376b2801d6eb6a5460bcfb133c3b3739f8",
+    "tests/wasm-spike/fixtures/real-nordalpenschacht-205.svx": "2d33180e36de7c4e2700b5136f5fe61e1d3eb147bcc80ac17f2055ec74658afc",
+    "tests/wasm-spike/fixtures/sample.tar.gz": "e1b1dfc02743d08decea14e32de624c9d7a710540ca279a7ad94c5089ea000da",
+    "tests/wasm-spike/fixtures/sha256.json": "c2636845a939251d5f0937484f73f56c65c7919e1507109c5f55fd2347b43a58",
+    "tests/wasm-spike/fixtures/synthetic-2180.3d": "2b31fd702b568702b2bbbc220e17a67c4cb943bef1c7c1a4de26bc24bdd24cdd",
+    "tests/wasm-spike/fixtures/synthetic-2180.cavern.log": "fb6266987559fc9e4e35d9c5bbc799959f60d1ac40d379f298f2db856ab351eb",
+    "tests/wasm-spike/fixtures/synthetic-2180.dump": "355fe97a3a2d1f7efc2c3592e5c313271f91be71e61a4b6c4378afe385221195",
+    "tests/wasm-spike/fixtures/synthetic-2180.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/wasm-spike/fixtures/synthetic-2180.legs.dump": "9aa0e50f48cbdca2f8fdc4ee8c418a22305cae99c845319a5dc1087b8aed0e37",
+    "tests/wasm-spike/fixtures/synthetic-2180.svx": "c69b841125ad3b6add2153fb7442b3101f8c93a18a70285d48dc810a7ff2b7f4",
+    "tests/wasm-spike/fixtures/synthetic-stations-wgs84.txt": "514c07744f9d9281ad5f691bd9d73a2fb84061ef67708f46e9d1b71bf9ae614a",
+    "tests/wasm-spike/fixtures/synthetic-terrain.bil": "3c2ed5a2143551b87fd1a3668d3755e6a16e3249ed6d190a15c1f9072fa6e2c8",
+    "tests/wasm-spike/fixtures/synthetic-terrain.hdr": "3e328fc2acc540517246b5fc4285cb1a46de3d9a343c238b8fcca95900772fb4",
+    "tests/wasm-spike/fixtures/synthetic-terrain.json": "39b07ae5553180bbf141c4dbfe6d6780b00ea2333632d027060940c6a762da8a",
+    "tests/wasm-spike/fixtures/synthetic-terrain.prj": "c48fa0a08c78aa3bd747695ddd13b31c38fee66db41b76510c43428465d41dcb",
+    "tests/wasm-spike/fixtures/synthetic-terrain.zip": "7adaa1a57f8753c338fbbb56afc66412e17043048b666c6f4a9faa1815eede9b",
+    "tests/wasm-spike/fixtures/verification.log": "76b9615de05efe8584e4446024cf636d9f1a887e72e699aeae550d803e0371a2",
+    "tests/wasm-spike/fixtures/verify_fixtures.py": "3c6018bd00fa77444aaae3b38aee8e870beac8a883eec0f35755fa2d10ed95a5"
+  },
+  "evidence_sha256": {
+    "browser-console.log": "99830c319cf4aa69a5a9cef65cb987069b12133e937286efe47706424e978d34",
+    "browser-results.json": "c0c7911dbfda9fe60122b823e5a1a5a9db60be12df843b509fd92ae56c551464",
+    "compile.log": "1d6cfc99d04adcaba7bd049ea1abe2a73a4b39f442c15e5e9260a9ac35796671",
+    "configure.log": "ecb221bd568965e9aef7c3c916e752402a2f50ffd2324001bcc8194e3633810c",
+    "final-passage-lrud.png": "9ce9fc6132cf00f396499782b839e3d67b1b0f9d5ba7012e0a6548a52a252c79",
+    "final-real-names-tree-selection.png": "e42ac1dfd582d7a32dd9da0354abe4728fb7d12a0a7c35a90dd68d84cfc6e3f8",
+    "final-resized.png": "2a08d8798b7e008ebebecc3ee8bfbe4c5042bb3776c0cd71dfd7525fd7ff7abc",
+    "final-synthetic-dem-elevation.png": "59b02344cde97b8de4967abf3e0effe9af385908398e0826a78e92e1737f4659",
+    "final-tree-activated.png": "4448994858a19e27ba73057da99d151ca47448fabcfe907ade466ac58fdcabf4",
+    "line-clip-test.log": "2d08e655c2534a79e6ba32f75a1ec3af21275e3c06146a3472b49d76d9f2cdc3",
+    "link.log": "a1f783debfc06bc834c939fe9ef5022ddde538d0062c644515dc5e7c29a222cf",
+    "matrix-test.log": "5ee69b23c828f4c7e49dfa9091cbb37a3ccc8aeeab22914e427869fb033b459a",
+    "native-build.log": "05e931c784e0004acbbfe253f2f9fa8d4584460d2a1e23b3065b67c27d229793",
+    "native-check.log": "1a9669d2cf6e9337b049372b8e551ebeac171f0a1d5e0a496db77287ed14ac91",
+    "native-configure.log": "7518c4ea444de1b34f0836151c6def6f6660d3ef061e17370eeb76fbf7f8bd1e",
+    "native-preprocessed-normalized-comparison.json": "630e0174fd03b4cd4674b7bdfaa1c9fd45ba2fa7fa5939be38e70db4a662600d",
+    "native-summary.json": "e0a83ac1c19c61b199ebfbc4f238ffba5adaa5c01bf5d323eb117a1d2e39769d",
+    "terrain-native-comparison.json": "fb344f12d06b4d190efc5c88ca751ab1ae615ab9a04002a0c2ed974a7c72ad15",
+    "terrain-vertices.json.gz": "b16123b5e83cd00040fa4c3c4cf0a350ae372df84ae4c236b4326b861f5d3027",
+    "tree-activation-repro.png": "b900cbcb44eb8d98ed0a91ee05ca7734e9b11664d392eb9407c3ef52ff1772af",
+    "wx-converter-repro.json": "b2ce55dcac1c053c9e44e631e3cc05cafbe3b6c76630f35c96c37fa5fbb6585b"
+  },
+  "limits": "See ../../KNOWN_LIMITATIONS.md; this manifest records one local tested build, not desktop GUI parity or production acceptance."
+}

@@ -48,6 +48,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef __EMSCRIPTEN__
+#include "aven-webgl.h"
+#endif
+
 using namespace std;
 
 #include "../lib/preload_font.h"

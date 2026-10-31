@@ -186,6 +186,10 @@ class MainFrm : public wxFrame, public Model {
 
     bool fullscreen_showing_menus = false;
 
+#ifdef __WXWASM__
+    wxString wasm_menu_state;
+#endif
+
 #ifdef __WXMAC__
     bool using_macos_full_screen_view = false;
 #endif
@@ -213,6 +217,10 @@ class MainFrm : public wxFrame, public Model {
 
 public:
     MainFrm(const wxString& title, const wxPoint& pos, const wxSize& size);
+
+#ifdef __WXWASM__
+    void UpdateWindowUI(long flags = wxUPDATE_UI_NONE) override;
+#endif
 
     // public for CavernLog.
     bool LoadData(const wxString& file, const wxString& prefix);

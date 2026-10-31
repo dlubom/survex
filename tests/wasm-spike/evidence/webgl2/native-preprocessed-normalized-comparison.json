@@ -1,0 +1,44 @@
+{
+  "aven": {
+    "identical_except_source_line_metadata": true,
+    "normalized_sha256": [
+      "af490bc35aaedce8bd2cb3f9c8855ab397c502d9c2e2b3e1166571760d74850e",
+      "af490bc35aaedce8bd2cb3f9c8855ab397c502d9c2e2b3e1166571760d74850e"
+    ]
+  },
+  "gfxcore": {
+    "identical_except_source_line_metadata": true,
+    "normalized_sha256": [
+      "07855ea05caf8f265774aa2099d3fda9d8abf2400fed65c3ded905f2e4f06df7",
+      "07855ea05caf8f265774aa2099d3fda9d8abf2400fed65c3ded905f2e4f06df7"
+    ]
+  },
+  "model": {
+    "identical_except_source_line_metadata": true,
+    "normalized_sha256": [
+      "f5ba4021516575cd5dbaa59c603e092ccf5a0e0d1b33a604b090a0844cf53b5c",
+      "f5ba4021516575cd5dbaa59c603e092ccf5a0e0d1b33a604b090a0844cf53b5c"
+    ]
+  },
+  "gla-gl": {
+    "identical_except_source_line_metadata": true,
+    "normalized_sha256": [
+      "34e761506eb6a1c957c522ff0abb40233e0d74431cba2a159d1c8ba73916fe67",
+      "34e761506eb6a1c957c522ff0abb40233e0d74431cba2a159d1c8ba73916fe67"
+    ]
+  },
+  "glbitmapfont": {
+    "identical_except_source_line_metadata": true,
+    "normalized_sha256": [
+      "4b538fbcdbb3d412b43f905f01a13ba992e5c99caf75d90afed45f57078c1184",
+      "4b538fbcdbb3d412b43f905f01a13ba992e5c99caf75d90afed45f57078c1184"
+    ]
+  },
+  "log": {
+    "identical_except_source_line_metadata": true,
+    "normalized_sha256": [
+      "6ea95dd260a752c6f287a7a11012264ad9c904ebd4fa84e3bccb1899673bdd11",
+      "6ea95dd260a752c6f287a7a11012264ad9c904ebd4fa84e3bccb1899673bdd11"
+    ]
+  }
+}

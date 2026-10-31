@@ -994,6 +994,28 @@ void MainFrm::CreateMenuBar()
     SetMenuBar(menubar);
 }
 
+#ifdef __WXWASM__
+void MainFrm::UpdateWindowUI(long flags)
+{
+    wxFrame::UpdateWindowUI(flags);
+    wxMenuBar* bar = GetMenuBar();
+    if (!bar) return;
+
+    // In the pinned WASM wx port menu item Enable()/Check() only update C++
+    // data. Browser menu popups retain the last serialized snapshot, and
+    // opening a menu does not emit wxEVT_MENU_OPEN. Publish changed state after
+    // the ordinary update handlers run, including idle/file/terrain updates.
+    // Avoid rebuilding unchanged menus: rebuilding also closes open popups.
+    wxString state;
+    for (size_t i = 0; i != bar->GetMenuCount(); ++i)
+        state += bar->GetMenu(i)->WasmItemsToJson();
+    if (state != wasm_menu_state) {
+        wasm_menu_state = state;
+        bar->WasmRebuildMenus();
+    }
+}
+#endif
+
 void MainFrm::MakeToolBar()
 {
     // Make the toolbar.

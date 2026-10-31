@@ -242,7 +242,14 @@ bool Aven::OnInit()
 {
     wxUILocale::UseDefault();
 
+#ifdef __EMSCRIPTEN__
+    // The WASM wx port uses the first top-level window as the browser root,
+    // even when it was created hidden. Keep early diagnostics on stderr until
+    // the real main frame exists, then install the usual error-log window.
+    wxLog::SetActiveTarget(new wxLogStderr());
+#else
     wxLog::SetActiveTarget(new MyLogWindow());
+#endif
 
     {
 #ifndef __WXGTK__
@@ -352,8 +359,23 @@ bool Aven::OnInit()
 	}
     }
 
+#ifdef __EMSCRIPTEN__
+    // The browser root occupies the viewport. Establish this before child
+    // canvases capture their DOM screen origin in the WASM wx backend.
+    pos = wxPoint(0, 0);
+    width = geom.width;
+    height = geom.height;
+#endif
+
     // Create the main window.
     m_Frame = new MainFrm(APP_NAME, pos, wxSize(width, height));
+
+#ifdef __EMSCRIPTEN__
+    SetTopWindow(m_Frame);
+    // wxLogWindow installs itself and chains the previous target in its
+    // constructor; SetActiveTarget() here would return this same new object.
+    new MyLogWindow();
+#endif
 
     // Select maximised if that's the saved state.
     if (maximized) {
@@ -371,6 +393,14 @@ bool Aven::OnInit()
     }
 
     m_Frame->Show(true);
+#ifdef __EMSCRIPTEN__
+    // The browser root starts shown in this wx backend, so Show() does not
+    // deliver the usual first size event after all children were constructed.
+    m_Frame->SetSize(0, 0, geom.width, geom.height);
+    m_Frame->Layout();
+    m_Frame->SendSizeEvent();
+    m_Frame->UpdateWindowUI(wxUPDATE_UI_RECURSE);
+#endif
 #ifdef _WIN32
     m_Frame->SetFocus();
 #endif

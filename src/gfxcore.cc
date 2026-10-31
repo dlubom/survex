@@ -51,6 +51,10 @@
 #endif
 #include <proj.h>
 
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+# include <emscripten.h>
+#endif
+
 #define WGS84_DATUM_STRING "EPSG:4326"
 
 const unsigned long DEFAULT_HGT_DIM = 3601;
@@ -344,6 +348,33 @@ void GfxCore::OnPaint(wxPaintEvent&)
 	// Set up model transformation matrix.
 	SetDataTransform();
 
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+        // Expose the same projection used by normal drawing and picking.
+        // Coordinates are framebuffer pixels, with the origin at bottom left.
+        const Vector3& web_translation = GetTranslation();
+        EM_ASM({
+            Module.avenTest = Module.avenTest || {};
+            Module.avenTest.camera = ({
+                pan: $0, tilt: $1, scale: $2, translation: [$3, $4, $5],
+                width: $6, height: $7,
+                names: !!$8, tubes: !!$9, terrain: !!$10,
+                stations: []
+            });
+        }, m_PanAngle, m_TiltAngle, m_Scale,
+           web_translation.GetX(), web_translation.GetY(), web_translation.GetZ(),
+           GetXSize(), GetYSize(), m_Names, m_Tubes, m_Terrain);
+        for (auto i = m_Parent->GetLabels(); i != m_Parent->GetLabelsEnd(); ++i) {
+            glaCoord sx, sy, sz;
+            if (Transform(**i, &sx, &sy, &sz)) {
+                EM_ASM({
+                    Module.avenTest.camera.stations.push({
+                        name: UTF8ToString($0), screen: [$1, $2, $3]
+                    });
+                }, (*i)->GetText().utf8_str().data(), sx, sy, sz);
+            }
+        }
+#endif
+
 	if (m_Legs || m_Tubes) {
 	    if (m_Tubes) {
 		EnableSmoothPolygons(true); // FIXME: allow false for wireframe view
@@ -509,6 +540,11 @@ void GfxCore::OnPaint(wxPaintEvent&)
 	}
 
 	FinishDrawing();
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+        EM_ASM({
+            Module.avenTest.frames = (Module.avenTest.frames || 0) + 1;
+        });
+#endif
     } else {
 #ifdef __WXMAC__
 	if (!m_DoneFirstShow) {
@@ -1962,6 +1998,12 @@ void GfxCore::SetHere(const LabelInfo *p)
     bool line_active = MeasuringLineActive();
     const LabelInfo * old = m_here;
     m_here = p;
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+    EM_ASM({
+        Module.avenTest = Module.avenTest || {};
+        Module.avenTest.here = UTF8ToString($0);
+    }, p ? p->GetText().utf8_str().data() : "");
+#endif
     if (line_active || MeasuringLineActive())
 	RefreshLine(old, m_there, m_here);
 }
@@ -1971,6 +2013,12 @@ void GfxCore::SetThere(const LabelInfo * p)
     if (p == m_there) return;
     const LabelInfo * old = m_there;
     m_there = p;
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+    EM_ASM({
+        Module.avenTest = Module.avenTest || {};
+        Module.avenTest.there = UTF8ToString($0);
+    }, p ? p->GetText().utf8_str().data() : "");
+#endif
     RefreshLine(m_here, old, m_there);
 }
 
@@ -3085,6 +3133,17 @@ void GfxCore::DrawTerrain()
     BeginTriangles();
     const Vector3 & off = m_Parent->GetOffset();
     vector<Vector3> prevcol(dem_height + 1);
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+    EM_ASM({
+        Module.avenTest = Module.avenTest || {};
+        Module.avenTest.terrain = ({
+            width: $0, height: $1, originLonLat: [$2, $3],
+            spacing: [$4, $5], offset: [$6, $7, $8],
+            crs: UTF8ToString($9), samples: [], triangles: 0
+        });
+    }, dem_width, dem_height, o_x, o_y, step_x, step_y,
+       off.GetX(), off.GetY(), off.GetZ(), m_Parent->GetCSProj().utf8_str().data());
+#endif
     for (size_t x = 0; x < dem_width; ++x) {
 	PJ_COORD coord{{o_x + x * step_x, 0.0, 0.0, HUGE_VAL}};
 	Vector3 prev;
@@ -3122,6 +3181,18 @@ void GfxCore::DrawTerrain()
 			pt = Vector3(DBL_MAX, DBL_MAX, DBL_MAX);
 		    } else {
 			abs_z_max = std::max(abs_z_max, fabs(pt.GetZ()));
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+                        // Record the actual PROJ result and the exact vertex
+                        // passed to the terrain triangulation below.
+                        EM_ASM({
+                            Module.avenTest.terrain.samples.push({
+                                column: $0, row: $1, source: [$2, $3, $4],
+                                world: [$5, $6, $7], local: [$8, $9, $10]
+                            });
+                        }, x, y, coord.xyzt.x, coord.xyzt.y, coord.xyzt.z,
+                           r.xyzt.x, r.xyzt.y, r.xyzt.z,
+                           pt.GetX(), pt.GetY(), pt.GetZ());
+#endif
 		    }
 		}
 	    }
@@ -3189,6 +3260,18 @@ void GfxCore::DrawTerrain()
     }
     EndTriangles();
     SetAlpha(1.0);
+#if defined(__EMSCRIPTEN__) && defined(AVEN_WEB_TEST)
+    EM_ASM({
+        Module.avenTest.terrain.triangles = $0;
+        const t = Module.avenTest.terrain;
+        console.log('AVEN_WEB_TERRAIN ' + JSON.stringify({
+            width: t.width, height: t.height, crs: t.crs,
+            samples: t.samples.length, triangles: t.triangles,
+            centre: t.samples.find(p => p.column === Math.floor(t.width / 2) &&
+                                       p.row === Math.floor(t.height / 2))
+        }));
+    }, n_tris);
+#endif
     if (n_tris == 0) {
 	ToggleTerrain();
 	delete [] dem;

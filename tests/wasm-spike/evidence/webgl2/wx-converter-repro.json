@@ -1,0 +1,10 @@
+{
+  "direct": {
+    "exit_code": -11,
+    "stderr": "wxConvFileName before wxEntry: 0x0\n"
+  },
+  "safe": {
+    "exit_code": 0,
+    "stderr": "wxConvFileName before wxEntry: 0x0\n"
+  }
+}
