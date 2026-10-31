@@ -51,6 +51,7 @@ def main():
     for name in ('index.html','viewer.css','viewer.js','about.html'):
         text = (templates/name).read_text().replace('__AVEN_APP_URL__',app_path+'/aven.html')
         text = text.replace('__SOURCE_URL__','https://github.com/dlubom/survex/tree/'+revision)
+        text = text.replace('__SOURCE_REVISION__',revision)
         (args.output/name).write_text(text)
     (args.output/'.nojekyll').touch()
     licenses = args.output/'licenses'
