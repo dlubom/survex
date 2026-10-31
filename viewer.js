@@ -1,6 +1,6 @@
 'use strict';
 // The packager supplies a relative, content-addressed app URL.
-const appURL = 'app/4a250868147388f8b85d/aven.html';
+const appURL = 'app/39002a034b5b2b95f822/aven.html';
 const frame = document.getElementById('aven');
 const loading = document.getElementById('loading');
 const progress = document.getElementById('progress');

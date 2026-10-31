@@ -1,7 +1,7 @@
 {
-  "source_commit": "f024f2d00d110b9023b37d6a9f2b974dea084bd6",
+  "source_commit": "13fb1231d0da4bb95e707a2fe76702731b1f05e8",
   "preview_only": false,
-  "app": "app/4a250868147388f8b85d/aven.html",
+  "app": "app/39002a034b5b2b95f822/aven.html",
   "default_scene": {
     "survey": "/external/kataster.3d",
     "terrain": "/external/terrain.zip"
@@ -28,22 +28,22 @@
       "bytes": 0
     },
     "about.html": {
-      "sha256": "4d468e3e474e5274227ab6648500392da4770ac805a161bbfbd55bd2f8a7e39f",
+      "sha256": "02ddccaee10b99a283e7d0af8c7488648fd73b5db08c5e8fba7dd3be86cceadf",
       "bytes": 3720
     },
-    "app/4a250868147388f8b85d/aven.data": {
-      "sha256": "d5d68e425dc3b6371424011a2b95390b7ceb60ed1539ec1e9858250177a2a9c4",
-      "bytes": 27267585
+    "app/39002a034b5b2b95f822/aven.data": {
+      "sha256": "49fea552b16c639621dbe25b2357f3c5e49e188835d84ad9c84de326ba55fd4f",
+      "bytes": 27267598
     },
-    "app/4a250868147388f8b85d/aven.html": {
+    "app/39002a034b5b2b95f822/aven.html": {
       "sha256": "2bf9304dbb05e78736ecc31c9818945b65521c8c83b956da2487016751b7aa86",
       "bytes": 3592
     },
-    "app/4a250868147388f8b85d/aven.js": {
-      "sha256": "b8256c0f1e5cf59465cdcf88de66699d1f2acdf4697436a1d11d05645b6af4bb",
-      "bytes": 539130
+    "app/39002a034b5b2b95f822/aven.js": {
+      "sha256": "b6f117feba02ce02ed9e6b908609bbe2d804d5d102afb132b75eb573fa3968e4",
+      "bytes": 539666
     },
-    "app/4a250868147388f8b85d/aven.wasm": {
+    "app/39002a034b5b2b95f822/aven.wasm": {
       "sha256": "d0ca27a5c5a615f7bb54155b58c69acd07e9e057ba4447cd05c794489bc21eec",
       "bytes": 19448128
     },
@@ -108,15 +108,15 @@
       "bytes": 1002
     },
     "source.tar.gz": {
-      "sha256": "47dd5967c757f1a529b37ba23806d36ea6253788ccde41092bed7044546369fc",
-      "bytes": 8831635
+      "sha256": "ba2f488d66aaf27121d3d95bd5fb2defd5b33db82f84857d22520a390a20d5b7",
+      "bytes": 9264431
     },
     "viewer.css": {
       "sha256": "59c0bb55544d66f05a26148a26bcdca9ad151c029c2497b6a7810eda0bd1f8aa",
       "bytes": 1314
     },
     "viewer.js": {
-      "sha256": "87256f692694552b354f7e877a50a6435994194a39263458b5fcf4dc75ae73cb",
+      "sha256": "cf10423f22c5fa8f3141ebfcdf4dfd9ad5f42293ce4af7d597f8484e3b1b8618",
       "bytes": 4526
     }
   }
